@@ -129,11 +129,13 @@ TEMPLATE = app
 SOURCES += main.cpp\
         widget.cpp \
     rendersetting.cpp \
-    greenbutton.cpp
+    greenbutton.cpp \
+    mainwindow.cpp
 
 HEADERS  += widget.h \
     rendersetting.h \
-    greenbutton.h
+    greenbutton.h \
+    mainwindow.h
 
 FORMS    += widget.ui
 

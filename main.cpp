@@ -17,7 +17,7 @@ int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
     Widget w;
+    w.setWindowFlags(Qt::CustomizeWindowHint|Qt::WindowTitleHint);
     w.show();
-
     return a.exec();
 }

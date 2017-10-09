@@ -48,7 +48,7 @@ void Widget::init(){
     GreenButton greenbutton1=new GreenButton(this);
     greenbutton1.setXpos(510-60);
     greenbutton1.setYpos(3);
-
+    greenbutton1.setGeometry(510-60,3,60,60);
 }
 
 void Widget::style(){

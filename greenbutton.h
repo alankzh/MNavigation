@@ -34,7 +34,6 @@ protected :
 
     virtual void mouseMoveEvent(QMouseEvent *event);
 
-    void setGeometry(const QRect &);
 
 
 private:
