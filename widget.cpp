@@ -4,6 +4,12 @@
 #include <QCoreApplication>
 #include <vtkCamera.h>
 
+
+/**
+ * @brief Widget::Widget
+ * 历史遗留的主窗口，留着测试一些小功能。
+ */
+
 Widget::Widget(QWidget *parent) :
     QWidget(parent),
     ui(new Ui::Widget)
@@ -15,7 +21,6 @@ Widget::Widget(QWidget *parent) :
     this->setMinimumSize(1600,880);
 
     qDebug()<<"main";
-
     init();
     style();
 
@@ -265,7 +270,7 @@ void Widget::onOpenVolumeDir(){
     m_axialViewer2->GetRenderWindow()->Render();
     volumeWidget->GetRenderWindow()->Render();
     volumeWidget->GetRenderWindow()->GetInteractor()->Start();
- setConnect();
+    setConnect();
 
 }
 

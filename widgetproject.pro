@@ -133,7 +133,9 @@ SOURCES += main.cpp\
     mainwindow.cpp \
     myvolumewidget.cpp \
     backgroundbutton.cpp \
-    vtkcustomtransformanimationcue.cpp
+    vtkcustomtransformanimationcue.cpp \
+    myslicerwidget.cpp \
+    qts.cpp
 
 HEADERS  += widget.h \
     rendersetting.h \
@@ -142,7 +144,9 @@ HEADERS  += widget.h \
     vtks.h \
     myvolumewidget.h \
     backgroundbutton.h \
-    vtkcustomtransformanimationcue.h
+    vtkcustomtransformanimationcue.h \
+    myslicerwidget.h \
+    qts.h
 
 FORMS    += widget.ui
 

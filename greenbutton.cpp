@@ -6,7 +6,7 @@ GreenButton::GreenButton(QWidget *parent):QWidget(parent)
     this->isClicked=false;
     this->xPos=this->x();
     this->yPos=this->y();
-    this->width=60;
+    this->width=63;
     this->height=60;
     resize(QSize( width,height));
     setFixedSize( width, height);
@@ -37,12 +37,22 @@ void GreenButton::paintEvent(QPaintEvent *event){
 
 void GreenButton::mousePressEvent(QMouseEvent *event){
     Q_UNUSED(event);
-    isClicked=!isClicked;
-    this->repaint();
+    isClicked=true;
+    update();
 }
 
 void GreenButton::mouseReleaseEvent(QMouseEvent *event){
     Q_UNUSED(event);
+    isClicked=false;
+    //发送点击信号
+    int x=event->pos().x();
+    int y=event->pos().y();
+    if(x >= 0 &&x <= width &&
+               y >= 0 && y <= height){
+        qDebug()<<"emit!!!!!!!!!!";
+        emit this->clicked();
+    }
+    update();
 }
 
 void GreenButton::mouseMoveEvent(QMouseEvent *event){

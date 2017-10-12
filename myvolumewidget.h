@@ -34,9 +34,14 @@ public:
 
     bool renderVolume=false;
 
+    QVTKWidget* getQVTKWidget();
+
+    vtkSmartPointer<vtkRenderer> getRenderer();
 private:
     //封装的控件
     QVTKWidget *qvtkwidget;
+
+    vtkSmartPointer<vtkRenderer> m_pRenderer;
 };
 
 #endif // MYQVTKWIDGET_H

@@ -15,7 +15,7 @@ bool myVolumeWidget::setVolumeData(const char *dirPath){
     vtkImageData *input=0;
 
     //读取.dcm
-    vtkSmartPointer<vtkDICOMImageReader> dicomReader = vtkSmartPointer<vtkDICOMImageReader>::New();
+    dicomReader = vtkSmartPointer<vtkDICOMImageReader>::New();
     dicomReader->SetDirectoryName(dirPath);
     dicomReader->Update();//耗时操作
     input=dicomReader->GetOutput();
@@ -49,7 +49,7 @@ bool myVolumeWidget::setVolumeData(const char *dirPath){
     volume->SetMapper( mapper );
     mapper->SetBlendModeToComposite();
 
-    vtkSmartPointer<vtkRenderer> m_pRenderer=vtkSmartPointer<vtkRenderer>::New();
+    m_pRenderer=vtkSmartPointer<vtkRenderer>::New();
     qvtkwidget->GetRenderWindow()->AddRenderer(m_pRenderer);
     qvtkwidget->GetRenderWindow()->GetInteractor()->GetInteractorStyle()->SetDefaultRenderer(m_pRenderer);
     // Add the volume to the scene
@@ -78,10 +78,15 @@ void myVolumeWidget::renderValueChange(double shiftValue){
     qvtkwidget->GetRenderWindow()->Render();
 }
 
-
-
-
 void myVolumeWidget::updateRender(){
     qvtkwidget->GetRenderWindow()->Render();
     qvtkwidget->GetRenderWindow()->GetInteractor()->Start();
+}
+
+QVTKWidget* myVolumeWidget::getQVTKWidget(){
+    return qvtkwidget;
+}
+
+vtkSmartPointer<vtkRenderer> myVolumeWidget::getRenderer(){
+    return m_pRenderer;
 }

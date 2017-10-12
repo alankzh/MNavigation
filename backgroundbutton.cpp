@@ -15,7 +15,7 @@ void BackgroundButton::setBackground( char* fileName, char* flag){
     backgroundPix=QPixmap(fileName,flag);
     width=backgroundPix.size().width();
     height=backgroundPix.size().height();
-    qDebug()<<"width:"<<width<<" height:"<<height;
+ //   qDebug()<<"width:"<<width<<"height:"<<height;
     resize(backgroundPix.size());
     setFixedSize( width, height);
     setGeometry(xPos,yPos,width,height);
@@ -26,7 +26,6 @@ void BackgroundButton::setBackground( char* fileName, char* flag){
 
 void BackgroundButton::paintEvent(QPaintEvent *event){
     Q_UNUSED(event);
-    qDebug()<<"BackgroundButton::paintEvent";
     QPainter painter(this);
     painter.drawPixmap(event->rect(), backgroundPix, event->rect());
     if(isClicked){
@@ -49,8 +48,13 @@ void BackgroundButton::mouseReleaseEvent(QMouseEvent *event){
     Q_UNUSED(event);
     isClicked=false;
     //发送点击信号
-    qDebug()<<"emit!!!!!!!!!!";
-    emit this->clicked();
+    int x=event->pos().x();
+    int y=event->pos().y();
+    if(x >= 0 &&x <= width &&
+               y >= 0 && y <= height){
+        qDebug()<<"emit!!!!!!!!!!";
+        emit this->clicked();
+    }
     update();
 }
 
