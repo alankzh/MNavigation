@@ -1,30 +1,20 @@
-﻿#ifndef GREENBUTTON_H
-#define GREENBUTTON_H
-
+﻿#ifndef BACKGROUNDBUTTON_H
+#define BACKGROUNDBUTTON_H
 #include <QtWidgets>
-#include <QPaintEvent>
-#include <QPainter>
-#include <QDebug>
 
-/**
- * @brief The GreenButton class
- * 这里是主窗口右上方两个绿色按钮的封装类
- */
-class GreenButton : public QWidget
+
+class BackgroundButton: public QWidget
 {
-    Q_OBJECT
-
+     Q_OBJECT
 public:
-
-    GreenButton(QWidget *parent);
+    BackgroundButton(QWidget *parent);
 
     bool setPos(int x,int y);
     int getXpos();
     int getYpos();
-    bool setWidth(int w);
-    int getWidth();
-    bool setHeight(int h);
-    int getHeight();
+
+    void setBackground(char* fileName,char* flag);
+    void setClickedColor(QColor color);
 
 protected :
     virtual void paintEvent(QPaintEvent *event);
@@ -35,14 +25,25 @@ protected :
 
     virtual void mouseMoveEvent(QMouseEvent *event);
 
+
+signals:
+    void clicked();
+
 private:
-    int width;
-    int height;
-    bool isClicked;
+    bool isClicked=false;
+    bool hasBackground=false;
     //Constructs a rectangle with (x, y) as its top-left corner.
     int xPos;
     //Constructs a rectangle with (x, y) as its top-left corner.
     int yPos;
+
+    int width;
+
+    int height;
+
+    QPixmap backgroundPix;
+
+    QColor clickColor;
 };
 
-#endif // GREENBUTTON_H
+#endif // BACKGROUNDBUTTON_H

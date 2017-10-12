@@ -6,5 +6,6 @@
         <file>resources/mainShrink.png</file>
         <file>resources/mainTranslation.png</file>
         <file>resources/greenButton.png</file>
+        <file>resources/background.jpg</file>
     </qresource>
 </RCC>

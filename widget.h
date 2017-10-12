@@ -1,4 +1,4 @@
-#ifndef WIDGET_H
+﻿#ifndef WIDGET_H
 #define WIDGET_H
 
 #include <QWidget>
@@ -34,6 +34,18 @@
 #include <QKeyEvent>
 #include <QPaintEvent>
 #include "greenbutton.h"
+#include <vtkActor.h>
+#include <vtkSphereSource.h>
+#include <vtkPolyDataMapper.h>
+#include <vtkProperty.h>
+#include <QVTKInteractor.h>
+
+
+#include <vtkTransform.h>
+#include <vtkTransformPolyDataFilter.h>
+
+#include "vtkcustomtransformanimationcue.h"
+#include <vtkInteractorStyleTrackballCamera.h>
 
 class vtkImageViewer2;
 class vtkRenderer;
@@ -65,14 +77,18 @@ private slots:
 
     void on_axialSlider_valueChanged(int value);
 
-    void mouseClick(vtkObject *obj);//vtk四个窗口中的鼠标点击事件
+    void mouseClick(vtkObject *obj, unsigned long, void*, void*);//vtk四个窗口中的鼠标点击事件
 
     void on_navigationButton_clicked();
+
+    void on_greenButton1_clicked();
+
+    void on_greenButton2_clicked();
 
 private:
     Ui::Widget *ui;
 
-    vtkEventQtSlotConnect *m_vtkQtConnect;
+    vtkSmartPointer<vtkEventQtSlotConnect> m_vtkQtConnect;
 
     void init();
 
@@ -104,10 +120,22 @@ private:
 
     bool isOpenDir;
 
+    bool canPaintSphere;
+
+    //返回绘制球体的actor指针
+    vtkSmartPointer<vtkActor> getSphereActor(double x,double y,double z);
+
+    void setQVTKEventConnection(QMouseEvent* event);
+
+    int clickTimes=0;
+    vtkSmartPointer<vtkActor> actor;//圆球指针
+
 protected:
       virtual void keyPressEvent(QKeyEvent *event);
 
       virtual void paintEvent(QPaintEvent* event);
+
+
 
  //   myGreenButton *greenButton1;
 };

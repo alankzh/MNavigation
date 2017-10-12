@@ -130,12 +130,19 @@ SOURCES += main.cpp\
         widget.cpp \
     rendersetting.cpp \
     greenbutton.cpp \
-    mainwindow.cpp
+    mainwindow.cpp \
+    myvolumewidget.cpp \
+    backgroundbutton.cpp \
+    vtkcustomtransformanimationcue.cpp
 
 HEADERS  += widget.h \
     rendersetting.h \
     greenbutton.h \
-    mainwindow.h
+    mainwindow.h \
+    vtks.h \
+    myvolumewidget.h \
+    backgroundbutton.h \
+    vtkcustomtransformanimationcue.h
 
 FORMS    += widget.ui
 

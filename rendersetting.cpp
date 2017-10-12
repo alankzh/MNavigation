@@ -1,4 +1,4 @@
-#include "rendersetting.h"
+﻿#include "rendersetting.h"
 RenderSetting::RenderSetting()
 {
         qDebug()<<"RenderSetting begin";

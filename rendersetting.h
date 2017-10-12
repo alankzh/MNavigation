@@ -1,4 +1,4 @@
-#ifndef RENDERSETTING_H
+﻿#ifndef RENDERSETTING_H
 #define RENDERSETTING_H
 
 #include <vtkVolumeProperty.h>
@@ -7,45 +7,47 @@
 #include <vtkSmartPointer.h>
 #include <QDebug>
 
+/**
+ * @brief The RenderSetting class
+ * vtk渲染设置类，负责一些渲染属性
+ */
 class RenderSetting
 {
 public:
     bool isMax;
     bool isMin;
     enum RenderType
-        {
-            CT_Normal = 0,
-            CT_Bone = 1,
-            CT_AAA = 2,
-            CT_Liver_Vasculature = 3,
-            CT_Lung = 4,
-            MR_Default = 5,
-            MR_Brain = 6
-        };
+    {
+        CT_Normal = 0,
+        CT_Bone = 1,
+        CT_AAA = 2,
+        CT_Liver_Vasculature = 3,
+        CT_Lung = 4,
+        MR_Default = 5,
+        MR_Brain = 6
+    };
 
-        struct RenderArgs {
-            vtkSmartPointer<vtkVolumeProperty> property;
-              vtkSmartPointer<vtkColorTransferFunction> colorFun;
-              vtkSmartPointer<vtkPiecewiseFunction> opacityFun;
-             vtkSmartPointer<vtkPiecewiseFunction> gradientOpacityFun;
-        };
+    struct RenderArgs {
+        vtkSmartPointer<vtkVolumeProperty> property;
+        vtkSmartPointer<vtkColorTransferFunction> colorFun;
+        vtkSmartPointer<vtkPiecewiseFunction> opacityFun;
+        vtkSmartPointer<vtkPiecewiseFunction> gradientOpacityFun;
+    };
 
-          void SetRenderType(RenderType  rendertype);
+    void SetRenderType(RenderType  rendertype);
 
-         void SetRenderType(RenderType  rendertype, RenderArgs *arg);
+    void SetRenderType(RenderType  rendertype, RenderArgs *arg);
 
+    void ShiftRenderFunction(double shift, vtkColorTransferFunction * colorFun);
 
+    void ShiftRenderFunction(double shift, vtkPiecewiseFunction * opacityFun);
 
-         void ShiftRenderFunction(double shift, vtkColorTransferFunction * colorFun);
+    void ShiftRenderFunction(double shift,int choose);
 
-         void ShiftRenderFunction(double shift, vtkPiecewiseFunction * opacityFun);
+    RenderArgs *args;
 
-         void ShiftRenderFunction(double shift,int choose);
-
-        RenderArgs *args;
-        RenderSetting();
-
-        ~RenderSetting();
+    RenderSetting();
+    ~RenderSetting();
 protected:
 
 private:
