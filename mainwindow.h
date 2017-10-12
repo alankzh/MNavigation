@@ -9,6 +9,7 @@
 #include "rendersetting.h"
 #include "myslicerwidget.h"
 #include "vtkcustomtransformanimationcue.h"
+#include "stlmanager.h"
 
 /**
  * @brief The MainWindow class

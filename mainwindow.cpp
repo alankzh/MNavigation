@@ -70,6 +70,7 @@ void MainWindow::setLayout(){
     volumeSlider->setRange(0,255);
 
     axialWidget->setLocation(775,55,735,365);
+
     axialSlider->setGeometry(775,425,735,20);
     axialSlider->setOrientation(Qt::Horizontal);
 
@@ -248,7 +249,13 @@ void MainWindow::keyPressEvent(QKeyEvent *event){
 
 //绿色按钮1点击事件
 void MainWindow::greenButton1Clicked(){
-
+    qDebug()<<"MainWindow::greenButton1Clicked";
+    qDebug()<<"hasVolumeData:"<<hasVolumeData;
+    if(hasVolumeData){
+         qDebug()<<"hasVolumeData1111111111111111111:"<<hasVolumeData;
+        volumeWidget->getRenderer()->AddActor(stlManager::LoadStl("E:/MNavigation/externalResources/qx_1.stl"));
+        volumeWidget->updateRender();
+    }
 }
 
 //绿色按钮2点击事件

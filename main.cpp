@@ -15,7 +15,7 @@ int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
     vtkOutputWindow::GlobalWarningDisplayOff();//关闭伴随的vtkOutputWindow
- //   Widget w;
+  //  Widget w;
    // w.setWindowFlags(Qt::CustomizeWindowHint|Qt::WindowTitleHint|Qt::WindowCloseButtonHint);
     MainWindow w;
     w.show();

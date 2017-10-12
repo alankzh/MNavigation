@@ -135,7 +135,7 @@ SOURCES += main.cpp\
     backgroundbutton.cpp \
     vtkcustomtransformanimationcue.cpp \
     myslicerwidget.cpp \
-    qts.cpp
+    stlmanager.cpp
 
 HEADERS  += widget.h \
     rendersetting.h \
@@ -146,7 +146,8 @@ HEADERS  += widget.h \
     backgroundbutton.h \
     vtkcustomtransformanimationcue.h \
     myslicerwidget.h \
-    qts.h
+    qts.h \
+    stlmanager.h
 
 FORMS    += widget.ui
 

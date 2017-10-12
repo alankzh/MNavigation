@@ -26,6 +26,9 @@ public:
     bool setHeight(int h);
     int getHeight();
 
+signals:
+    void clicked();
+
 protected :
     virtual void paintEvent(QPaintEvent *event);
 
