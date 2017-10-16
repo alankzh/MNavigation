@@ -11,13 +11,17 @@ VTK_MODULE_INIT(vtkRenderingVolumeOpenGL)
 #include "mainwindow.h"
 #include <QFile>
 
+//程序入口
 int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
     vtkOutputWindow::GlobalWarningDisplayOff();//关闭伴随的vtkOutputWindow
-    Widget w;
-    w.setWindowFlags(Qt::CustomizeWindowHint|Qt::WindowTitleHint|Qt::WindowCloseButtonHint);
-   // MainWindow w;
+    //测试功能用窗口
+ //   Widget w;
+ //   w.setWindowFlags(Qt::CustomizeWindowHint|Qt::WindowTitleHint|Qt::WindowCloseButtonHint);
+
+    //主窗口，稳定。
+    MainWindow w;
     w.show();
     return a.exec();
 }

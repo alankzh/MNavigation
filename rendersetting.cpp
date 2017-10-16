@@ -1,4 +1,8 @@
 ﻿#include "rendersetting.h"
+/**
+ * @brief RenderSetting::RenderSetting
+ * author 张殊峰
+ */
 RenderSetting::RenderSetting()
 {
         qDebug()<<"RenderSetting begin";

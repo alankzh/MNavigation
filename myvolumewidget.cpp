@@ -66,27 +66,42 @@ bool myVolumeWidget::setVolumeData(const char *dirPath){
     return true;
 }
 
-//设置几何位置
+/**
+ * 设置几何位置
+*/
 void myVolumeWidget::setLocation(int x,int y,int width,int height){
     qvtkwidget->setGeometry(x,y,width,height);
 }
 
-//设置渲染数值
+/**
+ *设置rendersettiing类中的渲染数值
+*/
 void myVolumeWidget::renderValueChange(double shiftValue){
     settingDefault->ShiftRenderFunction(shiftValue,settingDefault->args->colorFun);
     settingDefault->ShiftRenderFunction(shiftValue,settingDefault->args->opacityFun);
     qvtkwidget->GetRenderWindow()->Render();
 }
-
+/**
+ * 更新绘制
+ * 并且更新交互方式
+ */
 void myVolumeWidget::updateRender(){
     qvtkwidget->GetRenderWindow()->Render();
     qvtkwidget->GetRenderWindow()->GetInteractor()->Start();
 }
 
+
+/**
+ * 获取此窗口内的核心控件QVTKWidget
+ * 慎用
+ */
 QVTKWidget* myVolumeWidget::getQVTKWidget(){
     return qvtkwidget;
 }
-
+/**
+ * 获取此窗口内的核心控件vtkImageViewer2
+ * 慎用
+ */
 vtkSmartPointer<vtkRenderer> myVolumeWidget::getRenderer(){
     return m_pRenderer;
 }

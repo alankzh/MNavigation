@@ -51,7 +51,6 @@ void Widget::init(){
     isOpenDir=false;
     canPaintSphere=false;
 
-
     stlM=new stlManager();
 }
 

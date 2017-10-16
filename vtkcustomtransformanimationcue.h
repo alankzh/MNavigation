@@ -4,6 +4,10 @@
 #include "vtks.h"
 #include <QtWidgets>
 
+/**
+ * @brief The vtkCustomTransformAnimationCue class
+ * 自定义动画类
+ */
 class vtkCustomTransformAnimationCue:public vtkAnimationCue
 {
 public:

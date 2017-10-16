@@ -15,7 +15,7 @@ MainWindow::~MainWindow()
 {
 }
 
-//更新背景
+//主窗口更新背景
 void MainWindow::update_background(){
     m_background=QPixmap(":/resources/background.jpg", "jpg");
     QBitmap bitmap = m_background.createHeuristicMask();
@@ -44,6 +44,7 @@ void MainWindow::init(){
     axialSlider=new QSlider(this);
     coronalSlider=new QSlider(this);
 }
+
 //布局
 void MainWindow::setLayout(){
     greenButton1->setPos(1531,55);
@@ -78,15 +79,12 @@ void MainWindow::setLayout(){
     sagitalSlider->setGeometry(775,830,735,20);
     sagitalSlider->setOrientation(Qt::Horizontal);
 
-
     coronalWidget->setLocation(20,455,735,365);
     coronalSlider->setGeometry(20,830,735,20);
     coronalSlider->setOrientation(Qt::Horizontal);
-
-
 }
 
-//信号连接
+//按钮信号连接
 void MainWindow::setConnection(){
     connect(exitButton,SIGNAL(clicked()),this,SLOT(exitClicked()));
     connect(navigationButton,SIGNAL(clicked()),this,SLOT(navigationClicked()));
@@ -96,6 +94,7 @@ void MainWindow::setConnection(){
 
 }
 
+//有体绘制数据时需要连接的信号
 void MainWindow::setDrawConnection(){
     connect(volumeSlider,SIGNAL(valueChanged(int)),this,SLOT(vSlicerValueChange(int)));
     connect(sagitalSlider,SIGNAL(valueChanged(int)),this,SLOT(sSlicerValueChange(int)));
@@ -105,6 +104,7 @@ void MainWindow::setDrawConnection(){
     connect(greenButton2,SIGNAL(clicked()),this,SLOT(greenButton2Clicked()));
 }
 
+//体绘制窗口下滑动条 拖动触发事件
 void MainWindow::vSlicerValueChange(int v){
     double shiftValue=double(v-lastposition)/255.0;
     lastposition=v;
@@ -112,46 +112,54 @@ void MainWindow::vSlicerValueChange(int v){
     volumeWidget->settingDefault->ShiftRenderFunction(shiftValue,2);
     volumeWidget->updateRender();
 }
+//sagital窗口下滑动条 拖动触发事件
 void MainWindow::sSlicerValueChange(int v){
     sagitalWidget->setSlicerValue(v);
 }
+//axial窗口下滑动条 拖动触发事件
 void MainWindow::aSlicerValueChange(int v){
     axialWidget->setSlicerValue(v);
 }
+//coronal窗口下滑动条 拖动触发事件
 void MainWindow::cSlicerValueChange(int v){
     coronalWidget->setSlicerValue(v);
 }
 
+//导航按钮点击
 void MainWindow::navigationClicked(){
     qDebug()<<"MainWindow::navigationClicked";
     onOpenVolumeDir();
 }
-
+//点击退出
 void MainWindow::exitClicked(){
     qDebug()<<"MainWindow::exitClicked";
     //TODO 退出应该弹出窗口请求确认
     QCoreApplication::instance()->quit();
 }
-
+//十字交叉按钮
 void MainWindow::translateClicked(){
     qDebug()<<"MainWindow::translateClicked";
     //TODO 我tm不知道这个按钮设计来干啥的
 }
+//放大按钮点击
 void MainWindow::magnifyClicked(){
     qDebug()<<"MainWindow::magnifyClicked";
     //TODO 我tm也不知道这个按钮设计来干啥的
 }
+//缩小按钮
 void MainWindow::shrinkCliked(){
     qDebug()<<"MainWindow::shrinkCliked";
     //TODO 我tm还是不知道这个按钮设计来干啥的
 }
 
+//主窗口重绘制触发事件，一般发生在窗口切换
 void MainWindow::paintEvent(QPaintEvent* e)
 {
     QPainter painter(this);
     painter.drawPixmap(e->rect(), m_background, e->rect());
 }
 
+//打开体绘制文件夹
 void MainWindow::onOpenVolumeDir(){
     qDebug()<<"MainWindow::onOpenVolumeDir";
     QString dirPath=QFileDialog::getExistingDirectory(this,tr("打开体绘制数据存储文件夹"),"/",QFileDialog::ShowDirsOnly | QFileDialog::DontResolveSymlinks);
@@ -195,6 +203,7 @@ void MainWindow::onOpenVolumeDir(){
 
 }
 
+//主窗口键盘事件
 void MainWindow::keyPressEvent(QKeyEvent *event){
     Q_UNUSED(event);
     if(!hasVolumeData){
