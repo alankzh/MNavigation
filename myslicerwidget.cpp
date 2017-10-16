@@ -3,8 +3,14 @@
 mySlicerWidget::mySlicerWidget(QWidget *parent)
 {
     qvtkwidget=new QVTKWidget(parent);
+    //    imageViewer2=vtkSmartPointer<vtkImageViewer2>::New();
+
     imageViewer2=vtkSmartPointer<vtkImageViewer2>::New();
-    imageViewer2->SetColorWindow(0.0);
+    imageViewer2->SetRenderWindow(qvtkwidget->GetRenderWindow());
+    imageViewer2->SetupInteractor(qvtkwidget->GetRenderWindow()->GetInteractor());
+    imageViewer2->GetRenderer()->ResetCamera();
+    imageViewer2->GetRenderer()->SetBackground(0,0,0);
+    updateRender();
 }
 
 //设置几何位置

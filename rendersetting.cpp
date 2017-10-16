@@ -62,10 +62,12 @@ void RenderSetting::SetRenderType(RenderType rendertype, RenderSetting::RenderAr
         gradientOpacityFun->AddPoint(0, 1);
         gradientOpacityFun->AddPoint(255, 1);
         {
+        //TODO delete x
+            float x=0.2;
             double* RGBpoint = new double[24]{ -3024, 0, 0, 0, 143.556, 0.615686, 0.356863, 0.184314, 166.222, 0.882353, 0.603922, 0.290196, 214.389, 1, 1, 1, 419.736, 1, 0.937033, 0.954531, 3071, 0.827451, 0.658824, 1 };
             colorFun->FillFromDataPointer(6, RGBpoint);
             delete[] RGBpoint;
-            double* opacityPoint = new double[12]{ -3024, 0, 143.556, 0, 166.222, 0.686275, 214.389, 0.696078, 419.736, 0.833333, 3071, 0.803922 };
+            double* opacityPoint = new double[12]{ -3024, 0, 143.556, 0, 166.222, 0.686275*x, 214.389, 0.696078*x, 419.736, 0.833333*x, 3071, 0.803922*x };
             opacityFun->FillFromDataPointer(6, opacityPoint);
             delete[] opacityPoint;
         }

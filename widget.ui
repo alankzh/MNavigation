@@ -170,45 +170,6 @@
     <string/>
    </property>
   </widget>
-  <widget class="QSlider" name="coronalSlider">
-   <property name="geometry">
-    <rect>
-     <x>20</x>
-     <y>830</y>
-     <width>735</width>
-     <height>20</height>
-    </rect>
-   </property>
-   <property name="orientation">
-    <enum>Qt::Horizontal</enum>
-   </property>
-  </widget>
-  <widget class="QSlider" name="axialSlider">
-   <property name="geometry">
-    <rect>
-     <x>775</x>
-     <y>830</y>
-     <width>735</width>
-     <height>20</height>
-    </rect>
-   </property>
-   <property name="orientation">
-    <enum>Qt::Horizontal</enum>
-   </property>
-  </widget>
-  <widget class="QSlider" name="sagitalSlider">
-   <property name="geometry">
-    <rect>
-     <x>775</x>
-     <y>425</y>
-     <width>735</width>
-     <height>20</height>
-    </rect>
-   </property>
-   <property name="orientation">
-    <enum>Qt::Horizontal</enum>
-   </property>
-  </widget>
   <widget class="QSlider" name="volumeSlider">
    <property name="geometry">
     <rect>
@@ -221,6 +182,123 @@
    <property name="orientation">
     <enum>Qt::Horizontal</enum>
    </property>
+  </widget>
+  <widget class="QLabel" name="coronalLabel">
+   <property name="geometry">
+    <rect>
+     <x>80</x>
+     <y>850</y>
+     <width>421</width>
+     <height>16</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>TextLabel</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="axialLabel">
+   <property name="geometry">
+    <rect>
+     <x>890</x>
+     <y>850</y>
+     <width>391</width>
+     <height>16</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>TextLabel</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="sagitalLabel">
+   <property name="geometry">
+    <rect>
+     <x>910</x>
+     <y>30</y>
+     <width>421</width>
+     <height>20</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>TextLabel</string>
+   </property>
+  </widget>
+  <widget class="QWidget" name="">
+   <property name="geometry">
+    <rect>
+     <x>20</x>
+     <y>830</y>
+     <width>741</width>
+     <height>24</height>
+    </rect>
+   </property>
+   <layout class="QHBoxLayout" name="horizontalLayout">
+    <item>
+     <widget class="QSlider" name="coronalSlider">
+      <property name="orientation">
+       <enum>Qt::Horizontal</enum>
+      </property>
+     </widget>
+    </item>
+    <item>
+     <widget class="QLabel" name="coronalSliderNum">
+      <property name="text">
+       <string>TextLabel</string>
+      </property>
+     </widget>
+    </item>
+   </layout>
+  </widget>
+  <widget class="QWidget" name="">
+   <property name="geometry">
+    <rect>
+     <x>775</x>
+     <y>830</y>
+     <width>761</width>
+     <height>24</height>
+    </rect>
+   </property>
+   <layout class="QHBoxLayout" name="horizontalLayout_2">
+    <item>
+     <widget class="QSlider" name="axialSlider">
+      <property name="orientation">
+       <enum>Qt::Horizontal</enum>
+      </property>
+     </widget>
+    </item>
+    <item>
+     <widget class="QLabel" name="axialSliderNum">
+      <property name="text">
+       <string>TextLabel</string>
+      </property>
+     </widget>
+    </item>
+   </layout>
+  </widget>
+  <widget class="QWidget" name="">
+   <property name="geometry">
+    <rect>
+     <x>775</x>
+     <y>425</y>
+     <width>741</width>
+     <height>24</height>
+    </rect>
+   </property>
+   <layout class="QHBoxLayout" name="horizontalLayout_3">
+    <item>
+     <widget class="QSlider" name="sagitalSlider">
+      <property name="orientation">
+       <enum>Qt::Horizontal</enum>
+      </property>
+     </widget>
+    </item>
+    <item>
+     <widget class="QLabel" name="sagitalSliderNum">
+      <property name="text">
+       <string>TextLabel</string>
+      </property>
+     </widget>
+    </item>
+   </layout>
   </widget>
   <zorder>greenButton1</zorder>
   <zorder>volumeWidget</zorder>
@@ -239,6 +317,12 @@
   <zorder>axialSlider</zorder>
   <zorder>sagitalSlider</zorder>
   <zorder>volumeSlider</zorder>
+  <zorder>coronalLabel</zorder>
+  <zorder>axialLabel</zorder>
+  <zorder>sagitalLabel</zorder>
+  <zorder>coronalSliderNum</zorder>
+  <zorder>axialSliderNum</zorder>
+  <zorder>sagitalSliderNum</zorder>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
  <customwidgets>

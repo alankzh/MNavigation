@@ -24,7 +24,7 @@ Widget::Widget(QWidget *parent) :
     init();
     style();
 
-  //  onOpenVolumeDir();//软件开始直接打开文件夹
+    //  onOpenVolumeDir();//软件开始直接打开文件夹
 
 }
 
@@ -52,6 +52,7 @@ void Widget::init(){
     canPaintSphere=false;
 
 
+    stlM=new stlManager();
 }
 
 void Widget::style(){
@@ -124,6 +125,10 @@ void Widget::style(){
     ui->shrinkButton->setFlat(true);//就是这句能够实现按钮透明，用png图片时很有用
     ui->shrinkButton->setStyleSheet("border: 0px");//消除边框，取消点击效果
     ui->shrinkButton->setFlat(1);
+
+    ui->axialSliderNum->setText("0");
+    ui->sagitalSliderNum->setText("0");
+    ui->coronalSliderNum->setText("0");
 }
 
 void Widget::onOpenVolumeDir(){
@@ -132,8 +137,8 @@ void Widget::onOpenVolumeDir(){
     }
     qDebug()<<"onOpenVolumeDir";
     //TODO
-  //  QString dirPath=QFileDialog::getExistingDirectory(this,tr("打开体绘制数据存储文件夹"),"/",QFileDialog::ShowDirsOnly | QFileDialog::DontResolveSymlinks);
-    QString dirPath="E:/vtkDataSource/Demo Data Fusion/CT-anon";
+    //  QString dirPath=QFileDialog::getExistingDirectory(this,tr("打开体绘制数据存储文件夹"),"/",QFileDialog::ShowDirsOnly | QFileDialog::DontResolveSymlinks);
+    QString dirPath="E:/vtkDataSource/Demo Data Spine/dicom";
     qDebug()<<dirPath;
     if(dirPath.isEmpty()==true) {
         qDebug()<<"exit";
@@ -167,13 +172,10 @@ void Widget::onOpenVolumeDir(){
         return;
     }
 
-
-
     // Create our volume and mapper
-    vtkSmartPointer<vtkVolume> volume =  vtkSmartPointer<vtkVolume>::New();
+    volume =  vtkSmartPointer<vtkVolume>::New();
     vtkSmartPointer<vtkSmartVolumeMapper> mapper = vtkSmartPointer<vtkSmartVolumeMapper>::New();
     mapper->SetInputConnection( reader->GetOutputPort() );
-
 
     // Create the property and attach the transfer functions
 
@@ -194,9 +196,8 @@ void Widget::onOpenVolumeDir(){
     m_pRenderer->ResetCamera();
     ui->volumeSlider->setRange(0,255);
     ui->volumeSlider->setValue(120);
-    settingDefault->SetRenderType(RenderSetting::RenderType::CT_Bone);//默认的渲染
+    settingDefault->SetRenderType(RenderSetting::RenderType::CT_AAA);//默认的渲染
     //    ui->volumeSlider->setValue(0);
-
     m_sagitalViewer2->SetInputConnection(dicomReader->GetOutputPort());
     m_sagitalViewer2->SetRenderWindow(sagitalWidget->GetRenderWindow());
     m_sagitalViewer2->SetSliceOrientationToXY();
@@ -207,8 +208,6 @@ void Widget::onOpenVolumeDir(){
     m_sagitalViewer2->SetupInteractor(sagitalWidget->GetRenderWindow()->GetInteractor());
     m_sagitalViewer2->GetRenderer()->ResetCamera();//镜头拉近
 
-
-
     m_coronalViewer2->SetInputConnection(dicomReader->GetOutputPort());
     m_coronalViewer2->SetRenderWindow(coronalWidget->GetRenderWindow());
     m_coronalViewer2->SetSliceOrientationToYZ();
@@ -218,8 +217,6 @@ void Widget::onOpenVolumeDir(){
     //  m_coronalViewer2->GetImageActor()->InterpolateOff();
     m_coronalViewer2->SetupInteractor(coronalWidget->GetRenderWindow()->GetInteractor());
     m_coronalViewer2->GetRenderer()->ResetCamera();//镜头拉近
-
-
 
     m_axialViewer2->SetInputConnection(dicomReader->GetOutputPort());
     m_axialViewer2->SetRenderWindow(axialWidget->GetRenderWindow());
@@ -254,23 +251,38 @@ void Widget::onOpenVolumeDir(){
     m_pRenderer->AddActor(actor0);//画了一个球
 
    */
-
-
-
- //   m_pRenderer->Delete();
+    //   m_pRenderer->Delete();
     m_pRenderer->ResetCamera();
     //   m_pRenderer->GetActiveCamera()->Zoom(1.5);
     m_pRenderer->DrawOn();
     // interact with data
-
-
-
     m_sagitalViewer2->GetRenderWindow()->Render();
     m_coronalViewer2->GetRenderWindow()->Render();
     m_axialViewer2->GetRenderWindow()->Render();
     volumeWidget->GetRenderWindow()->Render();
     volumeWidget->GetRenderWindow()->GetInteractor()->Start();
     setConnect();
+
+    double *boundary=m_sagitalViewer2->GetImageActor()->GetBounds();
+    boundary[1]=m_sagitalViewer2->GetImageActor()->GetBounds()[1];
+    boundary[3]=m_sagitalViewer2->GetImageActor()->GetBounds()[3];
+    boundary[5]=m_coronalViewer2->GetImageActor()->GetBounds()[5];
+
+    qDebug()<<"boundarx:"<<boundary[1];
+    qDebug()<<"boundary:"<<boundary[3];
+    qDebug()<<"boundarz:"<<boundary[5];
+    qDebug()<<"sagitalSlicerMAX:"<<m_sagitalViewer2->GetSliceMax();
+    qDebug()<<"axialSlicerMax:"<<m_axialViewer2->GetSliceMax();
+    qDebug()<<"coronalSlicerMax:"<<m_coronalViewer2->GetSliceMax();
+
+    proportionZ=boundary[5]/m_sagitalViewer2->GetSliceMax();
+    qDebug()<<"proportionZ"<<proportionZ;
+    proportionY=boundary[3]/m_axialViewer2->GetSliceMax();
+    qDebug()<<"proportionY"<<proportionY;
+    proportionX=boundary[1]/m_coronalViewer2->GetSliceMax();
+    qDebug()<<"proportionX"<<proportionX;
+
+
 
 }
 
@@ -280,10 +292,221 @@ void Widget::setConnect(){
     //  m_vtkQtConnect->Connect(axialWidget->GetRenderWindow()->GetInteractor(),vtkCommand::MouseMoveEvent||vtkCommand::LeftButtonPressEvent,this,SLOT(mouseClick(vtkObject*, unsigned long, void*, void*)));
     //目前只链接了sagitalWidget
     m_vtkQtConnect->Connect(volumeWidget->GetRenderWindow()->GetInteractor(),vtkCommand::LeftButtonPressEvent,this,SLOT(mouseClick(vtkObject*, unsigned long, void*, void*)));
+    m_vtkQtConnect->Connect(sagitalWidget->GetRenderWindow()->GetInteractor(),vtkCommand::LeftButtonPressEvent,this,SLOT(sagitalClicked(vtkObject*, unsigned long, void*, void*)));
+    m_vtkQtConnect->Connect(axialWidget->GetRenderWindow()->GetInteractor(),vtkCommand::LeftButtonPressEvent,this,SLOT(axialClicked(vtkObject*, unsigned long, void*, void*)));
+    m_vtkQtConnect->Connect(coronalWidget->GetRenderWindow()->GetInteractor(),vtkCommand::LeftButtonPressEvent,this,SLOT(coronalClicked(vtkObject*, unsigned long, void*, void*)));
     qDebug()<<"setConnectEnd";
 }
+
+void Widget::sagitalClicked(vtkObject *obj, unsigned long, void*, void*){
+    qDebug()<<"Widget::sagitalClicked";
+
+    vtkRenderWindowInteractor* iren = vtkRenderWindowInteractor::SafeDownCast(obj);
+    int EventPointX = iren->GetEventPosition()[0];
+    int EventPointY = iren->GetEventPosition()[1];
+    // SliceData* data = (SliceData*)ClientData;
+    vtkImageActor* Actor = m_sagitalViewer2->GetImageActor();
+    vtkRenderer* Renderer= m_sagitalViewer2->GetRenderer();
+
+    double* boundary;
+    boundary = Actor->GetBounds();
+
+    int* Size = Renderer->GetSize();
+    double ViewEventPointX = (double)EventPointX * 2 / Size[0] - 1;
+    double ViewEventPointY = (double)EventPointY * 2 / Size[1] - 1;
+    double x = boundary[1];//长
+    double y = boundary[3];//宽
+    double z = boundary[5];//高
+    vtkVector3d origin = vtkVector3d(0, 0, z);
+    vtkVector3d xEnd = vtkVector3d(x, 0, z);
+    vtkVector3d yEnd = vtkVector3d(0, y, z);
+
+    vtkVector3d originView = origin;
+    Renderer->WorldToView(originView[0],originView[1],originView[2]);
+    vtkVector3d xView=xEnd;
+    Renderer->WorldToView(xView[0], xView[1], xView[2]);
+    vtkVector3d yView=yEnd;
+    Renderer->WorldToView(yView[0],yView[1],yView[2]);
+
+    qDebug()<<"xView[0] :"<<xView[0] ;
+    qDebug()<<"originView[0] :"<<originView[0] ;
+    qDebug()<<"xView[0] :"<<xView[0] ;
+    qDebug()<<"originView[1]:"<<originView[1];
+
+    double xRatio = (ViewEventPointX - originView[0]) / (xView[0] - originView[0]);
+    double yRatio = (ViewEventPointY - originView[1]) / (yView[1] - originView[1]);
+
+    vtkVector3d targetPosition = vtkVector3d();
+    targetPosition[0] = xRatio * (xEnd[0] - origin[0]) + origin[0];
+    targetPosition[1] = yRatio * (yEnd[1] - origin[1]) + origin[1];
+    targetPosition[2] = origin[2];
+    vtkMatrix4x4* matrix = volume->GetMatrix();
+    vtkVector3d adjust = vtkVector3d(matrix->MultiplyDoublePoint(targetPosition.GetData()));
+
+    qDebug()<<"EventPointX:"<<EventPointX;
+    qDebug()<<"EventPointY:"<<EventPointY;
+    if(adjust[0]>0&&adjust[1]>0){
+        if(canTarger){
+              m_pRenderer->AddActor(getSphereActor(adjust[0],adjust[1],adjust[2]));
+
+            m_sagitalViewer2->GetRenderer()->AddActor(getLineActorXY(adjust[0]+1,adjust[1],adjust[0]+10,adjust[1]));
+            m_sagitalViewer2->GetRenderer()->AddActor(getLineActorXY(adjust[0],adjust[1]+1,adjust[0],adjust[1]+10));
+            m_sagitalViewer2->GetRenderer()->AddActor(getLineActorXY(adjust[0]-1,adjust[1],adjust[0]-10,adjust[1]));
+            m_sagitalViewer2->GetRenderer()->AddActor(getLineActorXY(adjust[0],adjust[1]-1,adjust[0],adjust[1]-10));
+
+            m_axialViewer2->GetRenderer()->AddActor(getLineActorXZ(adjust[0]+1,adjust[2],adjust[0]+10,adjust[2]));
+            m_axialViewer2->GetRenderer()->AddActor(getLineActorXZ(adjust[0],adjust[2]+1,adjust[0],adjust[2]+10));
+            m_axialViewer2->GetRenderer()->AddActor(getLineActorXZ(adjust[0]-1,adjust[2],adjust[0]-10,adjust[2]));
+            m_axialViewer2->GetRenderer()->AddActor(getLineActorXZ(adjust[0],adjust[2]-1,adjust[0],adjust[2]-10));
+
+            m_coronalViewer2->GetRenderer()->AddActor(getLineActorYZ(adjust[1]+1,adjust[2],adjust[1]+10,adjust[2]));
+            m_coronalViewer2->GetRenderer()->AddActor(getLineActorYZ(adjust[1],adjust[2]+1,adjust[1],adjust[2]+10));
+            m_coronalViewer2->GetRenderer()->AddActor(getLineActorYZ(adjust[1]-1,adjust[2],adjust[1]-10,adjust[2]));
+            m_coronalViewer2->GetRenderer()->AddActor(getLineActorYZ(adjust[1],adjust[2]-1,adjust[1],adjust[2]-10));
+
+            ui->sagitalSlider->setValue(ui->sagitalSlider->value()+1);
+            ui->sagitalSlider->setValue(ui->sagitalSlider->value()-1);
+
+            ui->axialSlider->setValue(ui->axialSlider->value()+1);
+            ui->axialSlider->setValue(ui->axialSlider->value()-1);
+
+            ui->coronalSlider->setValue(ui->coronalSlider->value()+1);
+            ui->coronalSlider->setValue(ui->coronalSlider->value()-1);
+        }else{
+
+        }
+        m_sagitalViewer2->GetRenderWindow()->Render();
+        //   m_sagitalViewer2->GetRenderer()->Render();
+        //    m_axialViewer2->GetRenderer()->AddActor(getSphereActor(targetPosition[0],targetPosition[2],0));
+        //    m_coronalViewer2->GetRenderer()->AddActor(getSphereActor(targetPosition[1],targetPosition[2],0));
+
+        volumeWidget->GetRenderWindow()->Render();
+        ui->axialSlider->setValue((int) adjust[0]/proportionX);
+        ui->coronalSlider->setValue((int) adjust[1]/proportionY);
+        ui->sagitalLabel->setText("x:"+(QString::number(adjust[0],10,6))+"y:"+(QString::number(adjust[1],10,6))+"z:"+(QString::number(adjust[2],10,6)));
+        update();
+    }else{
+        return;
+    }
+}
+void Widget::axialClicked(vtkObject *obj, unsigned long, void*, void*){
+    qDebug()<<"Widget::sagitalClicked";
+    vtkRenderWindowInteractor* iren = vtkRenderWindowInteractor::SafeDownCast(obj);
+    int EventPointX = iren->GetEventPosition()[0];
+    int EventPointY = iren->GetEventPosition()[1];
+    // SliceData* data = (SliceData*)ClientData;
+    vtkImageActor* Actor = m_axialViewer2->GetImageActor();
+    vtkRenderer* Renderer= m_axialViewer2->GetRenderer();
+
+    double* boundary;
+    boundary = Actor->GetBounds();
+
+    int* Size = Renderer->GetSize();
+    double ViewEventPointX = (double)EventPointX * 2 / Size[0] - 1;
+    double ViewEventPointY = (double)EventPointY * 2 / Size[1] - 1;
+    double x = boundary[1];//长
+    double y = boundary[3];//宽
+    double z = boundary[5];//高
+
+    //  vtkVector3d origin = vtkVector3d(0, 0, z);
+    //   vtkVector3d xEnd = vtkVector3d(x, 0, z);
+    //  vtkVector3d yEnd = vtkVector3d(0, y, z);
+    vtkVector3d origin = vtkVector3d(0, y, 0);
+    vtkVector3d xEnd = vtkVector3d(x, y, 0);
+    vtkVector3d zEnd = vtkVector3d(0, y, z);
+
+    vtkVector3d originView = origin;
+    Renderer->WorldToView(originView[0],originView[1],originView[2]);
+    vtkVector3d xView=xEnd;
+    Renderer->WorldToView(xView[0], xView[1], xView[2]);
+    vtkVector3d zView=zEnd;
+    Renderer->WorldToView(zView[0],zView[1],zView[2]);
+
+    double xRatio = (ViewEventPointX - originView[0]) / (xView[0] - originView[0]);
+    double zRatio = (ViewEventPointY - originView[1]) / (zView[1] - originView[1]);
+
+    vtkVector3d targetPosition = vtkVector3d();
+
+    targetPosition[0] = xRatio * (xEnd[0] - origin[0]) + origin[0];
+    targetPosition[1] = origin[1];
+    targetPosition[2] = zRatio * (zEnd[2] - origin[2]) + origin[2];
+
+    vtkMatrix4x4* matrix = volume->GetMatrix();
+    vtkVector3d adjust = vtkVector3d(matrix->MultiplyDoublePoint(targetPosition.GetData()));
+
+    if(adjust[0]>0&&adjust[2]>0){
+     //   m_pRenderer->AddActor(getSphereActor(adjust[0],adjust[1],adjust[2]));
+
+
+        ui->axialSlider->setValue(ui->axialSlider->value()+1);
+        ui->axialSlider->setValue(ui->axialSlider->value()-1);
+
+        volumeWidget->GetRenderWindow()->Render();
+        ui->coronalSlider->setValue((int) adjust[0]/proportionX);
+        ui->sagitalSlider->setValue((int) adjust[2]/proportionZ);
+        ui->axialLabel->setText("x:"+(QString::number(adjust[0],10,6))+"y:"+(QString::number(adjust[1],10,6))+"z:"+(QString::number(adjust[2],10,6)));
+        update();
+    }
+}
+void Widget::coronalClicked(vtkObject *obj, unsigned long, void*, void*){
+    qDebug()<<"Widget::coronalClicked";
+
+    vtkRenderWindowInteractor* iren = vtkRenderWindowInteractor::SafeDownCast(obj);
+    int EventPointX = iren->GetEventPosition()[0];
+    int EventPointY = iren->GetEventPosition()[1];
+    vtkImageActor* Actor = m_coronalViewer2->GetImageActor();
+    vtkRenderer* Renderer= m_coronalViewer2->GetRenderer();
+
+    double* boundary;
+    boundary = Actor->GetBounds();
+
+    int* Size = Renderer->GetSize();
+    double ViewEventPointX = (double)EventPointX * 2 / Size[0] - 1;
+    double ViewEventPointY = (double)EventPointY * 2 / Size[1] - 1;
+    double x = boundary[1];//长
+    double y = boundary[3];//宽
+    double z = boundary[5];//高
+
+    vtkVector3d origin = vtkVector3d(x, 0, 0);
+    vtkVector3d xEnd = vtkVector3d(x, y, 0);
+    vtkVector3d yEnd = vtkVector3d(x, 0, z);
+
+    vtkVector3d originView = origin;
+    Renderer->WorldToView(originView[0],originView[1],originView[2]);
+    vtkVector3d xView=xEnd;
+    Renderer->WorldToView(xView[0], xView[1], xView[2]);
+    vtkVector3d yView=yEnd;
+    Renderer->WorldToView(yView[0],yView[1],yView[2]);
+    double xRatio = (ViewEventPointX - originView[0]) / (xView[0] - originView[0]);
+    double yRatio = (ViewEventPointY - originView[1]) / (yView[1] - originView[1]);
+
+    vtkVector3d targetPosition = vtkVector3d();
+
+    targetPosition[0] = origin[0];
+    targetPosition[1] = xRatio * (xEnd[1] - origin[1]) + origin[1];
+    targetPosition[2] = yRatio * (yEnd[2] - origin[2]) + origin[2];
+
+    vtkMatrix4x4* matrix = volume->GetMatrix();
+    vtkVector3d adjust = vtkVector3d(matrix->MultiplyDoublePoint(targetPosition.GetData()));
+
+    if(adjust[1]>0&&adjust[2]>0){
+    //    m_pRenderer->AddActor(getSphereActor(adjust[0],adjust[1],adjust[2]));
+
+
+
+        ui->coronalSlider->setValue(ui->coronalSlider->value()+1);
+        ui->coronalSlider->setValue(ui->coronalSlider->value()-1);
+
+        volumeWidget->GetRenderWindow()->Render();
+        ui->axialSlider->setValue((int) adjust[1]/proportionY);
+        ui->sagitalSlider->setValue((int) adjust[2]/proportionZ);
+        ui->coronalLabel->setText("x:"+(QString::number(adjust[0],10,6))+"y:"+(QString::number(adjust[1],10,6))+"z:"+(QString::number(adjust[2],10,6)));
+        update();
+    }
+}
 void Widget::mouseClick(vtkObject *obj, unsigned long, void*, void*){
-    qDebug()<<"mouseClick";
+    qDebug()<<"Widget::mouseClick";
+
     /*
     if(canPaintSphere){
         //获取交互器
@@ -316,13 +539,11 @@ void Widget::mouseClick(vtkObject *obj, unsigned long, void*, void*){
 }
 
 void Widget::paintEvent(QPaintEvent *event){
-
-
 }
 
 void Widget::keyPressEvent(QKeyEvent *event){
     Q_UNUSED(event);
-    qDebug()<<"keyPressEvent:"<<event->key();
+    // qDebug()<<"keyPressEvent:"<<event->key();
     if(event->key()==Qt::Key_0){
         settingDefault->SetRenderType(RenderSetting::RenderType::CT_Normal);
         this->setWindowTitle("CT_Normal");
@@ -352,7 +573,6 @@ void Widget::keyPressEvent(QKeyEvent *event){
         this->setWindowTitle("CT_Lung");
         lastposition=120;
         ui->volumeSlider->setValue(120);
-
     }
     if(event->key()==Qt::Key_5){
         settingDefault->SetRenderType(RenderSetting::RenderType::MR_Default);
@@ -366,10 +586,70 @@ void Widget::keyPressEvent(QKeyEvent *event){
         lastposition=120;
         ui->volumeSlider->setValue(120);
     }
+    /*变换操作开始*/
+    if(event->key()==Qt::Key_Q){
+        stlM->translate(operationStlName,10,0,0);
+    }
+    if(event->key()==Qt::Key_W){
+        stlM->translate(operationStlName,0,10,0);
+    }
+    if(event->key()==Qt::Key_E){
+        stlM->translate(operationStlName,0,0,10);
+    }
+    if(event->key()==Qt::Key_A){
+        stlM->translate(operationStlName,-10,0,0);
+    }
+    if(event->key()==Qt::Key_S){
+        stlM->translate(operationStlName,0,-10,0);
+    }
+    if(event->key()==Qt::Key_D){
+        stlM->translate(operationStlName,0,0,-10);
+    }
+    if(event->key()==Qt::Key_Z){
+        stlM->scale(operationStlName,0.9);
+    }
+    if(event->key()==Qt::Key_X){
+        stlM->scale(operationStlName,1.1);
+    }
+    if(event->key()==Qt::Key_U){
+        stlM->rotateX(operationStlName,10);
+    }
+    if(event->key()==Qt::Key_I){
+        stlM->rotateY(operationStlName,10);
+    }
+    if(event->key()==Qt::Key_O){
+        stlM->rotateZ(operationStlName,10);
+    }
+    if(event->key()==Qt::Key_J){
+        stlM->rotateX(operationStlName,-10);
+    }
+    if(event->key()==Qt::Key_K){
+        stlM->rotateY(operationStlName,-10);
+    }
+    if(event->key()==Qt::Key_L){
+        stlM->rotateZ(operationStlName,-10);
+    }
+    if(event->key()==Qt::Key_M){
+        operationStlName="body";
+        operationActor=stlM->LoadStl("E:/MNavigation/externalResources/body.stl",operationStlName);
+        operationActor->GetProperty()->SetOpacity(0.2);
+        operationActor->GetProperty()->SetColor(0.243,0.5725,0.843);
+        m_pRenderer->AddActor(operationActor);
+        volumeWidget->GetRenderWindow()->Render();
+    }
+    if(event->key()==Qt::Key_C){
+        double* position=operationActor->GetPosition();
+        double* orientation=operationActor->GetOrientationWXYZ();
+        double* scale=operationActor->GetScale();
+        qDebug()<<"position[0]: "<<position[0]<<"  |  position[1]: "<<position[1]<<"  | position[2]: "<<position[2];
+        qDebug()<<"orientation[0]: "<<orientation[0]<<"  |  orientation[1]: "<<orientation[1]<<"  | orientation[2]: "<<orientation[2];
+        qDebug()<<"scale[0]: "<<scale[0]<<"  |  scale[1]: "<<scale[1]<<"  | scale[2]: "<<scale[2];
+    }
+    if(event->key()==Qt::Key_V){
+        canTarger=!canTarger;
+    }
     volumeWidget->GetRenderWindow()->Render();
 }
-
-
 
 void Widget::on_volumeSlider_valueChanged(int value)
 {
@@ -388,28 +668,31 @@ void Widget::on_volumeSlider_valueChanged(int value)
 void Widget::on_sagitalSlider_valueChanged(int value)
 {
     m_sagitalViewer2->SetSlice(value);
+    ui->sagitalSliderNum->setText(QString::number(value));
+    update();
     m_sagitalViewer2->GetRenderWindow()->Render();
 }
-
 
 void Widget::on_coronalSlider_valueChanged(int value)
 {
     m_coronalViewer2->SetSlice(value);
+    ui->coronalSliderNum->setText(QString::number(value));
+    update();
     m_coronalViewer2->GetRenderWindow()->Render();
 }
 
 void Widget::on_axialSlider_valueChanged(int value)
 {
     m_axialViewer2->SetSlice(value);
+    ui->axialSliderNum->setText(QString::number(value));
+    update();
     m_axialViewer2->GetRenderWindow()->Render();
 }
-
 
 void Widget::on_navigationButton_clicked()
 {
     onOpenVolumeDir();
 }
-
 
 //在指定位置创建一个球体，组装，并返回actor以用于Render
 vtkSmartPointer<vtkActor> Widget::getSphereActor(double x,double y,double z){
@@ -427,81 +710,109 @@ vtkSmartPointer<vtkActor> Widget::getSphereActor(double x,double y,double z){
     return actor;
 }
 
+vtkSmartPointer<vtkActor> Widget::getLineActorXY(double x,double y,double x1,double y1){
+    vtkSmartPointer<vtkLineSource> line=vtkSmartPointer<vtkLineSource>::New();
+    line->SetPoint1(x,y,350);
+    line->SetPoint2(x1,y1,350);
+    vtkSmartPointer<vtkPolyDataMapper> mapper = vtkSmartPointer<vtkPolyDataMapper>::New();
+    mapper->SetInputConnection(line->GetOutputPort());
+    vtkSmartPointer<vtkActor> actor = vtkSmartPointer<vtkActor>::New();
+    actor->SetMapper(mapper);
+    actor->GetProperty()->SetLineWidth(4);
+    actor->GetProperty()->SetColor(1.0,0.0,0.0);
+
+    return actor;
+}
+
+vtkSmartPointer<vtkActor> Widget::getLineActorXZ(double x,double z,double x1,double z1){
+    vtkSmartPointer<vtkLineSource> line=vtkSmartPointer<vtkLineSource>::New();
+    line->SetPoint1(x,999,z);
+    line->SetPoint2(x1,999,z1);
+    vtkSmartPointer<vtkPolyDataMapper> mapper = vtkSmartPointer<vtkPolyDataMapper>::New();
+    mapper->SetInputConnection(line->GetOutputPort());
+    vtkSmartPointer<vtkActor> actor = vtkSmartPointer<vtkActor>::New();
+    actor->SetMapper(mapper);
+    actor->GetProperty()->SetLineWidth(4);
+    actor->GetProperty()->SetColor(1.0,0.0,0.0);
+
+    return actor;
+}
+
+vtkSmartPointer<vtkActor> Widget::getLineActorYZ(double y,double z,double y1,double z1){
+    vtkSmartPointer<vtkLineSource> line=vtkSmartPointer<vtkLineSource>::New();
+    line->SetPoint1(699,y,z);
+    line->SetPoint2(699,y1,z1);
+    vtkSmartPointer<vtkPolyDataMapper> mapper = vtkSmartPointer<vtkPolyDataMapper>::New();
+    mapper->SetInputConnection(line->GetOutputPort());
+    vtkSmartPointer<vtkActor> actor = vtkSmartPointer<vtkActor>::New();
+    actor->SetMapper(mapper);
+    actor->GetProperty()->SetLineWidth(4);
+    actor->GetProperty()->SetColor(1.0,0.0,0.0);
+
+    return actor;
+}
+
 void Widget::setQVTKEventConnection(QMouseEvent* event){
     qDebug()<<"mousemove move";
     qDebug()<<event->x();
     qDebug()<<event->y();
 }
 
-
-
 void Widget::on_greenButton1_clicked()
 {
     qDebug()<<"on_greenButton1_clicked";
     canPaintSphere=!canPaintSphere;
+    operationStlName="gx_1";
+    m_pRenderer->AddActor(stlM->LoadStl("E:/MNavigation/externalResources/qx_1.stl",operationStlName));
+    volumeWidget->GetRenderWindow()->Render();
 }
 
 void Widget::on_greenButton2_clicked()
 {
     qDebug()<<"on_greenButton2_clicked";
-
     vtkSmartPointer<vtkRenderWindow> renWin =m_pRenderer->GetRenderWindow();
-//    vtkSmartPointer<vtkRenderWindowInteractor> iren =vtkSmartPointer<vtkRenderWindowInteractor>::New();
+    //    vtkSmartPointer<vtkRenderWindowInteractor> iren =vtkSmartPointer<vtkRenderWindowInteractor>::New();
     vtkSmartPointer<vtkInteractorStyleTrackballCamera> style=vtkSmartPointer<vtkInteractorStyleTrackballCamera>::New();
- //   iren->SetInteractorStyle(style);
-
+    //   iren->SetInteractorStyle(style);
     renWin->AddRenderer(m_pRenderer);
-  //  iren->SetRenderWindow(renWin);
+    //  iren->SetRenderWindow(renWin);
     vtkSmartPointer<vtkSphereSource> sphere =vtkSmartPointer<vtkSphereSource>::New();
     sphere->SetCenter(0,0,0);   // 设置中心
     sphere->SetRadius(10);             // 设置半径
     sphere->SetThetaResolution(52);
     sphere->SetPhiResolution(52);
     vtkSmartPointer<vtkPolyDataMapper> mapper =vtkSmartPointer<vtkPolyDataMapper>::New();
-
-
     vtkSmartPointer<vtkTransform> transform= vtkSmartPointer<vtkTransform>::New();
     vtkSmartPointer<vtkTransformPolyDataFilter> transformFilter= vtkSmartPointer<vtkTransformPolyDataFilter>::New();
-
- //   transform->Translate(120,0,0);
+    //   transform->Translate(120,0,0);
     transformFilter->SetTransform(transform);
     transformFilter->SetInputConnection(sphere->GetOutputPort());
     transformFilter->Update();
     mapper->SetInputConnection(transformFilter->GetOutputPort());
-
     vtkSmartPointer<vtkActor> actor1 =vtkSmartPointer<vtkActor>::New();
     actor1->SetMapper(mapper);
     actor1->GetProperty()->SetColor(0.32,0,0.68);
     m_pRenderer->AddActor(actor1);
-
     renWin->Render();
-
     //Create an Animation Scene
     vtkSmartPointer<vtkAnimationScene> scene = vtkSmartPointer<vtkAnimationScene>::New();
- //   scene->SetLoop(true);
+    //   scene->SetLoop(true);
     scene->SetTimeModeToRelative();
     scene->SetFrameRate(5);
     scene->SetStartTime(0);
     scene->SetEndTime(10);
-
-
     // Create an Animation Cue to animate thecamera.
     vtkSmartPointer<vtkCustomTransformAnimationCue> cue1 = vtkSmartPointer<vtkCustomTransformAnimationCue>::New();
     cue1->Sphere = sphere;
     cue1->RenWin = renWin;
     cue1->renderer=m_pRenderer;
     cue1->transform=transform;
-
     cue1->SetTimeModeToNormalized();
     cue1->SetStartTime(0);
     cue1->SetEndTime(1.0);
     scene->AddCue(cue1);
-
     scene->Play();
-
     scene->Stop();
-
-
     /*
     if(clickTimes>0){
         qDebug()<<"clickTimes:"<<clickTimes;
@@ -524,4 +835,16 @@ void Widget::on_greenButton2_clicked()
     m_pRenderer->GetRenderWindow()->Render();
     m_pRenderer->GetRenderWindow()->GetInteractor()->Start();
     */
+}
+
+void Widget::on_translateButton_clicked()
+{
+    operationCliked=!operationCliked;
+    if(operationCliked){
+        ui->volumeWidget->setGeometry(20,55,1490,765);
+    }else{
+        ui->volumeWidget->setGeometry(20,55,735,365);
+    }
+    ui->volumeWidget->raise();
+    update();
 }

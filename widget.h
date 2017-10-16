@@ -1,6 +1,8 @@
 ﻿#ifndef WIDGET_H
 #define WIDGET_H
 
+#include <strstream>
+#include <string>
 #include <QWidget>
 #include <vtkSmartPointer.h>
 #include <QFileDialog>
@@ -46,6 +48,10 @@
 
 #include "vtkcustomtransformanimationcue.h"
 #include <vtkInteractorStyleTrackballCamera.h>
+#include "stlmanager.h"
+#include <vtkCirclePackToPolyData.h>
+#include <vtkLine.h>
+#include <vtkLineSource.h>
 
 class vtkImageViewer2;
 class vtkRenderer;
@@ -77,13 +83,18 @@ private slots:
 
     void on_axialSlider_valueChanged(int value);
 
-    void mouseClick(vtkObject *obj, unsigned long, void*, void*);//vtk四个窗口中的鼠标点击事件
+    void mouseClick(vtkObject *obj, unsigned long, void*, void*);//vtk主窗口中的鼠标点击事件
+    void sagitalClicked(vtkObject *obj, unsigned long, void*, void*);
+    void axialClicked(vtkObject *obj, unsigned long, void*, void*);
+    void coronalClicked(vtkObject *obj, unsigned long, void*, void*);
 
     void on_navigationButton_clicked();
 
     void on_greenButton1_clicked();
 
     void on_greenButton2_clicked();
+
+    void on_translateButton_clicked();
 
 private:
     Ui::Widget *ui;
@@ -116,6 +127,8 @@ private:
 
     vtkSmartPointer<vtkImageViewer2> m_axialViewer2;//截面窗口
 
+    vtkSmartPointer<vtkVolume> volume;//体绘制数据
+
     int lastposition;
 
     bool isOpenDir;
@@ -124,20 +137,33 @@ private:
 
     //返回绘制球体的actor指针
     vtkSmartPointer<vtkActor> getSphereActor(double x,double y,double z);
+    vtkSmartPointer<vtkActor> getLineActorXY(double x,double y,double x1,double y1);
+     vtkSmartPointer<vtkActor> getLineActorXZ(double x,double z,double x1,double z1);
+      vtkSmartPointer<vtkActor> getLineActorYZ(double y,double z,double y1,double z1);
+
 
     void setQVTKEventConnection(QMouseEvent* event);
 
     int clickTimes=0;
+
     vtkSmartPointer<vtkActor> actor;//圆球指针
 
+    //当前操作的stl名
+    QString operationStlName;
+
+    stlManager *stlM;
+    double proportionZ;
+    double proportionY;
+    double proportionX;
+    bool operationCliked=false;
+    vtkSmartPointer<vtkActor> operationActor;
+    bool canTarger=false;
 protected:
-      virtual void keyPressEvent(QKeyEvent *event);
+    virtual void keyPressEvent(QKeyEvent *event);
 
-      virtual void paintEvent(QPaintEvent* event);
+    virtual void paintEvent(QPaintEvent* event);
 
-
-
- //   myGreenButton *greenButton1;
+    //   myGreenButton *greenButton1;
 };
 
 #endif  // WIDGET_H

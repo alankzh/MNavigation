@@ -253,10 +253,12 @@ void MainWindow::greenButton1Clicked(){
     qDebug()<<"hasVolumeData:"<<hasVolumeData;
     if(hasVolumeData){
          qDebug()<<"hasVolumeData1111111111111111111:"<<hasVolumeData;
-        volumeWidget->getRenderer()->AddActor(stlManager::LoadStl("E:/MNavigation/externalResources/qx_1.stl"));
+    //    volumeWidget->getRenderer()->AddActor(stlM.LoadStl("E:/MNavigation/externalResources/qx_1.stl","gx_1"));
         volumeWidget->updateRender();
     }
 }
+
+
 
 //绿色按钮2点击事件
 void MainWindow::greenButton2Clicked(){
