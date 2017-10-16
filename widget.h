@@ -138,8 +138,8 @@ private:
     //返回绘制球体的actor指针
     vtkSmartPointer<vtkActor> getSphereActor(double x,double y,double z);
     vtkSmartPointer<vtkActor> getLineActorXY(double x,double y,double x1,double y1);
-     vtkSmartPointer<vtkActor> getLineActorXZ(double x,double z,double x1,double z1);
-      vtkSmartPointer<vtkActor> getLineActorYZ(double y,double z,double y1,double z1);
+    vtkSmartPointer<vtkActor> getLineActorXZ(double x,double z,double x1,double z1);
+    vtkSmartPointer<vtkActor> getLineActorYZ(double y,double z,double y1,double z1);
 
 
     void setQVTKEventConnection(QMouseEvent* event);

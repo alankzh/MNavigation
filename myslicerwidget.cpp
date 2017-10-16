@@ -14,7 +14,6 @@ mySlicerWidget::mySlicerWidget(QWidget *parent)
     updateRender();
 }
 
-
 /**
  *设置几何位置
 */
@@ -27,7 +26,7 @@ void mySlicerWidget::setLocation(int x,int y,int width,int height){
 */
 void mySlicerWidget::setSlicerValue(int shiftValue){
     imageViewer2->SetSlice(shiftValue);
-    imageViewer2->GetRenderer()->ResetCamera();
+   // imageViewer2->GetRenderer()->ResetCamera();
     updateRender();
 }
 
@@ -45,7 +44,7 @@ void mySlicerWidget::setSlicerData(vtkSmartPointer<vtkDICOMImageReader> dicomRea
     imageViewer2->SetInputConnection(dicomReader->GetOutputPort());
     imageViewer2->SetRenderWindow(qvtkwidget->GetRenderWindow());
     imageViewer2->SetupInteractor(qvtkwidget->GetRenderWindow()->GetInteractor());
-    imageViewer2->GetRenderer()->ResetCamera();
+ //   imageViewer2->GetRenderer()->ResetCamera();
 
     if(o!=0){
         setOrientation(o);

@@ -17,7 +17,7 @@ int main(int argc, char *argv[])
     QApplication a(argc, argv);
     vtkOutputWindow::GlobalWarningDisplayOff();//关闭伴随的vtkOutputWindow
     //测试功能用窗口
- //   Widget w;
+  //  Widget w;
  //   w.setWindowFlags(Qt::CustomizeWindowHint|Qt::WindowTitleHint|Qt::WindowCloseButtonHint);
 
     //主窗口，稳定。

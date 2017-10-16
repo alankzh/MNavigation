@@ -5,22 +5,29 @@ myVolumeWidget::myVolumeWidget(QWidget *parent)
     qvtkwidget=new QVTKWidget(parent);
     settingDefault=new RenderSetting();//构造函数初始化
     setLocation(20,55,735,365);//默认的几何位置
+    //设置默认背景为黑色
+    m_pRenderer=vtkSmartPointer<vtkRenderer>::New();
+    m_pRenderer->SetRenderWindow(qvtkwidget->GetRenderWindow());
+    m_pRenderer->ResetCamera();
+    m_pRenderer->SetBackground(0,0,0);
 }
 
 /**
  * 体绘制，传入的路径为文件夹地址
  */
 bool myVolumeWidget::setVolumeData(const char *dirPath){
+    if(hasVolume){
+        dicomReader->Delete();
+        volume->Delete();
+    }
     vtkAlgorithm *reader=0;
     vtkImageData *input=0;
-
     //读取.dcm
     dicomReader = vtkSmartPointer<vtkDICOMImageReader>::New();
     dicomReader->SetDirectoryName(dirPath);
     dicomReader->Update();//耗时操作
     input=dicomReader->GetOutput();
     reader=dicomReader;
-
     // Verify that we actually have a volume
     int dim[3];
     input->GetDimensions(dim);
@@ -31,19 +38,19 @@ bool myVolumeWidget::setVolumeData(const char *dirPath){
         cout << "Error loading data!" << endl;
         // exit(EXIT_FAILURE);
         return false;
+    }else{
+
     }
 
     // Create our volume and mapper
-    vtkSmartPointer<vtkVolume> volume =  vtkSmartPointer<vtkVolume>::New();
+    volume =  vtkSmartPointer<vtkVolume>::New();
     vtkSmartPointer<vtkSmartVolumeMapper> mapper = vtkSmartPointer<vtkSmartVolumeMapper>::New();
     mapper->SetInputConnection( reader->GetOutputPort() );
-
     // Create the property and attach the transfer functions
     settingDefault->args->property->SetIndependentComponents(true);
     settingDefault->args->property->SetColor( settingDefault->args->colorFun );
     settingDefault->args->property->SetScalarOpacity( settingDefault->args->opacityFun );
     settingDefault->args->property->SetInterpolationTypeToLinear();
-
     // connect up the volume to the property and the mapper
     volume->SetProperty( settingDefault->args->property );
     volume->SetMapper( mapper );
@@ -60,8 +67,9 @@ bool myVolumeWidget::setVolumeData(const char *dirPath){
     m_pRenderer->ResetCamera();
     //   m_pRenderer->GetActiveCamera()->Zoom(1.5);
     m_pRenderer->DrawOn();
-
     updateRender();
+
+    hasVolume=true;
 
     return true;
 }
@@ -83,11 +91,10 @@ void myVolumeWidget::renderValueChange(double shiftValue){
 }
 /**
  * 更新绘制
- * 并且更新交互方式
  */
 void myVolumeWidget::updateRender(){
     qvtkwidget->GetRenderWindow()->Render();
-    qvtkwidget->GetRenderWindow()->GetInteractor()->Start();
+ //   qvtkwidget->GetRenderWindow()->GetInteractor()->Start();
 }
 
 
@@ -104,4 +111,27 @@ QVTKWidget* myVolumeWidget::getQVTKWidget(){
  */
 vtkSmartPointer<vtkRenderer> myVolumeWidget::getRenderer(){
     return m_pRenderer;
+}
+
+/**
+ * @brief myVolumeWidget::getVolume
+ * 返回渲染的体绘制数据
+ * @return
+ */
+vtkSmartPointer<vtkVolume> myVolumeWidget::getVolume(){
+    if(hasVolume){
+         return volume;
+    }else{
+        //TODO 抛出错误
+        return NULL;
+    }
+}
+
+/**
+ * @brief myVolumeWidget::hasVolumeData
+ * 是否有体绘制数据
+ * @return
+ */
+bool myVolumeWidget::hasVolumeData(){
+    return hasVolume;
 }

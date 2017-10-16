@@ -30,5 +30,8 @@
 #include <vtkAnimationCue.h>
 #include <vtkAnimationScene.h>
 #include <vtkSTLReader.h>
-
+#include <vtkCirclePackToPolyData.h>
+#include <vtkLine.h>
+#include <vtkLineSource.h>
+#include <vtkInteractorStyleTrackballCamera.h>
 #endif

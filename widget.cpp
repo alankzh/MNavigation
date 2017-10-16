@@ -262,6 +262,8 @@ void Widget::onOpenVolumeDir(){
     volumeWidget->GetRenderWindow()->GetInteractor()->Start();
     setConnect();
 
+
+    //得到边界与三个截面Slice的比例关系
     double *boundary=m_sagitalViewer2->GetImageActor()->GetBounds();
     boundary[1]=m_sagitalViewer2->GetImageActor()->GetBounds()[1];
     boundary[3]=m_sagitalViewer2->GetImageActor()->GetBounds()[3];
@@ -280,8 +282,6 @@ void Widget::onOpenVolumeDir(){
     qDebug()<<"proportionY"<<proportionY;
     proportionX=boundary[1]/m_coronalViewer2->GetSliceMax();
     qDebug()<<"proportionX"<<proportionX;
-
-
 
 }
 

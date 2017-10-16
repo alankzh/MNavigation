@@ -21,7 +21,7 @@ public:
     //设置几何位置
     void setLocation(int x,int y,int width,int height);
 
-
+    vtkSmartPointer<vtkVolume> getVolume();
 
     void renderValueChange(double shiftValue);
 
@@ -29,10 +29,12 @@ public:
 
     //读取到的体绘制数据
     vtkSmartPointer<vtkDICOMImageReader> dicomReader;
+    //绘制的体绘制数据
+    vtkSmartPointer<vtkVolume> volume;
 
     RenderSetting *settingDefault;
 
-    bool renderVolume=false;
+    bool hasVolumeData();
 
     QVTKWidget* getQVTKWidget();
 
@@ -42,6 +44,9 @@ private:
     QVTKWidget *qvtkwidget;
 
     vtkSmartPointer<vtkRenderer> m_pRenderer;
+
+    //是否有体绘制数据
+    bool hasVolume=false;
 };
 
 #endif // MYQVTKWIDGET_H

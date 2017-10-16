@@ -10,6 +10,7 @@
 #include "myslicerwidget.h"
 #include "vtkcustomtransformanimationcue.h"
 #include "stlmanager.h"
+#include "actormanager.h"
 
 /**
  * @brief The MainWindow class
@@ -58,6 +59,9 @@ private:
 
     void onOpenVolumeDir();
 
+    stlManager *stlM;
+    actorManager *actorM;
+
     GreenButton *greenButton1;
     GreenButton *greenButton2;
     BackgroundButton *navigationButton;
@@ -74,11 +78,26 @@ private:
     QSlider *axialSlider;
     QSlider *sagitalSlider;
 
-
     bool isOpenDir;
     int lastposition;
-    bool hasVolumeData=false;
+    //能否做标记
+    bool canTarger=false;
+    //vtk qt 事件链接
+    vtkSmartPointer<vtkEventQtSlotConnect> vtkQtConnect;
+    //体绘制数据
+    vtkSmartPointer<vtkVolume> volume;
+    //当前操作的stl名
+    QString operationStlName;
 
+    //比例
+    double proportionZ;
+    double proportionY;
+    double proportionX;
+private slots:
+    void volumeWidgetClick(vtkObject* obj, unsigned long, void*, void*);
+    void sagitalWidgetClick(vtkObject* obj, unsigned long, void*, void*);
+    void axialWidgetClick(vtkObject* obj, unsigned long, void*, void*);
+    void coronalWidgetClick(vtkObject* obj, unsigned long, void*, void*);
 protected:
     void update_background();
 
