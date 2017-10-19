@@ -222,7 +222,7 @@
     <string>TextLabel</string>
    </property>
   </widget>
-  <widget class="QWidget" name="">
+  <widget class="QWidget" name="layoutWidget">
    <property name="geometry">
     <rect>
      <x>20</x>
@@ -248,7 +248,7 @@
     </item>
    </layout>
   </widget>
-  <widget class="QWidget" name="">
+  <widget class="QWidget" name="layoutWidget">
    <property name="geometry">
     <rect>
      <x>775</x>
@@ -274,7 +274,7 @@
     </item>
    </layout>
   </widget>
-  <widget class="QWidget" name="">
+  <widget class="QWidget" name="layoutWidget">
    <property name="geometry">
     <rect>
      <x>775</x>
@@ -300,6 +300,9 @@
     </item>
    </layout>
   </widget>
+  <zorder>layoutWidget</zorder>
+  <zorder>layoutWidget</zorder>
+  <zorder>layoutWidget</zorder>
   <zorder>greenButton1</zorder>
   <zorder>volumeWidget</zorder>
   <zorder>sagitalWidget</zorder>
@@ -313,16 +316,10 @@
   <zorder>shrinkButton</zorder>
   <zorder>magnifyButton</zorder>
   <zorder>translateButton</zorder>
-  <zorder>coronalSlider</zorder>
-  <zorder>axialSlider</zorder>
-  <zorder>sagitalSlider</zorder>
   <zorder>volumeSlider</zorder>
   <zorder>coronalLabel</zorder>
   <zorder>axialLabel</zorder>
   <zorder>sagitalLabel</zorder>
-  <zorder>coronalSliderNum</zorder>
-  <zorder>axialSliderNum</zorder>
-  <zorder>sagitalSliderNum</zorder>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
  <customwidgets>

@@ -1,4 +1,4 @@
-ï»¿#include "mainwindow.h"
+#include "mainwindow.h"
 
 
 MainWindow::MainWindow(QWidget *parent)
@@ -9,18 +9,21 @@ MainWindow::MainWindow(QWidget *parent)
     update_background();
     init();
 
-    //ä¸»çª—å£ç„¦ç‚¹
+    //Ö÷´°¿Ú½¹µã
     this->setFocus();
     setLayout();
     setConnection();
+
+    //Õâ¸ö°´Å¥¿ÉÒÔÈÃÖ÷´°¿Ú»ñÈ¡½¹µã
     QPushButton *textButton1=new QPushButton(this);
     textButton1->setGeometry(1531,434,60,60);
 }
+
 MainWindow::~MainWindow()
 {
 }
 
-//ä¸»çª—å£æ›´æ–°èƒŒæ™¯
+//Ö÷´°¿Ú¸üĞÂ±³¾°
 void MainWindow::update_background(){
     m_background=QPixmap(":/resources/background.jpg", "jpg");
     QBitmap bitmap = m_background.createHeuristicMask();
@@ -29,7 +32,7 @@ void MainWindow::update_background(){
     update();
 }
 
-//åˆå§‹åŒ–
+//³õÊ¼»¯
 void MainWindow::init(){
     greenButton1=new GreenButton(this);
     greenButton2=new GreenButton(this);
@@ -38,28 +41,59 @@ void MainWindow::init(){
     translateButton=new BackgroundButton(this);
     magnifyButton=new BackgroundButton(this);
     shrinkButton=new BackgroundButton(this);
-    isOpenDir=false;
+
     volumeWidget=new myVolumeWidget(this);
     sagitalWidget=new mySlicerWidget(this);
     axialWidget=new mySlicerWidget(this);
     coronalWidget=new mySlicerWidget(this);
-    lastposition=120;
+
+    stlLoadDialog=new MyDialog();
+    stlSelectDialog=new MyDialog();
+    stlDeleteDialog=new MyDialog();
+    stlDeleteButton=new QPushButton(this);
+
+    sagitalLabel=new QLabel(this);
+    coronalLabel=new QLabel(this);
+    axialLabel=new QLabel(this);
     volumeSlider=new QSlider(this);
     sagitalSlider=new QSlider(this);
     axialSlider=new QSlider(this);
     coronalSlider=new QSlider(this);
+
+    isOpenDir=false;
+    lastposition=120;
     vtkQtConnect=vtkSmartPointer<vtkEventQtSlotConnect>::New();
-    stlM=new stlManager();
+    stlManager=new StlManager();
     actorM=new actorManager();
 }
 
-//å¸ƒå±€
+//²¼¾Ö
 void MainWindow::setLayout(){
     greenButton1->setPos(1531,55);
+    stlLoadDialog->setGeometry(greenButton1->getXpos()-100,greenButton1->getYpos()+100,200,200);
+
+    /**
+     *TODO Õâ²¿·ÖÓ¦¸ÃĞ´ÈëÅäÖÃÎÄ¼ş£¬¶ø²»ÊÇÖ±½Ó¼ÓÔØ
+     */
+    stlList.append(QString::fromLocal8Bit("Ë«Í¨µÀµ¼¹Ü"));
+    stlList.append(QString::fromLocal8Bit("°²È«¹Ç×ê1"));
+    stlList.append(QString::fromLocal8Bit("°²È«¹Ç×ê2"));
+    stlList.append(QString::fromLocal8Bit("Ô²¾â"));
+    stlList.append(QString::fromLocal8Bit("Ï¸µ¼Ë¿"));
+    stlList.append(QString::fromLocal8Bit("Ï¸Õë"));
+    stlList.append(QString::fromLocal8Bit("ÈËÌå"));
+    stlLoadDialog->setGridTexts(stlList);
+
     greenButton2->setPos(1531,118);
+    stlSelectDialog->setGeometry(greenButton2->getXpos()-100,greenButton2->getYpos()+100,200,200);
+    stlSelectDialog->setHint(QString::fromLocal8Bit("Ñ¡ÖĞÄãÒª²Ù×÷µÄ.stlÄ£ĞÍ"));
 
     navigationButton->setPos(510,3);
     navigationButton->setBackground(":/resources/navigation.png","png");
+    stlDeleteButton->setGeometry(730,3,80,43);
+    stlDeleteButton->setText(QString::fromLocal8Bit("É¾³ı.stl"));
+    stlDeleteDialog->setGeometry(stlDeleteButton->x(),stlDeleteButton->y()+150,200,200);
+    stlDeleteDialog->setHint(QString::fromLocal8Bit("Ñ¡ÔñÉ¾³ı³¡¾°ÖĞµÄ.stlÄ£ĞÍ"));
     exitButton->setPos(1530,3);
     exitButton->setBackground(":/resources/mainPower.png","png");
     exitButton->setClickedColor(QColor(95,100,137,150));
@@ -73,7 +107,7 @@ void MainWindow::setLayout(){
     shrinkButton->setBackground(":/resources/mainShrink.png","png");
     shrinkButton->setClickedColor(QColor(185,188,193,150));
 
-    volumeWidget->setLocation(20,55,735,365);//é»˜è®¤çš„å‡ ä½•ä½ç½®
+    volumeWidget->setLocation(20,55,735,365);//Ä¬ÈÏµÄ¼¸ºÎÎ»ÖÃ
     volumeSlider->setGeometry(20,425,735,20);
     volumeSlider->setOrientation(Qt::Horizontal);
     volumeSlider->setRange(0,255);
@@ -91,31 +125,53 @@ void MainWindow::setLayout(){
     coronalSlider->setOrientation(Qt::Horizontal);
 }
 
-//æŒ‰é’®ä¿¡å·è¿æ¥
+//°´Å¥ĞÅºÅÁ¬½Ó
 void MainWindow::setConnection(){
+    //ÍË³ö°´Å¥µã»÷µÄĞÅºÅ°ó¶¨
     connect(exitButton,SIGNAL(clicked()),this,SLOT(exitClicked()));
+    //µ¼º½°´Å¥µÄĞÅºÅ°ó¶¨
     connect(navigationButton,SIGNAL(clicked()),this,SLOT(navigationClicked()));
+    //Ê®×Ö¼ıÍ·°´Å¥µÄĞÅºÅ°ó¶¨
     connect(translateButton,SIGNAL(clicked()),this,SLOT(translateClicked()));
+    //·Å´ó°´Å¥µã»÷µÄĞÅºÅ°ó¶¨
     connect(magnifyButton,SIGNAL(clicked()),this,SLOT(magnifyClicked()));
+    //ËõĞ¡°´Å¥µã»÷µÄĞÅºÅ°ó¶¨
     connect(shrinkButton,SIGNAL(clicked()),this,SLOT(shrinkCliked()));
-
 }
 
-//æœ‰ä½“ç»˜åˆ¶æ•°æ®æ—¶éœ€è¦è¿æ¥çš„ä¿¡å·
+//ÓĞÌå»æÖÆÊı¾İÊ±ĞèÒªÁ¬½ÓµÄĞÅºÅ
 void MainWindow::setDrawConnection(){
+    //Ìå»æÖÆ´°¿ÚÏÂ»¬¶¯ÌõÊıÖµ¸Ä±äµÄĞÅºÅ°ó¶¨
     connect(volumeSlider,SIGNAL(valueChanged(int)),this,SLOT(vSlicerValueChange(int)));
+    //sagital½ØÃæ´°¿ÚÏÂ»¬¶¯ÌõÊıÖµ¸Ä±äµÄĞÅºÅ°ó¶¨
     connect(sagitalSlider,SIGNAL(valueChanged(int)),this,SLOT(sSlicerValueChange(int)));
+    //axial½ØÃæ´°¿ÚÏÂ»¬¶¯ÌõÊıÖµ¸Ä±äµÄĞÅºÅ°ó¶¨
     connect(axialSlider,SIGNAL(valueChanged(int)),this,SLOT(aSlicerValueChange(int)));
+    //coronal½ØÃæ´°¿ÚÏÂ»¬¶¯ÌõÊıÖµ¸Ä±äµÄĞÅºÅ°ó¶¨
     connect(coronalSlider,SIGNAL(valueChanged(int)),this,SLOT(cSlicerValueChange(int)));
+    //ÂÌÉ«°´Å¥1µã»÷µÄĞÅºÅ°ó¶¨
     connect(greenButton1,SIGNAL(clicked()),this,SLOT(greenButton1Clicked()));
+    //ÂÌÉ«°´Å¥2µã»÷µÄĞÅºÅ°ó¶¨
     connect(greenButton2,SIGNAL(clicked()),this,SLOT(greenButton2Clicked()));
+    //É¾³ı°´Å¥µã»÷µÄĞÅºÅ°ó¶¨
+    connect(stlDeleteButton,SIGNAL(clicked()),this,SLOT(deleteButtonClicked()));
+    //¼ÓÔØÄÄÒ»¸ö.stlÄ£ĞÍ¶Ô»°¿òµÄĞÅºÅ°ó¶¨
+    connect(stlLoadDialog,SIGNAL(onItemClicked(QString,int)),this,SLOT(loadStl(QString,int)));
+    //Ñ¡Ôñ²Ù×÷ÄÄÒ»¸ö.stlÄ£ĞÍ¶Ô»°¿òµÄĞÅºÅ°ó¶¨
+    connect(stlSelectDialog,SIGNAL(onItemClicked(QString,int)),this,SLOT(selectStl(QString,int)));
+    //Ñ¡ÔñÉ¾³ıÄÄÒ»¸ö.stlÄ£ĞÍ¶Ô»°¿òµÄĞÅºÅ°ó¶¨
+    connect(stlDeleteDialog,SIGNAL(onItemClicked(QString,int)),this,SLOT(deleteStl(QString,int)));
+    //Ìå»æÖÆ´°¿ÚµÄÊó±ê×ó¼üµã»÷µÄĞÅºÅ°ó¶¨
     vtkQtConnect->Connect(volumeWidget->getQVTKWidget()->GetRenderWindow()->GetInteractor(),vtkCommand::LeftButtonPressEvent,this,SLOT(volumeWidgetClick(vtkObject*, unsigned long, void*, void*)));
+    //sagital½ØÃæ´°¿ÚµÄÊó±ê×ó¼üµã»÷µÄĞÅºÅ°ó¶¨
     vtkQtConnect->Connect(sagitalWidget->getQVTKWidget()->GetRenderWindow()->GetInteractor(),vtkCommand::LeftButtonPressEvent,this,SLOT(sagitalWidgetClick(vtkObject*, unsigned long, void*, void*)));
+    //axial½ØÃæ´°¿ÚµÄÊó±ê×ó¼üµã»÷µÄĞÅºÅ°ó¶¨
     vtkQtConnect->Connect(axialWidget->getQVTKWidget()->GetRenderWindow()->GetInteractor(),vtkCommand::LeftButtonPressEvent,this,SLOT(axialWidgetClick(vtkObject*, unsigned long, void*, void*)));
+    //coronal½ØÃæ´°¿ÚµÄÊó±ê×ó¼üµã»÷µÄµÄĞÅºÅ°ó¶¨
     vtkQtConnect->Connect(coronalWidget->getQVTKWidget()->GetRenderWindow()->GetInteractor(),vtkCommand::LeftButtonPressEvent,this,SLOT(coronalWidgetClick(vtkObject*, unsigned long, void*, void*)));
 }
 
-//ä½“ç»˜åˆ¶çª—å£ä¸‹æ»‘åŠ¨æ¡ æ‹–åŠ¨è§¦å‘äº‹ä»¶
+//Ìå»æÖÆ´°¿ÚÏÂ»¬¶¯Ìõ ÍÏ¶¯´¥·¢ÊÂ¼ş
 void MainWindow::vSlicerValueChange(int v){
     double shiftValue=double(v-lastposition)/255.0;
     lastposition=v;
@@ -124,31 +180,31 @@ void MainWindow::vSlicerValueChange(int v){
     volumeWidget->updateRender();
 
 }
-//sagitalçª—å£ä¸‹æ»‘åŠ¨æ¡ æ‹–åŠ¨è§¦å‘äº‹ä»¶
+//sagital´°¿ÚÏÂ»¬¶¯Ìõ ÍÏ¶¯´¥·¢ÊÂ¼ş
 void MainWindow::sSlicerValueChange(int v){
     sagitalWidget->setSlicerValue(v);
 }
-//axialçª—å£ä¸‹æ»‘åŠ¨æ¡ æ‹–åŠ¨è§¦å‘äº‹ä»¶
+//axial´°¿ÚÏÂ»¬¶¯Ìõ ÍÏ¶¯´¥·¢ÊÂ¼ş
 void MainWindow::aSlicerValueChange(int v){
     axialWidget->setSlicerValue(v);
 }
-//coronalçª—å£ä¸‹æ»‘åŠ¨æ¡ æ‹–åŠ¨è§¦å‘äº‹ä»¶
+//coronal´°¿ÚÏÂ»¬¶¯Ìõ ÍÏ¶¯´¥·¢ÊÂ¼ş
 void MainWindow::cSlicerValueChange(int v){
     coronalWidget->setSlicerValue(v);
 }
 
-//å¯¼èˆªæŒ‰é’®ç‚¹å‡»
+//µ¼º½°´Å¥µã»÷
 void MainWindow::navigationClicked(){
     qDebug()<<"MainWindow::navigationClicked";
     onOpenVolumeDir();
 }
-//ç‚¹å‡»é€€å‡º
+//µã»÷ÍË³ö
 void MainWindow::exitClicked(){
     qDebug()<<"MainWindow::exitClicked";
-    //TODO é€€å‡ºåº”è¯¥å¼¹å‡ºçª—å£è¯·æ±‚ç¡®è®¤
+    //TODO ÍË³öÓ¦¸Ãµ¯³ö´°¿ÚÇëÇóÈ·ÈÏ
     QCoreApplication::instance()->quit();
 }
-//åå­—äº¤å‰æŒ‰é’®
+//Ê®×Ö½»²æ°´Å¥
 void MainWindow::translateClicked(){
     qDebug()<<"MainWindow::translateClicked";
     if(volumeWidget->getQVTKWidget()->width()<1000){
@@ -165,32 +221,32 @@ void MainWindow::translateClicked(){
     volumeWidget->getQVTKWidget()->raise();
     update();
 }
-//æ”¾å¤§æŒ‰é’®ç‚¹å‡»
+//·Å´ó°´Å¥µã»÷
 void MainWindow::magnifyClicked(){
     qDebug()<<"MainWindow::magnifyClicked";
-    //TODO æˆ‘tmä¹Ÿä¸çŸ¥é“è¿™ä¸ªæŒ‰é’®è®¾è®¡æ¥å¹²å•¥çš„
+    //TODO ÎÒtmÒ²²»ÖªµÀÕâ¸ö°´Å¥Éè¼ÆÀ´¸ÉÉ¶µÄ
 }
-//ç¼©å°æŒ‰é’®
+//ËõĞ¡°´Å¥
 void MainWindow::shrinkCliked(){
     qDebug()<<"MainWindow::shrinkCliked";
-    //TODO æˆ‘tmè¿˜æ˜¯ä¸çŸ¥é“è¿™ä¸ªæŒ‰é’®è®¾è®¡æ¥å¹²å•¥çš„
+    //TODO ÎÒtm»¹ÊÇ²»ÖªµÀÕâ¸ö°´Å¥Éè¼ÆÀ´¸ÉÉ¶µÄ
 }
 
-//ä¸»çª—å£é‡ç»˜åˆ¶è§¦å‘äº‹ä»¶ï¼Œä¸€èˆ¬å‘ç”Ÿåœ¨çª—å£åˆ‡æ¢
+//Ö÷´°¿ÚÖØ»æÖÆ´¥·¢ÊÂ¼ş£¬Ò»°ã·¢ÉúÔÚ´°¿ÚÇĞ»»
 void MainWindow::paintEvent(QPaintEvent* e)
 {
     QPainter painter(this);
     painter.drawPixmap(e->rect(), m_background, e->rect());
 }
 
-//ä½“ç»˜åˆ¶çª—å£ç‚¹å‡»äº‹ä»¶
+//Ìå»æÖÆ´°¿Úµã»÷ÊÂ¼ş
 void MainWindow::volumeWidgetClick(vtkObject* obj, unsigned long, void*, void*){
 
 }
-//sagitalæˆªé¢çª—å£ç‚¹å‡»äº‹ä»¶
+//sagital½ØÃæ´°¿Úµã»÷ÊÂ¼ş
 void MainWindow::sagitalWidgetClick(vtkObject* obj, unsigned long, void*, void*){
     qDebug()<<"MainWindow::sagitalClicked";
-    //åœ¨ä¸‰ä¸ªæˆªé¢çª—å£ä¸Šè”åŠ¨ï¼Œå¹¶ç»˜åˆ¶æ ‡è®°
+    //ÔÚÈı¸ö½ØÃæ´°¿ÚÉÏÁª¶¯£¬²¢»æÖÆ±ê¼Ç
     vtkSmartPointer<vtkImageViewer2> m_sagitalViewer2=sagitalWidget->getImageViewer2();
     vtkSmartPointer<vtkImageViewer2> m_axialViewer2=axialWidget->getImageViewer2();
     vtkSmartPointer<vtkImageViewer2> m_coronalViewer2=coronalWidget->getImageViewer2();
@@ -199,15 +255,15 @@ void MainWindow::sagitalWidgetClick(vtkObject* obj, unsigned long, void*, void*)
     int EventPointY = iren->GetEventPosition()[1];
     vtkImageActor* Actor = m_sagitalViewer2->GetImageActor();
     vtkRenderer* Renderer= m_sagitalViewer2->GetRenderer();
-    /*BEGIN ä»¥ä¸‹æ˜¯æ®Šå³°åšçš„åæ ‡è½¬æ¢*/
+    /*BEGIN ÒÔÏÂÊÇÊâ·å×öµÄ×ø±ê×ª»»*/
     double* boundary;
     boundary = Actor->GetBounds();
     int* Size = Renderer->GetSize();
     double ViewEventPointX = (double)EventPointX * 2 / Size[0] - 1;
     double ViewEventPointY = (double)EventPointY * 2 / Size[1] - 1;
-    double x = boundary[1];//é•¿
-    double y = boundary[3];//å®½
-    double z = boundary[5];//é«˜
+    double x = boundary[1];//³¤
+    double y = boundary[3];//¿í
+    double z = boundary[5];//¸ß
     vtkVector3d origin = vtkVector3d(0, 0, z);
     vtkVector3d xEnd = vtkVector3d(x, 0, z);
     vtkVector3d yEnd = vtkVector3d(0, y, z);
@@ -228,33 +284,33 @@ void MainWindow::sagitalWidgetClick(vtkObject* obj, unsigned long, void*, void*)
     targetPosition[2] = origin[2];
     vtkMatrix4x4* matrix = volumeWidget->getVolume()->GetMatrix();
     vtkVector3d adjust = vtkVector3d(matrix->MultiplyDoublePoint(targetPosition.GetData()));
-    /*END æ®Šå³°åšçš„åæ ‡è½¬æ¢ç»“æŸ*/
+    /*END Êâ·å×öµÄ×ø±ê×ª»»½áÊø*/
 
-    //ç»˜åˆ¶ åå­—çº¿æ®µæ ‡è®°
+    //»æÖÆ Ê®×ÖÏß¶Î±ê¼Ç
     if(adjust[0]>0&&adjust[1]>0){
         if(canTarger){
             volumeWidget->getRenderer()->AddActor(actorM->getSphereActor(adjust[0],adjust[1],adjust[2]));
 
-            //sagitalæˆªé¢ç»˜åˆ¶åå­—ï¼Œzè½´é«˜åº¦ä¸€å®š
+            //sagital½ØÃæ»æÖÆÊ®×Ö£¬zÖá¸ß¶ÈÒ»¶¨
             m_sagitalViewer2->GetRenderer()->AddActor(actorM->getLineActor(adjust[0]+1,adjust[1],350,adjust[0]+10,adjust[1],350));
             m_sagitalViewer2->GetRenderer()->AddActor(actorM->getLineActor(adjust[0],adjust[1]+1,350,adjust[0],adjust[1]+10,350));
             m_sagitalViewer2->GetRenderer()->AddActor(actorM->getLineActor(adjust[0]-1,adjust[1],350,adjust[0]-10,adjust[1],350));
             m_sagitalViewer2->GetRenderer()->AddActor(actorM->getLineActor(adjust[0],adjust[1]-1,350,adjust[0],adjust[1]-10,350));
 
-           //axialæˆªé¢ç»˜åˆ¶åå­—ï¼Œyè½´é«˜åº¦ä¸€å®š
+            //axial½ØÃæ»æÖÆÊ®×Ö£¬yÖá¸ß¶ÈÒ»¶¨
             m_axialViewer2->GetRenderer()->AddActor(actorM->getLineActor(adjust[0]+1,999,adjust[2],adjust[0]+10,999,adjust[2]));
             m_axialViewer2->GetRenderer()->AddActor(actorM->getLineActor(adjust[0],999,adjust[2]+1,adjust[0],999,adjust[2]+10));
             m_axialViewer2->GetRenderer()->AddActor(actorM->getLineActor(adjust[0]-1,999,adjust[2],adjust[0]-10,999,adjust[2]));
             m_axialViewer2->GetRenderer()->AddActor(actorM->getLineActor(adjust[0],999,adjust[2]-1,adjust[0],999,adjust[2]-10));
 
 
-              //coronalæˆªé¢ç»˜åˆ¶åå­—ï¼Œxè½´é«˜åº¦ä¸€å®š
+            //coronal½ØÃæ»æÖÆÊ®×Ö£¬xÖá¸ß¶ÈÒ»¶¨
             m_coronalViewer2->GetRenderer()->AddActor(actorM->getLineActor(699,adjust[1]+1,adjust[2],699,adjust[1]+10,adjust[2]));
             m_coronalViewer2->GetRenderer()->AddActor(actorM->getLineActor(699,adjust[1],adjust[2]+1,699,adjust[1],adjust[2]+10));
             m_coronalViewer2->GetRenderer()->AddActor(actorM->getLineActor(699,adjust[1]-1,adjust[2],699,adjust[1]-10,adjust[2]));
             m_coronalViewer2->GetRenderer()->AddActor(actorM->getLineActor(699,adjust[1],adjust[2]-1,699,adjust[1],adjust[2]-10));
 
-            //è¿™æ ·æ“ä½œä¹‹åï¼Œç»˜åˆ¶çš„åå­—å±‚çº§ä¼šæ­£ç¡®æ˜¾ç¤º
+            //ÕâÑù²Ù×÷Ö®ºó£¬»æÖÆµÄÊ®×Ö²ã¼¶»áÕıÈ·ÏÔÊ¾
             sagitalSlider->setValue(sagitalSlider->value()+1);
             sagitalSlider->setValue(sagitalSlider->value()-1);
             axialSlider->setValue(axialSlider->value()+1);
@@ -267,7 +323,7 @@ void MainWindow::sagitalWidgetClick(vtkObject* obj, unsigned long, void*, void*)
 
         volumeWidget->getQVTKWidget()->GetRenderWindow()->Render();
 
-        //åæ ‡åˆ†å‘ï¼Œå°†sagitalæˆªé¢çš„xåæ ‡å‘é€ç»™coronalæˆªé¢çš„åˆ‡ç‰‡ï¼Œyåæ ‡å‘é€ç»™axialæˆªé¢çš„åˆ‡ç‰‡
+        //×ø±ê·Ö·¢£¬½«sagital½ØÃæµÄx×ø±ê·¢ËÍ¸øcoronal½ØÃæµÄÇĞÆ¬£¬y×ø±ê·¢ËÍ¸øaxial½ØÃæµÄÇĞÆ¬
         axialSlider->setValue((int) adjust[1]/proportionY);
         coronalSlider->setValue((int) adjust[0]/proportionX);
         update();
@@ -275,19 +331,19 @@ void MainWindow::sagitalWidgetClick(vtkObject* obj, unsigned long, void*, void*)
         return;
     }
 }
-//axialæˆªé¢çª—å£ç‚¹å‡»äº‹ä»¶
+//axial½ØÃæ´°¿Úµã»÷ÊÂ¼ş
 void MainWindow::axialWidgetClick(vtkObject* obj, unsigned long, void*, void*){
 
 }
-//coronalæˆªé¢çª—å£ç‚¹å‡»äº‹ä»¶
+//coronal½ØÃæ´°¿Úµã»÷ÊÂ¼ş
 void MainWindow::coronalWidgetClick(vtkObject* obj, unsigned long, void*, void*){
 
 }
 
-//æ‰“å¼€ä½“ç»˜åˆ¶æ–‡ä»¶å¤¹
+//´ò¿ªÌå»æÖÆÎÄ¼ş¼Ğ
 void MainWindow::onOpenVolumeDir(){
     qDebug()<<"MainWindow::onOpenVolumeDir";
-    QString dirPath=QFileDialog::getExistingDirectory(this,tr("æ‰“å¼€ä½“ç»˜åˆ¶æ•°æ®å­˜å‚¨æ–‡ä»¶å¤¹"),"/",QFileDialog::ShowDirsOnly | QFileDialog::DontResolveSymlinks);
+    QString dirPath=QFileDialog::getExistingDirectory(this,QString::fromLocal8Bit("´ò¿ªÌå»æÖÆÊı¾İ´æ´¢ÎÄ¼ş¼Ğ"),"/",QFileDialog::ShowDirsOnly | QFileDialog::DontResolveSymlinks);
     qDebug()<<dirPath;
     if(dirPath.isEmpty()==true) {
         qDebug()<<"exit";
@@ -296,7 +352,7 @@ void MainWindow::onOpenVolumeDir(){
     }else{
         isOpenDir=true;
     }
-    //æ”¯æŒå¸¦ä¸­æ–‡è·¯å¾„çš„è¯»å–
+    //Ö§³Ö´øÖĞÎÄÂ·¾¶µÄ¶ÁÈ¡
     QByteArray ba=dirPath.toLocal8Bit();
     const char *dirPath_str=ba.data();
 
@@ -304,21 +360,21 @@ void MainWindow::onOpenVolumeDir(){
     if(volumeWidget->hasVolumeData()){
         volumeSlider->setValue(120);
         lastposition=120;
-        //TODOå¼¹å‡ºè¿›åº¦æ¡
+        //TODOµ¯³ö½ø¶ÈÌõ
 
-        //sagittalä¸ºxyæ–¹å‘æˆªé¢
+        //sagittalÎªxy·½Ïò½ØÃæ
         sagitalWidget->setSlicerData(volumeWidget->dicomReader,mySlicerWidget::ORIENTATION::XY);
         sagitalWidget->setSlicerValue(100);
         sagitalSlider->setRange(sagitalWidget->getSlicerMin(),sagitalWidget->getSlicerMax());
         sagitalSlider->setValue(100);
 
-        //axialä¸ºxzæˆªé¢
+        //axialÎªxz½ØÃæ
         axialWidget->setSlicerData(volumeWidget->dicomReader,mySlicerWidget::ORIENTATION::XZ);
         axialWidget->setSlicerValue(140);
         axialSlider->setRange(axialWidget->getSlicerMin(),axialWidget->getSlicerMax());
         axialSlider->setValue(140);
 
-        //coronalä¸ºyzæˆªé¢
+        //coronalÎªyz½ØÃæ
         coronalWidget->setSlicerData(volumeWidget->dicomReader,mySlicerWidget::ORIENTATION::YZ);
         coronalWidget->setSlicerValue(140);
         coronalSlider->setRange(coronalWidget->getSlicerMin(),coronalWidget->getSlicerMax());
@@ -326,7 +382,7 @@ void MainWindow::onOpenVolumeDir(){
 
         setDrawConnection();
 
-        //å¾—åˆ°è¾¹ç•Œä¸ä¸‰ä¸ªæˆªé¢Sliceçš„æ¯”ä¾‹å…³ç³»
+        //µÃµ½±ß½çÓëÈı¸ö½ØÃæSliceµÄ±ÈÀı¹ØÏµ
         double *boundary=sagitalWidget->getImageViewer2()->GetImageActor()->GetBounds();
         boundary[1]=sagitalWidget->getImageViewer2()->GetImageActor()->GetBounds()[1];
         boundary[3]=sagitalWidget->getImageViewer2()->GetImageActor()->GetBounds()[3];
@@ -346,12 +402,12 @@ void MainWindow::onOpenVolumeDir(){
         proportionX=boundary[1]/coronalWidget->getImageViewer2()->GetSliceMax();
         qDebug()<<"proportionX"<<proportionX;
     }else{
-        //TODO  è¿™é‡Œæç¤ºè·¯å¾„é”™è¯¯
+        //TODO  ÕâÀïÌáÊ¾Â·¾¶´íÎó
     }
 
 }
 
-//ä¸»çª—å£é”®ç›˜äº‹ä»¶
+//Ö÷´°¿Ú¼üÅÌÊÂ¼ş
 void MainWindow::keyPressEvent(QKeyEvent *event){
     Q_UNUSED(event);
     if(!volumeWidget->hasVolumeData()){
@@ -401,79 +457,159 @@ void MainWindow::keyPressEvent(QKeyEvent *event){
         lastposition=120;
         volumeSlider->setValue(120);
     }
-    /*å˜æ¢æ“ä½œå¼€å§‹*/
+    /*±ä»»²Ù×÷¿ªÊ¼*/
     if(event->key()==Qt::Key_Q){
-        stlM->translate(operationStlName,10,0,0);
+        stlManager->translate(operationStlName,10,0,0);
     }
     if(event->key()==Qt::Key_W){
-        stlM->translate(operationStlName,0,10,0);
+        stlManager->translate(operationStlName,0,10,0);
     }
     if(event->key()==Qt::Key_E){
-        stlM->translate(operationStlName,0,0,10);
+        stlManager->translate(operationStlName,0,0,10);
     }
     if(event->key()==Qt::Key_A){
-        stlM->translate(operationStlName,-10,0,0);
+        stlManager->translate(operationStlName,-10,0,0);
     }
     if(event->key()==Qt::Key_S){
-        stlM->translate(operationStlName,0,-10,0);
+        stlManager->translate(operationStlName,0,-10,0);
     }
     if(event->key()==Qt::Key_D){
-        stlM->translate(operationStlName,0,0,-10);
+        stlManager->translate(operationStlName,0,0,-10);
     }
     if(event->key()==Qt::Key_Z){
-        stlM->scale(operationStlName,0.9);
+        stlManager->scale(operationStlName,0.9);
     }
     if(event->key()==Qt::Key_X){
-        stlM->scale(operationStlName,1.1);
+        stlManager->scale(operationStlName,1.1);
     }
     if(event->key()==Qt::Key_U){
-        stlM->rotateX(operationStlName,10);
+        stlManager->rotateX(operationStlName,10);
     }
     if(event->key()==Qt::Key_I){
-        stlM->rotateY(operationStlName,10);
+        stlManager->rotateY(operationStlName,10);
     }
     if(event->key()==Qt::Key_O){
-        stlM->rotateZ(operationStlName,10);
+        stlManager->rotateZ(operationStlName,10);
     }
     if(event->key()==Qt::Key_J){
-        stlM->rotateX(operationStlName,-10);
+        stlManager->rotateX(operationStlName,-10);
     }
     if(event->key()==Qt::Key_K){
-        stlM->rotateY(operationStlName,-10);
+        stlManager->rotateY(operationStlName,-10);
     }
     if(event->key()==Qt::Key_L){
-        stlM->rotateZ(operationStlName,-10);
+        stlManager->rotateZ(operationStlName,-10);
     }
-    if(event->key()==Qt::Key_M){
-        //åŠ è½½äººä½“
-        operationStlName="body";
-        vtkSmartPointer<vtkActor> operationActor=stlM->LoadStl("E:/MNavigation/externalResources/body.stl",operationStlName);
-        operationActor->GetProperty()->SetOpacity(0.2);
-        operationActor->GetProperty()->SetColor(0.243,0.5725,0.843);
-        volumeWidget->getRenderer()->AddActor(operationActor);
-        volumeWidget->getQVTKWidget()->GetRenderWindow()->Render();
-    }
+
+    /**
+      *¼ÓÔØÈËÌåµÄ¹¦ÄÜÒÑ¾­ÁĞÈëstlLoadDialog¶Ô»°¿òµÄÑ¡ÏîÖĞ£¬
+      * OpacityºÍColorµÄÉèÖÃÒ²ÒÆÖ²ÁË¹ıÈ¥
+      */
+//    if(event->key()==Qt::Key_M){
+//        //¼ÓÔØÈËÌå
+//        operationStlName="body";
+//        vtkSmartPointer<vtkActor> operationActor=stlManager->LoadStl(QDir::currentPath()+"/externalResources/body.stl",operationStlName);
+//        operationActor->GetProperty()->SetOpacity(0.2);
+//        operationActor->GetProperty()->SetColor(0.243,0.5725,0.843);
+//        volumeWidget->getRenderer()->AddActor(operationActor);
+//        volumeWidget->getQVTKWidget()->GetRenderWindow()->Render();
+//    }
     if(event->key()==Qt::Key_V){
         canTarger=!canTarger;
     }
     volumeWidget->updateRender();
 }
+void MainWindow::deleteButtonClicked(){
+    if(!volumeWidget->hasVolumeData()){
+        return ;
+    }
+    //Ã¿´Îµ¯³ö¶Ô»°¿òÖ®Ç°¸üĞÂµ±Ç°³¡¾°ÖĞÒÑ¾­¼ÓÔØµÄ.stlÄ£ĞÍµÄ±êÊ¶·ûÓĞÄÄĞ©
+    stlDeleteDialog->setGridTexts(stlManager->getActorList());
+    stlDeleteDialog->show();
+}
 
-//ç»¿è‰²æŒ‰é’®1ç‚¹å‡»äº‹ä»¶
+void MainWindow::deleteStl(QString name, int index){
+    //Èç¹ûµ±ÆÚ²Ù×÷µÄ.stlÎªÒªÉ¾³ıµÄ£¬ÄÇÃ´ÖÃ¿Õ
+//    if(operationStlName.compare(name)){
+//         operationStlName=NULL;
+//    }
+    stlManager->deleteActor(name,volumeWidget->getRenderer());
+}
+
+//ÂÌÉ«°´Å¥1µã»÷ÊÂ¼ş,µ¯³ö¶Ô»°¿ò£¬Ñ¡ÔñÒª¼ÓÔØµÄ.stlÄ£ĞÍ
 void MainWindow::greenButton1Clicked(){
-    qDebug()<<"MainWindow::greenButton1Clicked";
-    //åŠ è½½æ¢é’ˆ1
+    //µ¯³ö¶Ô»°¿ò£¬Ñ¡ÔñÒª¼ÓÔØµÄ.stlÄ£ĞÍ
     if(volumeWidget->hasVolumeData()){
-        operationStlName="gx_1";
-        volumeWidget->getRenderer()->AddActor(stlM->LoadStl("E:/MNavigation/externalResources/qx_1.stl",operationStlName));
-        volumeWidget->getQVTKWidget()->GetRenderWindow()->Render();
+        stlLoadDialog->show();
     }
 }
 
-//ç»¿è‰²æŒ‰é’®2ç‚¹å‡»äº‹ä»¶
+/**
+ * @brief MainWindow::loadStl
+ *  Ìå»æÖÆ´°¿Ú¼ÓÔØ.stlÄ£ĞÍ
+ * @param name
+ * Ä£ĞÍÃû
+ * @param index
+ */
+void MainWindow::loadStl(QString name, int index){
+    //Ä¬ÈÏµ±Ç°²Ù×÷µÄ.stlÄ£ĞÍÎª×îºó¼ÓÔØµÄÄÇ¸ö
+    operationStlName=name;
+
+    QString dirPath=QDir::currentPath()+"/externalResources/";
+    /*¸ù¾İÑ¡ÔñµÄ.stlÃû¼ÓÔØ¿Ø¼ş£¬
+     * TODO ÕâÀïÓ¦¸Ã¶ÁÈ¡ÅäÖÃÎÄ¼ş
+     */
+    switch(index){
+    case 0:
+        dirPath+="qx_1.stl";
+        break;
+    case 1:
+        dirPath+="YLQX_A_1.stl";
+        break;
+    case 2:
+        dirPath+="YLQX_B_1.stl";
+        break;
+    case 3:
+        dirPath+="YLQX_C_1.stl";
+        break;
+    case 4:
+        dirPath+="YLQX_D.stl";
+        break;
+    case 5:
+        dirPath+="YLQX_E.stl";
+        break;
+    case 6:
+        dirPath+="body.stl";
+    }
+    vtkSmartPointer<vtkActor> operationActor=stlManager->LoadStl(dirPath,operationStlName);
+    if(operationActor==NULL){
+        return;
+    }
+    //Èç¹ûÎªÈËÌå£¬Ä¬ÈÏÉèÖÃÁËÒ»Ğ©ÑÕÉ«ºÍÍ¸Ã÷¶È
+    //TODO ¶Ô.stlÄ£ĞÍÑÕÉ«ºÍÍ¸Ã÷¶ÈµÄÉèÖÃÓ¦¸Ã·ÅÔÚstlManageranagerÕâ¸öÀàÖĞ
+    if(index==6){
+        operationActor->GetProperty()->SetOpacity(0.2);
+        operationActor->GetProperty()->SetColor(0.243,0.5725,0.843);
+    }
+    volumeWidget->getRenderer()->AddActor(operationActor);
+    volumeWidget->getQVTKWidget()->GetRenderWindow()->Render();
+}
+
+void MainWindow::selectStl(QString name, int index){
+    operationStlName=name;
+}
+
+//ÂÌÉ«°´Å¥2µã»÷ÊÂ¼ş£¬µ¯³ö¶Ô»°¿ò£¬Ñ¡ÔñÄãÒª²Ù×÷µÄ.stlÄ£ĞÍ
 void MainWindow::greenButton2Clicked(){
     qDebug()<<"on_greenButton2_clicked";
+    if(!volumeWidget->hasVolumeData()){
+        return;
+    }
+    //Ã¿´Îµ¯³ö¶Ô»°¿òÖ®Ç°¸üĞÂµ±Ç°³¡¾°ÖĞÒÑ¾­¼ÓÔØµÄ.stlÄ£ĞÍµÄ±êÊ¶·ûÓĞÄÄĞ©
+    stlSelectDialog->setGridTexts(stlManager->getActorList());
+    stlSelectDialog->show();
 
+    /*  ÒÔÏÂ´úÂëÎªÀÏ°æ±¾ÂÌÉ«°´Å¥2¹¦ÄÜ£¬²¥·ÅÒ»¸ö×Ô¶¨ÒåµÄ¶¯»­
     vtkSmartPointer<vtkRenderWindow> renWin =volumeWidget->getQVTKWidget()->GetRenderWindow();
     vtkSmartPointer<vtkRenderer> m_pRenderer=volumeWidget->getRenderer();
     //    vtkSmartPointer<vtkRenderWindowInteractor> iren =vtkSmartPointer<vtkRenderWindowInteractor>::New();
@@ -483,8 +619,8 @@ void MainWindow::greenButton2Clicked(){
     //  renWin->AddRenderer(m_pRenderer);
     //  iren->SetRenderWindow(renWin);
     vtkSmartPointer<vtkSphereSource> sphere =vtkSmartPointer<vtkSphereSource>::New();
-    sphere->SetCenter(0,0,0);   // è®¾ç½®ä¸­å¿ƒ
-    sphere->SetRadius(10);             // è®¾ç½®åŠå¾„
+    sphere->SetCenter(0,0,0);   // ÉèÖÃÖĞĞÄ
+    sphere->SetRadius(10);             // ÉèÖÃ°ë¾¶
     sphere->SetThetaResolution(52);
     sphere->SetPhiResolution(52);
     vtkSmartPointer<vtkPolyDataMapper> mapper =vtkSmartPointer<vtkPolyDataMapper>::New();
@@ -526,8 +662,10 @@ void MainWindow::greenButton2Clicked(){
 
     scene->Play();
     scene->Stop();
+    */
 
-    /*
+
+    /*ÒÔÏÂ´úÂëÎªÊÖ¶¯»æÖÆĞ¡Çò£¬²¢¸ù¾İµã»÷´ÎÊıÒÆ¶¯
     if(clickTimes>0){
         qDebug()<<"clickTimes:"<<clickTimes;
         qDebug()<<"actors:"<<m_pRenderer->GetActors()->GetNumberOfItems();
@@ -535,8 +673,8 @@ void MainWindow::greenButton2Clicked(){
     }
     clickTimes++;
     vtkSmartPointer<vtkSphereSource> sphere =vtkSmartPointer<vtkSphereSource>::New();
-    sphere->SetCenter(clickTimes*20,0,0);   // è®¾ç½®ä¸­å¿ƒ
-    sphere->SetRadius(10);             // è®¾ç½®åŠå¾„
+    sphere->SetCenter(clickTimes*20,0,0);   // ÉèÖÃÖĞĞÄ
+    sphere->SetRadius(10);             // ÉèÖÃ°ë¾¶
     sphere->SetThetaResolution(52);
     sphere->SetPhiResolution(52);
     vtkSmartPointer<vtkPolyDataMapper> mapper =vtkSmartPointer<vtkPolyDataMapper>::New();
