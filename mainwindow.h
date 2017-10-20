@@ -100,11 +100,10 @@ public slots:
 
 	void greenButton1Clicked();
 	void greenButton2Clicked();
-
-private slots:
-	
-    void volumeWidgetClick(vtkObject* obj, unsigned long, void*, void*);
-
+	void deleteButtonClicked();
+	void deleteStl(QString name, int index);
+	void loadStl(QString name, int index);
+	void selectStl(QString name, int index);
 protected:
 
     void update_background();

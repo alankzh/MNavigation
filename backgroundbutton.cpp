@@ -19,7 +19,7 @@ BackgroundButton::BackgroundButton(QWidget *parent):QWidget(parent)
  * @param flag
  * 背景图片格式
  */
-void BackgroundButton::setBackground( char* fileName, char* flag){
+void BackgroundButton::setBackground(const char* fileName,const char* flag){
     backgroundPix=QPixmap(fileName,flag);
     width=backgroundPix.size().width();
     height=backgroundPix.size().height();
