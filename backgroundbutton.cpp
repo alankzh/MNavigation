@@ -69,7 +69,6 @@ void BackgroundButton::mouseReleaseEvent(QMouseEvent *event){
     int y=event->pos().y();
     if(x >= 0 &&x <= width &&
                y >= 0 && y <= height){
-        qDebug()<<"emit!!!!!!!!!!";
         emit this->clicked();
     }
     update();

@@ -9,6 +9,10 @@ MyGridLayout::MyGridLayout(QWidget *parent):QGridLayout(parent)
 
 }
 
+MyGridLayout::~MyGridLayout(){
+    clearLayout();
+}
+
 /**
  * @brief MyGridLayout::setTexts
  * 设置gridLayout内部按钮text
@@ -24,13 +28,15 @@ void MyGridLayout::setTexts(QList<QString> list){
     //总行数
     rowCount=ceil((itemNames.size()+0.0)/columnCount);
     //设置填充的按钮
-    QSizePolicy sizePolicy(QSizePolicy::MinimumExpanding,QSizePolicy::Expanding);
+    QSizePolicy sizePolicy(QSizePolicy::Expanding,QSizePolicy::Expanding);
     sizePolicy.setWidthForHeight(1);
     for(int i=0;i<itemNames.size();i++){
         MyPushButton *button=new MyPushButton(itemNames[i]);
+        button->setMaximumHeight(60);
         button->setSizePolicy(sizePolicy);
         addWidget(button,i/columnCount,i - ((i/columnCount)*columnCount));
     }
+    update();
 }
 
 //清理里面存在的PushButton
@@ -94,13 +100,13 @@ void MyGridLayout::updateGeometry(){
     height=this->geometry().height();
     xPos=this->geometry().x();
     yPos=this->geometry().y();
-     qDebug()<<"width:"<<width<<" height:"<<height;
-    if(height>131){
-        QRect rect(xPos,yPos,width,131);
-        this->setGeometry(rect);
-        height=131;
-    }
-    qDebug()<<"width:"<<width<<" height:"<<height;
+//     qDebug()<<"width:"<<width<<" height:"<<height;
+//    if(height>131){
+//        QRect rect(xPos,yPos,width,131);
+//        this->setGeometry(rect);
+//        height=131;
+//    }
+//    qDebug()<<"width:"<<width<<" height:"<<height;
     //设置最小列宽，即按钮完全填充列
     for(int i=0;i<columnCount;i++){
         this->setColumnMinimumWidth(i, width/columnCount);

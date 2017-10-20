@@ -16,8 +16,8 @@ MyDialog::MyDialog(QWidget *parent):QDialog(parent)
     setWindowFlags(Qt::CustomizeWindowHint);
     setLayout(vLayout);
 
-    setMaximumHeight(200);
-    setMaximumWidth(200);
+    setMaximumSize(200,200);
+    setMinimumSize(200,200);
     //设置为如果不处理，则其他窗口的事件无法触发(按钮无法点击等)
     setModal(true);
 }
@@ -76,6 +76,7 @@ void MyDialog::showEvent(QShowEvent *event){
 void MyDialog::setGridTexts(QList<QString> list){
   //  myGrid->setTexts(list);
     myGrid->setTexts(list);
+    update();
 }
 
 /**
@@ -98,3 +99,4 @@ void MyDialog::setHint(QString str){
 void MyDialog::activeQuit(){
     this->close();
 }
+

@@ -69,8 +69,8 @@
   <widget class="QPushButton" name="navigationButton">
    <property name="geometry">
     <rect>
-     <x>510</x>
-     <y>3</y>
+     <x>480</x>
+     <y>10</y>
      <width>120</width>
      <height>45</height>
     </rect>

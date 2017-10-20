@@ -87,13 +87,17 @@ void MainWindow::setLayout(){
     greenButton2->setPos(1531,118);
     stlSelectDialog->setGeometry(greenButton2->getXpos()-100,greenButton2->getYpos()+100,200,200);
     stlSelectDialog->setHint(QString::fromLocal8Bit("选中你要操作的.stl模型"));
+    stlSelectDialog->setGridTexts(stlList);
 
     navigationButton->setPos(510,3);
     navigationButton->setBackground(":/resources/navigation.png","png");
     stlDeleteButton->setGeometry(730,3,80,43);
     stlDeleteButton->setText(QString::fromLocal8Bit("删除.stl"));
+
     stlDeleteDialog->setGeometry(stlDeleteButton->x(),stlDeleteButton->y()+150,200,200);
     stlDeleteDialog->setHint(QString::fromLocal8Bit("选择删除场景中的.stl模型"));
+    stlDeleteDialog->setGridTexts(stlList);
+
     exitButton->setPos(1530,3);
     exitButton->setBackground(":/resources/mainPower.png","png");
     exitButton->setClickedColor(QColor(95,100,137,150));
@@ -524,7 +528,7 @@ void MainWindow::deleteButtonClicked(){
         return ;
     }
     //每次弹出对话框之前更新当前场景中已经加载的.stl模型的标识符有哪些
-    stlDeleteDialog->setGridTexts(stlManager->getActorList());
+    //stlDeleteDialog->setGridTexts(stlManager->getActorList());
     stlDeleteDialog->show();
 }
 
@@ -554,7 +558,7 @@ void MainWindow::greenButton1Clicked(){
 void MainWindow::loadStl(QString name, int index){
     //默认当前操作的.stl模型为最后加载的那个
     operationStlName=name;
-
+    qDebug()<<"MainWindow::loadStl";
     QString dirPath=QDir::currentPath()+"/externalResources/";
     /*根据选择的.stl名加载控件，
      * TODO 这里应该读取配置文件
@@ -605,8 +609,8 @@ void MainWindow::greenButton2Clicked(){
     if(!volumeWidget->hasVolumeData()){
         return;
     }
-    //每次弹出对话框之前更新当前场景中已经加载的.stl模型的标识符有哪些
-    stlSelectDialog->setGridTexts(stlManager->getActorList());
+
+   // stlSelectDialog->setGridTexts(stlManager->getActorList());
     stlSelectDialog->show();
 
     /*  以下代码为老版本绿色按钮2功能，播放一个自定义的动画
