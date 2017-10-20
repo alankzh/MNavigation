@@ -1,4 +1,4 @@
-ï»¿#ifndef INITIAL_OPENGL
+#ifndef INITIAL_OPENGL
 #define INITIAL_OPENGL
 #include <vtkAutoInit.h>
 VTK_MODULE_INIT(vtkRenderingOpenGL)
@@ -11,17 +11,18 @@ VTK_MODULE_INIT(vtkRenderingVolumeOpenGL)
 #include "mainwindow.h"
 #include <QFile>
 
-//ç¨‹åºå…¥å£
+//³ÌĞòÈë¿Ú
 int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
-    vtkOutputWindow::GlobalWarningDisplayOff();//å…³é—­ä¼´éšçš„vtkOutputWindow
-    //æµ‹è¯•åŠŸèƒ½ç”¨çª—å£
-  //  Widget w;
+    vtkOutputWindow::GlobalWarningDisplayOff();//¹Ø±Õ°éËæµÄvtkOutputWindow
+    //²âÊÔ¹¦ÄÜÓÃ´°¿Ú
+//    Widget w;
  //   w.setWindowFlags(Qt::CustomizeWindowHint|Qt::WindowTitleHint|Qt::WindowCloseButtonHint);
 
-    //ä¸»çª—å£ï¼Œç¨³å®šã€‚
+    //Ö÷´°¿Ú£¬ÎÈ¶¨¡£
     MainWindow w;
+
     w.show();
     return a.exec();
 }

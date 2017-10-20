@@ -10,12 +10,10 @@
  * @brief The GreenButton class
  * 这里是主窗口右上方两个绿色按钮的封装类
  */
-class GreenButton : public QWidget
+class  GreenButton : public QWidget
 {
     Q_OBJECT
-
 public:
-
     GreenButton(QWidget *parent);
 
     bool setPos(int x,int y);

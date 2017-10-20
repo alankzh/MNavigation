@@ -11,7 +11,8 @@
 #include "vtkcustomtransformanimationcue.h"
 #include "stlmanager.h"
 #include "actormanager.h"
-
+#include "mygridlayout.h"
+#include "mydialog.h"
 /**
  * @brief The MainWindow class
  * 这是主窗口
@@ -22,6 +23,7 @@ class MainWindow : public QWidget
 public:
     MainWindow(QWidget *parent = 0);
     ~MainWindow();
+
 
 private:
     bool m_embedded;
@@ -39,7 +41,7 @@ private:
 
     void onOpenVolumeDir();
 
-    stlManager *stlM;
+    StlManager *stlManager;
     actorManager *actorM;
 
     GreenButton *greenButton1;
@@ -57,7 +59,13 @@ private:
     QSlider *coronalSlider;
     QSlider *axialSlider;
     QSlider *sagitalSlider;
-
+    QLabel *sagitalLabel;
+    QLabel *axialLabel;
+    QLabel *coronalLabel;
+    MyDialog *stlLoadDialog;//选择加载哪个.stl模型
+    MyDialog *stlSelectDialog;//选择操作哪个.stl模型
+    MyDialog *stlDeleteDialog;//选择删除哪个.stl模型
+    QPushButton *stlDeleteButton;//按下弹出删除哪个.stl模型的对话框
     bool isOpenDir;
     int lastposition;
     //能否做标记
@@ -104,6 +112,8 @@ protected:
     virtual void paintEvent(QPaintEvent* event);
 
     virtual void keyPressEvent(QKeyEvent *event);
+
+    QList<QString> stlList={};
 };
 
 #endif // MAINWINDOW_H

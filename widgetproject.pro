@@ -138,7 +138,10 @@ SOURCES += main.cpp\
     vtkcustomtransformanimationcue.cpp \
     myslicerwidget.cpp \
     stlmanager.cpp \
-    actormanager.cpp
+    actormanager.cpp \
+    mypushbutton.cpp \
+    mygridlayout.cpp \
+    mydialog.cpp
 
 HEADERS  += widget.h \
     rendersetting.h \
@@ -151,7 +154,10 @@ HEADERS  += widget.h \
     myslicerwidget.h \
     qts.h \
     stlmanager.h \
-    actormanager.h
+    actormanager.h \
+    mypushbutton.h \
+    mygridlayout.h \
+    mydialog.h
 
 FORMS    += widget.ui
 

@@ -151,7 +151,7 @@ private:
     //当前操作的stl名
     QString operationStlName;
 
-    stlManager *stlM;
+    StlManager *stlM;
     double proportionZ;
     double proportionY;
     double proportionX;

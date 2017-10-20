@@ -7,5 +7,5 @@
 #include <QHBoxLayout>
 #include <QVBoxLayout>
 #include <QVTKWidget.h>
-
+#include <qsizepolicy.h>
 #endif // QTS_H

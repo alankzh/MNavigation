@@ -2,7 +2,6 @@
 
 GreenButton::GreenButton(QWidget *parent):QWidget(parent)
 {
-
     this->isClicked=false;
     this->xPos=this->x();
     this->yPos=this->y();

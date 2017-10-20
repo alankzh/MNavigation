@@ -51,7 +51,13 @@ void Widget::init(){
     isOpenDir=false;
     canPaintSphere=false;
 
-    stlM=new stlManager();
+    stlM=new StlManager();
+
+    qDebug()<<"current applicationDirPath: "<<QCoreApplication::applicationDirPath();
+    qDebug()<<"current currentPath: "<<QDir::currentPath();
+ //   ui->sagitalLabel->setText("applicationDirPath:"+QCoreApplication::applicationDirPath());
+ //   ui->axialLabel->setText(" currentPath:"+QDir::currentPath());
+
 }
 
 void Widget::style(){
@@ -136,7 +142,7 @@ void Widget::onOpenVolumeDir(){
     }
     qDebug()<<"onOpenVolumeDir";
     //TODO
-    //  QString dirPath=QFileDialog::getExistingDirectory(this,tr("打开体绘制数据存储文件夹"),"/",QFileDialog::ShowDirsOnly | QFileDialog::DontResolveSymlinks);
+    // QString dirPath=QFileDialog::getExistingDirectory(this,tr("打开体绘制数据存储文件夹"),"/",QFileDialog::ShowDirsOnly | QFileDialog::DontResolveSymlinks);
     QString dirPath="E:/vtkDataSource/Demo Data Spine/dicom";
     qDebug()<<dirPath;
     if(dirPath.isEmpty()==true) {
@@ -346,7 +352,7 @@ void Widget::sagitalClicked(vtkObject *obj, unsigned long, void*, void*){
     qDebug()<<"EventPointY:"<<EventPointY;
     if(adjust[0]>0&&adjust[1]>0){
         if(canTarger){
-              m_pRenderer->AddActor(getSphereActor(adjust[0],adjust[1],adjust[2]));
+            m_pRenderer->AddActor(getSphereActor(adjust[0],adjust[1],adjust[2]));
 
             m_sagitalViewer2->GetRenderer()->AddActor(getLineActorXY(adjust[0]+1,adjust[1],adjust[0]+10,adjust[1]));
             m_sagitalViewer2->GetRenderer()->AddActor(getLineActorXY(adjust[0],adjust[1]+1,adjust[0],adjust[1]+10));
@@ -630,7 +636,7 @@ void Widget::keyPressEvent(QKeyEvent *event){
     }
     if(event->key()==Qt::Key_M){
         operationStlName="body";
-        operationActor=stlM->LoadStl("E:/MNavigation/externalResources/body.stl",operationStlName);
+        operationActor=stlM->LoadStl(QDir::currentPath()+"/externalResources/body.stl",operationStlName);
         operationActor->GetProperty()->SetOpacity(0.2);
         operationActor->GetProperty()->SetColor(0.243,0.5725,0.843);
         m_pRenderer->AddActor(operationActor);
@@ -762,7 +768,7 @@ void Widget::on_greenButton1_clicked()
     qDebug()<<"on_greenButton1_clicked";
     canPaintSphere=!canPaintSphere;
     operationStlName="gx_1";
-    m_pRenderer->AddActor(stlM->LoadStl("E:/MNavigation/externalResources/qx_1.stl",operationStlName));
+    m_pRenderer->AddActor(stlM->LoadStl(QDir::currentPath()+"/externalResources/qx_1.stl",operationStlName));
     volumeWidget->GetRenderWindow()->Render();
 }
 
