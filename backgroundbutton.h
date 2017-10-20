@@ -13,7 +13,7 @@ public:
     int getXpos();
     int getYpos();
 
-    void setBackground(char* fileName,char* flag);
+    void setBackground(const char* fileName,const char* flag);
     void setClickedColor(QColor color);
 
 protected :

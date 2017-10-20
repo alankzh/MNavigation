@@ -1,5 +1,5 @@
 ﻿#include "mainwindow.h"
-
+#include "CoordinateConverter.h"
 
 MainWindow::MainWindow(QWidget *parent)
     : QWidget(0, Qt::FramelessWindowHint), m_embedded(false)
@@ -16,6 +16,7 @@ MainWindow::MainWindow(QWidget *parent)
     QPushButton *textButton1=new QPushButton(this);
     textButton1->setGeometry(1531,434,60,60);
 }
+
 MainWindow::~MainWindow()
 {
 }
@@ -109,10 +110,7 @@ void MainWindow::setDrawConnection(){
     connect(coronalSlider,SIGNAL(valueChanged(int)),this,SLOT(cSlicerValueChange(int)));
     connect(greenButton1,SIGNAL(clicked()),this,SLOT(greenButton1Clicked()));
     connect(greenButton2,SIGNAL(clicked()),this,SLOT(greenButton2Clicked()));
-    vtkQtConnect->Connect(volumeWidget->getQVTKWidget()->GetRenderWindow()->GetInteractor(),vtkCommand::LeftButtonPressEvent,this,SLOT(volumeWidgetClick(vtkObject*, unsigned long, void*, void*)));
-    vtkQtConnect->Connect(sagitalWidget->getQVTKWidget()->GetRenderWindow()->GetInteractor(),vtkCommand::LeftButtonPressEvent,this,SLOT(sagitalWidgetClick(vtkObject*, unsigned long, void*, void*)));
-    vtkQtConnect->Connect(axialWidget->getQVTKWidget()->GetRenderWindow()->GetInteractor(),vtkCommand::LeftButtonPressEvent,this,SLOT(axialWidgetClick(vtkObject*, unsigned long, void*, void*)));
-    vtkQtConnect->Connect(coronalWidget->getQVTKWidget()->GetRenderWindow()->GetInteractor(),vtkCommand::LeftButtonPressEvent,this,SLOT(coronalWidgetClick(vtkObject*, unsigned long, void*, void*)));
+    vtkQtConnect->Connect(volumeWidget->GetRenderWindow()->GetInteractor(),vtkCommand::LeftButtonPressEvent,this,SLOT(volumeWidgetClick(vtkObject*, unsigned long, void*, void*)));
 }
 
 //体绘制窗口下滑动条 拖动触发事件
@@ -124,14 +122,17 @@ void MainWindow::vSlicerValueChange(int v){
     volumeWidget->updateRender();
 
 }
+
 //sagital窗口下滑动条 拖动触发事件
 void MainWindow::sSlicerValueChange(int v){
     sagitalWidget->setSlicerValue(v);
 }
+
 //axial窗口下滑动条 拖动触发事件
 void MainWindow::aSlicerValueChange(int v){
     axialWidget->setSlicerValue(v);
 }
+
 //coronal窗口下滑动条 拖动触发事件
 void MainWindow::cSlicerValueChange(int v){
     coronalWidget->setSlicerValue(v);
@@ -142,16 +143,18 @@ void MainWindow::navigationClicked(){
     qDebug()<<"MainWindow::navigationClicked";
     onOpenVolumeDir();
 }
+
 //点击退出
 void MainWindow::exitClicked(){
     qDebug()<<"MainWindow::exitClicked";
     //TODO 退出应该弹出窗口请求确认
     QCoreApplication::instance()->quit();
 }
+
 //十字交叉按钮
 void MainWindow::translateClicked(){
     qDebug()<<"MainWindow::translateClicked";
-    if(volumeWidget->getQVTKWidget()->width()<1000){
+    if(volumeWidget->width()<1000){
         volumeWidget->setLocation(20,55,1490,765);
         volumeSlider->setGeometry(20,830,1490,20);
         coronalSlider->hide();
@@ -162,14 +165,16 @@ void MainWindow::translateClicked(){
         coronalSlider->show();
         axialSlider->show();
     }
-    volumeWidget->getQVTKWidget()->raise();
+    volumeWidget->raise();
     update();
 }
+
 //放大按钮点击
 void MainWindow::magnifyClicked(){
     qDebug()<<"MainWindow::magnifyClicked";
     //TODO 我tm也不知道这个按钮设计来干啥的
 }
+
 //缩小按钮
 void MainWindow::shrinkCliked(){
     qDebug()<<"MainWindow::shrinkCliked";
@@ -185,102 +190,6 @@ void MainWindow::paintEvent(QPaintEvent* e)
 
 //体绘制窗口点击事件
 void MainWindow::volumeWidgetClick(vtkObject* obj, unsigned long, void*, void*){
-
-}
-//sagital截面窗口点击事件
-void MainWindow::sagitalWidgetClick(vtkObject* obj, unsigned long, void*, void*){
-    qDebug()<<"MainWindow::sagitalClicked";
-    //在三个截面窗口上联动，并绘制标记
-    vtkSmartPointer<vtkImageViewer2> m_sagitalViewer2=sagitalWidget->getImageViewer2();
-    vtkSmartPointer<vtkImageViewer2> m_axialViewer2=axialWidget->getImageViewer2();
-    vtkSmartPointer<vtkImageViewer2> m_coronalViewer2=coronalWidget->getImageViewer2();
-    vtkRenderWindowInteractor* iren = vtkRenderWindowInteractor::SafeDownCast(obj);
-    int EventPointX = iren->GetEventPosition()[0];
-    int EventPointY = iren->GetEventPosition()[1];
-    vtkImageActor* Actor = m_sagitalViewer2->GetImageActor();
-    vtkRenderer* Renderer= m_sagitalViewer2->GetRenderer();
-    /*BEGIN 以下是殊峰做的坐标转换*/
-    double* boundary;
-    boundary = Actor->GetBounds();
-    int* Size = Renderer->GetSize();
-    double ViewEventPointX = (double)EventPointX * 2 / Size[0] - 1;
-    double ViewEventPointY = (double)EventPointY * 2 / Size[1] - 1;
-    double x = boundary[1];//长
-    double y = boundary[3];//宽
-    double z = boundary[5];//高
-    vtkVector3d origin = vtkVector3d(0, 0, z);
-    vtkVector3d xEnd = vtkVector3d(x, 0, z);
-    vtkVector3d yEnd = vtkVector3d(0, y, z);
-
-    vtkVector3d originView = origin;
-    Renderer->WorldToView(originView[0],originView[1],originView[2]);
-    vtkVector3d xView=xEnd;
-    Renderer->WorldToView(xView[0], xView[1], xView[2]);
-    vtkVector3d yView=yEnd;
-    Renderer->WorldToView(yView[0],yView[1],yView[2]);
-
-    double xRatio = (ViewEventPointX - originView[0]) / (xView[0] - originView[0]);
-    double yRatio = (ViewEventPointY - originView[1]) / (yView[1] - originView[1]);
-
-    vtkVector3d targetPosition = vtkVector3d();
-    targetPosition[0] = xRatio * (xEnd[0] - origin[0]) + origin[0];
-    targetPosition[1] = yRatio * (yEnd[1] - origin[1]) + origin[1];
-    targetPosition[2] = origin[2];
-    vtkMatrix4x4* matrix = volumeWidget->getVolume()->GetMatrix();
-    vtkVector3d adjust = vtkVector3d(matrix->MultiplyDoublePoint(targetPosition.GetData()));
-    /*END 殊峰做的坐标转换结束*/
-
-    //绘制 十字线段标记
-    if(adjust[0]>0&&adjust[1]>0){
-        if(canTarger){
-            volumeWidget->getRenderer()->AddActor(actorM->getSphereActor(adjust[0],adjust[1],adjust[2]));
-
-            //sagital截面绘制十字，z轴高度一定
-            m_sagitalViewer2->GetRenderer()->AddActor(actorM->getLineActor(adjust[0]+1,adjust[1],350,adjust[0]+10,adjust[1],350));
-            m_sagitalViewer2->GetRenderer()->AddActor(actorM->getLineActor(adjust[0],adjust[1]+1,350,adjust[0],adjust[1]+10,350));
-            m_sagitalViewer2->GetRenderer()->AddActor(actorM->getLineActor(adjust[0]-1,adjust[1],350,adjust[0]-10,adjust[1],350));
-            m_sagitalViewer2->GetRenderer()->AddActor(actorM->getLineActor(adjust[0],adjust[1]-1,350,adjust[0],adjust[1]-10,350));
-
-           //axial截面绘制十字，y轴高度一定
-            m_axialViewer2->GetRenderer()->AddActor(actorM->getLineActor(adjust[0]+1,999,adjust[2],adjust[0]+10,999,adjust[2]));
-            m_axialViewer2->GetRenderer()->AddActor(actorM->getLineActor(adjust[0],999,adjust[2]+1,adjust[0],999,adjust[2]+10));
-            m_axialViewer2->GetRenderer()->AddActor(actorM->getLineActor(adjust[0]-1,999,adjust[2],adjust[0]-10,999,adjust[2]));
-            m_axialViewer2->GetRenderer()->AddActor(actorM->getLineActor(adjust[0],999,adjust[2]-1,adjust[0],999,adjust[2]-10));
-
-
-              //coronal截面绘制十字，x轴高度一定
-            m_coronalViewer2->GetRenderer()->AddActor(actorM->getLineActor(699,adjust[1]+1,adjust[2],699,adjust[1]+10,adjust[2]));
-            m_coronalViewer2->GetRenderer()->AddActor(actorM->getLineActor(699,adjust[1],adjust[2]+1,699,adjust[1],adjust[2]+10));
-            m_coronalViewer2->GetRenderer()->AddActor(actorM->getLineActor(699,adjust[1]-1,adjust[2],699,adjust[1]-10,adjust[2]));
-            m_coronalViewer2->GetRenderer()->AddActor(actorM->getLineActor(699,adjust[1],adjust[2]-1,699,adjust[1],adjust[2]-10));
-
-            //这样操作之后，绘制的十字层级会正确显示
-            sagitalSlider->setValue(sagitalSlider->value()+1);
-            sagitalSlider->setValue(sagitalSlider->value()-1);
-            axialSlider->setValue(axialSlider->value()+1);
-            axialSlider->setValue(axialSlider->value()-1);
-            coronalSlider->setValue(coronalSlider->value()+1);
-            coronalSlider->setValue(coronalSlider->value()-1);
-        }else{
-        }
-        sagitalWidget->updateRender();
-
-        volumeWidget->getQVTKWidget()->GetRenderWindow()->Render();
-
-        //坐标分发，将sagital截面的x坐标发送给coronal截面的切片，y坐标发送给axial截面的切片
-        axialSlider->setValue((int) adjust[1]/proportionY);
-        coronalSlider->setValue((int) adjust[0]/proportionX);
-        update();
-    }else{
-        return;
-    }
-}
-//axial截面窗口点击事件
-void MainWindow::axialWidgetClick(vtkObject* obj, unsigned long, void*, void*){
-
-}
-//coronal截面窗口点击事件
-void MainWindow::coronalWidgetClick(vtkObject* obj, unsigned long, void*, void*){
 
 }
 
@@ -451,7 +360,7 @@ void MainWindow::keyPressEvent(QKeyEvent *event){
         operationActor->GetProperty()->SetOpacity(0.2);
         operationActor->GetProperty()->SetColor(0.243,0.5725,0.843);
         volumeWidget->getRenderer()->AddActor(operationActor);
-        volumeWidget->getQVTKWidget()->GetRenderWindow()->Render();
+        volumeWidget->GetRenderWindow()->Render();
     }
     if(event->key()==Qt::Key_V){
         canTarger=!canTarger;
@@ -466,7 +375,7 @@ void MainWindow::greenButton1Clicked(){
     if(volumeWidget->hasVolumeData()){
         operationStlName="gx_1";
         volumeWidget->getRenderer()->AddActor(stlM->LoadStl("E:/MNavigation/externalResources/qx_1.stl",operationStlName));
-        volumeWidget->getQVTKWidget()->GetRenderWindow()->Render();
+        volumeWidget->GetRenderWindow()->Render();
     }
 }
 
@@ -474,7 +383,7 @@ void MainWindow::greenButton1Clicked(){
 void MainWindow::greenButton2Clicked(){
     qDebug()<<"on_greenButton2_clicked";
 
-    vtkSmartPointer<vtkRenderWindow> renWin =volumeWidget->getQVTKWidget()->GetRenderWindow();
+    vtkSmartPointer<vtkRenderWindow> renWin =volumeWidget->GetRenderWindow();
     vtkSmartPointer<vtkRenderer> m_pRenderer=volumeWidget->getRenderer();
     //    vtkSmartPointer<vtkRenderWindowInteractor> iren =vtkSmartPointer<vtkRenderWindowInteractor>::New();
     //   vtkSmartPointer<vtkInteractorStyleTrackballCamera> style=vtkSmartPointer<vtkInteractorStyleTrackballCamera>::New();
