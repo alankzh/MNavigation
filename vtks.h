@@ -34,4 +34,7 @@
 #include <vtkLine.h>
 #include <vtkLineSource.h>
 #include <vtkInteractorStyleTrackballCamera.h>
+#include <vtkImageMapper3D.h>
+#include <vtkImageSliceMapper.h>
+
 #endif

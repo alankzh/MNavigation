@@ -24,29 +24,7 @@ public:
     MainWindow(QWidget *parent = 0);
     ~MainWindow();
 
-public slots:
 
-    void navigationClicked();
-
-    void exitClicked();
-
-    void translateClicked();
-
-    void magnifyClicked();
-
-    void shrinkCliked();
-
-    void vSlicerValueChange(int v);
-    void sSlicerValueChange(int v);
-    void aSlicerValueChange(int v);
-    void cSlicerValueChange(int v);
-
-    void greenButton1Clicked();
-    void greenButton2Clicked();
-    void deleteButtonClicked();
-    void loadStl(QString name,int index);
-    void selectStl(QString name,int index);
-    void deleteStl(QString name,int index);
 private:
     bool m_embedded;
     QPixmap m_background;
@@ -103,12 +81,31 @@ private:
     double proportionZ;
     double proportionY;
     double proportionX;
-private slots:
-    void volumeWidgetClick(vtkObject* obj, unsigned long, void*, void*);
-    void sagitalWidgetClick(vtkObject* obj, unsigned long, void*, void*);
-    void axialWidgetClick(vtkObject* obj, unsigned long, void*, void*);
-    void coronalWidgetClick(vtkObject* obj, unsigned long, void*, void*);
+
+signals:
+	void Mark(vtkVector3d ModelPosition);
+
+public slots:
+
+	void navigationClicked();
+	void exitClicked();
+	void translateClicked();
+	void magnifyClicked();
+	void shrinkCliked();
+
+	void vSlicerValueChange(int v);
+	void sSlicerValueChange(int v);
+	void aSlicerValueChange(int v);
+	void cSlicerValueChange(int v);
+
+	void greenButton1Clicked();
+	void greenButton2Clicked();
+	void deleteButtonClicked();
+	void deleteStl(QString name, int index);
+	void loadStl(QString name, int index);
+	void selectStl(QString name, int index);
 protected:
+
     void update_background();
 
     virtual void paintEvent(QPaintEvent* event);

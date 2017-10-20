@@ -139,7 +139,8 @@ SOURCES += main.cpp\
     actormanager.cpp \
     mypushbutton.cpp \
     mygridlayout.cpp \
-    mydialog.cpp
+    mydialog.cpp \
+    CoordinateConverter.cpp
 
 HEADERS  += widget.h \
     rendersetting.h \
@@ -155,7 +156,8 @@ HEADERS  += widget.h \
     actormanager.h \
     mypushbutton.h \
     mygridlayout.h \
-    mydialog.h
+    mydialog.h \
+    CoordinateConverter.h
 
 FORMS    += widget.ui
 

@@ -1,15 +1,19 @@
 ﻿#include "myvolumewidget.h"
+#include "CoordinateConverter.h"
+#include "actormanager.h"
 
-myVolumeWidget::myVolumeWidget(QWidget *parent)
+myVolumeWidget::myVolumeWidget(QWidget *parent):QVTKWidget(parent)
 {
-    qvtkwidget=new QVTKWidget(parent);
     settingDefault=new RenderSetting();//构造函数初始化
     setLocation(20,55,735,365);//默认的几何位置
     //设置默认背景为黑色
     m_pRenderer=vtkSmartPointer<vtkRenderer>::New();
-    m_pRenderer->SetRenderWindow(qvtkwidget->GetRenderWindow());
+    m_pRenderer->SetRenderWindow(this->GetRenderWindow());
     m_pRenderer->ResetCamera();
     m_pRenderer->SetBackground(0,0,0);
+	vtkConnections = vtkSmartPointer<vtkEventQtSlotConnect>::New();
+	connect(this, SIGNAL(OnMarkClick(vtkVector3d)), parent, SIGNAL(Mark(vtkVector3d)));
+	connect(parent, SIGNAL(Mark(vtkVector3d)), this, SLOT(MarkReact(vtkVector3d)));
 }
 
 /**
@@ -56,11 +60,15 @@ bool myVolumeWidget::setVolumeData(const char *dirPath){
     volume->SetMapper( mapper );
     mapper->SetBlendModeToComposite();
 
+	VolumeBounds = vtkVector<double,6>(volume->GetBounds());
+
     m_pRenderer=vtkSmartPointer<vtkRenderer>::New();
-    qvtkwidget->GetRenderWindow()->AddRenderer(m_pRenderer);
-    qvtkwidget->GetRenderWindow()->GetInteractor()->GetInteractorStyle()->SetDefaultRenderer(m_pRenderer);
+    this->GetRenderWindow()->AddRenderer(m_pRenderer);
+    this->GetRenderWindow()->GetInteractor()->GetInteractorStyle()->SetDefaultRenderer(m_pRenderer);
     // Add the volume to the scene
     m_pRenderer->AddVolume( volume );
+
+	volume->RotateX(30);
     //    ui->volumeSlider->setRange(0,255);
     //    ui->volumeSlider->setValue(120);
     settingDefault->SetRenderType(RenderSetting::RenderType::CT_Bone);//默认的渲染
@@ -70,6 +78,7 @@ bool myVolumeWidget::setVolumeData(const char *dirPath){
     updateRender();
 
     hasVolume=true;
+	ListenMarkClick();
 
     return true;
 }
@@ -78,7 +87,7 @@ bool myVolumeWidget::setVolumeData(const char *dirPath){
  * 设置几何位置
 */
 void myVolumeWidget::setLocation(int x,int y,int width,int height){
-    qvtkwidget->setGeometry(x,y,width,height);
+    this->setGeometry(x,y,width,height);
 }
 
 /**
@@ -87,24 +96,17 @@ void myVolumeWidget::setLocation(int x,int y,int width,int height){
 void myVolumeWidget::renderValueChange(double shiftValue){
     settingDefault->ShiftRenderFunction(shiftValue,settingDefault->args->colorFun);
     settingDefault->ShiftRenderFunction(shiftValue,settingDefault->args->opacityFun);
-    qvtkwidget->GetRenderWindow()->Render();
+    this->GetRenderWindow()->Render();
 }
+
 /**
  * 更新绘制
  */
 void myVolumeWidget::updateRender(){
-    qvtkwidget->GetRenderWindow()->Render();
+    this->GetRenderWindow()->Render();
  //   qvtkwidget->GetRenderWindow()->GetInteractor()->Start();
 }
 
-
-/**
- * 获取此窗口内的核心控件QVTKWidget
- * 慎用
- */
-QVTKWidget* myVolumeWidget::getQVTKWidget(){
-    return qvtkwidget;
-}
 /**
  * 获取此窗口内的核心控件vtkImageViewer2
  * 慎用
@@ -134,4 +136,27 @@ vtkSmartPointer<vtkVolume> myVolumeWidget::getVolume(){
  */
 bool myVolumeWidget::hasVolumeData(){
     return hasVolume;
+}
+
+vtkVector<double, 6> myVolumeWidget::GetVolumeBounds() const{
+	return VolumeBounds;
+}
+
+void myVolumeWidget::ListenMarkClick() {
+	vtkConnections->Connect(m_pRenderer->GetRenderWindow()->GetInteractor(), vtkCommand::LeftButtonPressEvent, this, SLOT(Mark(vtkObject*, unsigned long, void*, void*)));
+}
+
+// TO DO: calculate the right point's position in the volume, and emit the signal
+void myVolumeWidget::Mark(vtkObject* obj, unsigned long, void*, void*) {
+	vtkRenderWindowInteractor* iren = vtkRenderWindowInteractor::SafeDownCast(obj);
+	int EventPointX = iren->GetEventPosition()[0];
+	int EventPointY = iren->GetEventPosition()[1];
+}
+
+void myVolumeWidget::MarkReact(vtkVector3d ModelPosition) {
+	vtkVector3d worldPostion = CoordinateConverter::ModelToWorld(volume, ModelPosition);
+	actorManager* manager = new actorManager;
+	auto sphere = manager->getSphereActor(worldPostion[0], worldPostion[1], worldPostion[2]);
+	m_pRenderer->AddActor(sphere);
+	updateRender();
 }

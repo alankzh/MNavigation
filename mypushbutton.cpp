@@ -10,6 +10,5 @@ MyPushButton::MyPushButton(const QString &text,QWidget *parent):QPushButton(pare
 }
 
 void MyPushButton::mouseReleaseEvent(QMouseEvent *event){
-    //忽略事件，让父控件捕捉,layout布局不叫父控件
     event->ignore();
 }

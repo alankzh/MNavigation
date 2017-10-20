@@ -12,7 +12,6 @@ public:
     void setLocation(int x,int y,int w,int h);
     void setHint(QString);
 signals:
-     //信号函数，发送被点击的按钮名字
      void onItemClicked(QString itemName,int index);
 protected slots:
      void activeQuit();
