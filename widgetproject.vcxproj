@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Release|Win32">
@@ -16,7 +16,7 @@
     <Keyword>Qt4VSv1.0</Keyword>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+  <PropertyGroup Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Release|Win32&apos;" Label="Configuration">
     <PlatformToolset>v140</PlatformToolset>
     <OutputDirectory>release\</OutputDirectory>
     <ATLMinimizesCRunTimeLibraryUsage>false</ATLMinimizesCRunTimeLibraryUsage>
@@ -25,7 +25,7 @@
     <IntermediateDirectory>release\</IntermediateDirectory>
     <PrimaryOutput>widgetproject</PrimaryOutput>
   </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+  <PropertyGroup Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Debug|Win32&apos;" Label="Configuration">
     <PlatformToolset>v140</PlatformToolset>
     <OutputDirectory>debug\</OutputDirectory>
     <ATLMinimizesCRunTimeLibraryUsage>false</ATLMinimizesCRunTimeLibraryUsage>
@@ -36,38 +36,38 @@
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
   <ImportGroup Label="ExtensionSettings" />
-  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="PropertySheets">
-    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" />
+  <ImportGroup Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Release|Win32&apos;" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists(&apos;$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props&apos;)" />
   </ImportGroup>
-  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="PropertySheets">
-    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" />
+  <ImportGroup Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Debug|Win32&apos;" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists(&apos;$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props&apos;)" />
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup>
-    <OutDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">release\</OutDir>
-    <IntDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(Platform)\$(Configuration)\</IntDir>
-    <TargetName Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">widgetproject</TargetName>
-    <IgnoreImportLibrary Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</IgnoreImportLibrary>
-    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">false</LinkIncremental>
-    <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">debug\</OutDir>
-    <IntDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(Platform)\$(Configuration)\</IntDir>
-    <TargetName Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">widgetproject</TargetName>
-    <IgnoreImportLibrary Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</IgnoreImportLibrary>
+    <OutDir Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Release|Win32&apos;">release\</OutDir>
+    <IntDir Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Release|Win32&apos;">release\</IntDir>
+    <TargetName Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Release|Win32&apos;">widgetproject</TargetName>
+    <IgnoreImportLibrary Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Release|Win32&apos;">true</IgnoreImportLibrary>
+    <LinkIncremental Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Release|Win32&apos;">false</LinkIncremental>
+    <OutDir Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Debug|Win32&apos;">debug\</OutDir>
+    <IntDir Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Debug|Win32&apos;">debug\</IntDir>
+    <TargetName Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Debug|Win32&apos;">widgetproject</TargetName>
+    <IgnoreImportLibrary Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Debug|Win32&apos;">true</IgnoreImportLibrary>
   </PropertyGroup>
-  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+  <ItemDefinitionGroup Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Release|Win32&apos;">
     <ClCompile>
-      <AdditionalIncludeDirectories>.;..\..\vtk7.1.1\vtk-debug\include\vtk-7.1;$(QTDIR)\include;$(QTDIR)\include\QtWidgets;$(QTDIR)\include\QtGui;$(QTDIR)\include\QtANGLE;$(QTDIR)\include\QtCore;release;.;$(QTDIR)\mkspecs\win32-msvc2015;.\GeneratedFiles;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>.;E:\compile\SQP_EXL_20160420\vtk-debug\include\vtk-7.0;$(QTDIR)\include;$(QTDIR)\include\QtWidgets;$(QTDIR)\include\QtGui;$(QTDIR)\include\QtANGLE;$(QTDIR)\include\QtCore;release;.;$(QTDIR)\mkspecs\win32-msvc2015;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <AdditionalOptions>-Zc:strictStrings -Zc:throwingNew -w34100 -w34189 -w44996 -w44456 -w44457 -w44458 %(AdditionalOptions)</AdditionalOptions>
       <AssemblerListingLocation>release\</AssemblerListingLocation>
       <BrowseInformation>false</BrowseInformation>
       <DebugInformationFormat>None</DebugInformationFormat>
       <DisableSpecificWarnings>4577;4467;%(DisableSpecificWarnings)</DisableSpecificWarnings>
       <ExceptionHandling>Sync</ExceptionHandling>
-      <ObjectFileName>$(IntDir)</ObjectFileName>
+      <ObjectFileName>release\</ObjectFileName>
       <Optimization>MaxSpeed</Optimization>
       <PreprocessorDefinitions>_WINDOWS;UNICODE;WIN32;QT_NO_DEBUG;QT_WIDGETS_LIB;QT_GUI_LIB;QT_CORE_LIB;NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <PreprocessToFile>false</PreprocessToFile>
-      <ProgramDataBaseFileName>$(IntDir)vc$(PlatformToolsetVersion).pdb</ProgramDataBaseFileName>
+      <ProgramDataBaseFileName></ProgramDataBaseFileName>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
       <RuntimeTypeInfo>true</RuntimeTypeInfo>
       <SuppressStartupBanner>true</SuppressStartupBanner>
@@ -75,9 +75,9 @@
       <WarningLevel>Level3</WarningLevel>
     </ClCompile>
     <Link>
-      <AdditionalDependencies>$(QTDIR)\lib\qtmain.lib;shell32.lib;D:\vtk7.1.1\vtk-debug\lib\vtkalglib-7.1.lib;D:\vtk7.1.1\vtk-debug\lib\vtkChartsCore-7.1.lib;D:\vtk7.1.1\vtk-debug\lib\vtkCommonColor-7.1.lib;D:\vtk7.1.1\vtk-debug\lib\vtkCommonComputationalGeometry-7.1.lib;D:\vtk7.1.1\vtk-debug\lib\vtkCommonCore-7.1.lib;D:\vtk7.1.1\vtk-debug\lib\vtkCommonDataModel-7.1.lib;D:\vtk7.1.1\vtk-debug\lib\vtkCommonExecutionModel-7.1.lib;D:\vtk7.1.1\vtk-debug\lib\vtkCommonMath-7.1.lib;D:\vtk7.1.1\vtk-debug\lib\vtkCommonMisc-7.1.lib;D:\vtk7.1.1\vtk-debug\lib\vtkCommonSystem-7.1.lib;D:\vtk7.1.1\vtk-debug\lib\vtkCommonTransforms-7.1.lib;D:\vtk7.1.1\vtk-debug\lib\vtkDICOMParser-7.1.lib;D:\vtk7.1.1\vtk-debug\lib\vtkDomainsChemistry-7.1.lib;D:\vtk7.1.1\vtk-debug\lib\vtkexoIIc-7.1.lib;D:\vtk7.1.1\vtk-debug\lib\vtkexpat-7.1.lib;D:\vtk7.1.1\vtk-debug\lib\vtkFiltersAMR-7.1.lib;D:\vtk7.1.1\vtk-debug\lib\vtkFiltersCore-7.1.lib;D:\vtk7.1.1\vtk-debug\lib\vtkFiltersExtraction-7.1.lib;D:\vtk7.1.1\vtk-debug\lib\vtkFiltersFlowPaths-7.1.lib;D:\vtk7.1.1\vtk-debug\lib\vtkFiltersGeneral-7.1.lib;D:\vtk7.1.1\vtk-debug\lib\vtkFiltersGeneric-7.1.lib;D:\vtk7.1.1\vtk-debug\lib\vtkFiltersGeometry-7.1.lib;D:\vtk7.1.1\vtk-debug\lib\vtkFiltersHybrid-7.1.lib;D:\vtk7.1.1\vtk-debug\lib\vtkFiltersHyperTree-7.1.lib;D:\vtk7.1.1\vtk-debug\lib\vtkFiltersImaging-7.1.lib;D:\vtk7.1.1\vtk-debug\lib\vtkFiltersModeling-7.1.lib;D:\vtk7.1.1\vtk-debug\lib\vtkFiltersParallel-7.1.lib;D:\vtk7.1.1\vtk-debug\lib\vtkFiltersParallelImaging-7.1.lib;D:\vtk7.1.1\vtk-debug\lib\vtkFiltersPoints-7.1.lib;D:\vtk7.1.1\vtk-debug\lib\vtkFiltersProgrammable-7.1.lib;D:\vtk7.1.1\vtk-debug\lib\vtkFiltersSelection-7.1.lib;D:\vtk7.1.1\vtk-debug\lib\vtkFiltersSMP-7.1.lib;D:\vtk7.1.1\vtk-debug\lib\vtkFiltersSources-7.1.lib;D:\vtk7.1.1\vtk-debug\lib\vtkFiltersStatistics-7.1.lib;D:\vtk7.1.1\vtk-debug\lib\vtkFiltersTexture-7.1.lib;D:\vtk7.1.1\vtk-debug\lib\vtkFiltersVerdict-7.1.lib;D:\vtk7.1.1\vtk-debug\lib\vtkfreetype-7.1.lib;D:\vtk7.1.1\vtk-debug\lib\vtkGeovisCore-7.1.lib;D:\vtk7.1.1\vtk-debug\lib\vtkgl2ps-7.1.lib;D:\vtk7.1.1\vtk-debug\lib\vtkGUISupportQt-7.1.lib;D:\vtk7.1.1\vtk-debug\lib\vtkGUISupportQtOpenGL-7.1.lib;D:\vtk7.1.1\vtk-debug\lib\vtkGUISupportQtSQL-7.1.lib;D:\vtk7.1.1\vtk-debug\lib\vtkhdf5-7.1.lib;D:\vtk7.1.1\vtk-debug\lib\vtkhdf5_hl-7.1.lib;D:\vtk7.1.1\vtk-debug\lib\vtkImagingColor-7.1.lib;D:\vtk7.1.1\vtk-debug\lib\vtkImagingCore-7.1.lib;D:\vtk7.1.1\vtk-debug\lib\vtkImagingFourier-7.1.lib;D:\vtk7.1.1\vtk-debug\lib\vtkImagingGeneral-7.1.lib;D:\vtk7.1.1\vtk-debug\lib\vtkImagingHybrid-7.1.lib;D:\vtk7.1.1\vtk-debug\lib\vtkImagingMath-7.1.lib;D:\vtk7.1.1\vtk-debug\lib\vtkImagingMorphological-7.1.lib;D:\vtk7.1.1\vtk-debug\lib\vtkImagingSources-7.1.lib;D:\vtk7.1.1\vtk-debug\lib\vtkImagingStatistics-7.1.lib;D:\vtk7.1.1\vtk-debug\lib\vtkImagingStencil-7.1.lib;D:\vtk7.1.1\vtk-debug\lib\vtkInfovisCore-7.1.lib;D:\vtk7.1.1\vtk-debug\lib\vtkInfovisLayout-7.1.lib;D:\vtk7.1.1\vtk-debug\lib\vtkInteractionImage-7.1.lib;D:\vtk7.1.1\vtk-debug\lib\vtkInteractionStyle-7.1.lib;D:\vtk7.1.1\vtk-debug\lib\vtkInteractionWidgets-7.1.lib;D:\vtk7.1.1\vtk-debug\lib\vtkIOAMR-7.1.lib;D:\vtk7.1.1\vtk-debug\lib\vtkIOCore-7.1.lib;D:\vtk7.1.1\vtk-debug\lib\vtkIOEnSight-7.1.lib;D:\vtk7.1.1\vtk-debug\lib\vtkIOExodus-7.1.lib;D:\vtk7.1.1\vtk-debug\lib\vtkIOExport-7.1.lib;D:\vtk7.1.1\vtk-debug\lib\vtkIOGeometry-7.1.lib;D:\vtk7.1.1\vtk-debug\lib\vtkIOImage-7.1.lib;D:\vtk7.1.1\vtk-debug\lib\vtkIOImport-7.1.lib;D:\vtk7.1.1\vtk-debug\lib\vtkIOInfovis-7.1.lib;D:\vtk7.1.1\vtk-debug\lib\vtkIOLegacy-7.1.lib;D:\vtk7.1.1\vtk-debug\lib\vtkIOLSDyna-7.1.lib;D:\vtk7.1.1\vtk-debug\lib\vtkIOMINC-7.1.lib;D:\vtk7.1.1\vtk-debug\lib\vtkIOMovie-7.1.lib;D:\vtk7.1.1\vtk-debug\lib\vtkIONetCDF-7.1.lib;D:\vtk7.1.1\vtk-debug\lib\vtkIOParallel-7.1.lib;D:\vtk7.1.1\vtk-debug\lib\vtkIOParallelXML-7.1.lib;D:\vtk7.1.1\vtk-debug\lib\vtkIOPLY-7.1.lib;D:\vtk7.1.1\vtk-debug\lib\vtkIOSQL-7.1.lib;D:\vtk7.1.1\vtk-debug\lib\vtkIOTecplotTable-7.1.lib;D:\vtk7.1.1\vtk-debug\lib\vtkIOVideo-7.1.lib;D:\vtk7.1.1\vtk-debug\lib\vtkIOXML-7.1.lib;D:\vtk7.1.1\vtk-debug\lib\vtkIOXMLParser-7.1.lib;D:\vtk7.1.1\vtk-debug\lib\vtkjpeg-7.1.lib;D:\vtk7.1.1\vtk-debug\lib\vtkjsoncpp-7.1.lib;D:\vtk7.1.1\vtk-debug\lib\vtklibxml2-7.1.lib;D:\vtk7.1.1\vtk-debug\lib\vtkmetaio-7.1.lib;D:\vtk7.1.1\vtk-debug\lib\vtkNetCDF-7.1.lib;D:\vtk7.1.1\vtk-debug\lib\vtkNetCDF_cxx-7.1.lib;D:\vtk7.1.1\vtk-debug\lib\vtkoggtheora-7.1.lib;D:\vtk7.1.1\vtk-debug\lib\vtkParallelCore-7.1.lib;D:\vtk7.1.1\vtk-debug\lib\vtkpng-7.1.lib;D:\vtk7.1.1\vtk-debug\lib\vtkproj4-7.1_d.lib;D:\vtk7.1.1\vtk-debug\lib\vtkRenderingAnnotation-7.1.lib;D:\vtk7.1.1\vtk-debug\lib\vtkRenderingContext2D-7.1.lib;D:\vtk7.1.1\vtk-debug\lib\vtkRenderingContextOpenGL-7.1.lib;D:\vtk7.1.1\vtk-debug\lib\vtkRenderingCore-7.1.lib;D:\vtk7.1.1\vtk-debug\lib\vtkRenderingFreeType-7.1.lib;D:\vtk7.1.1\vtk-debug\lib\vtkRenderingGL2PS-7.1.lib;D:\vtk7.1.1\vtk-debug\lib\vtkRenderingImage-7.1.lib;D:\vtk7.1.1\vtk-debug\lib\vtkRenderingLabel-7.1.lib;D:\vtk7.1.1\vtk-debug\lib\vtkRenderingLIC-7.1.lib;D:\vtk7.1.1\vtk-debug\lib\vtkRenderingLOD-7.1.lib;D:\vtk7.1.1\vtk-debug\lib\vtkRenderingOpenGL-7.1.lib;D:\vtk7.1.1\vtk-debug\lib\vtkRenderingQt-7.1.lib;D:\vtk7.1.1\vtk-debug\lib\vtkRenderingVolume-7.1.lib;D:\vtk7.1.1\vtk-debug\lib\vtkRenderingVolumeOpenGL-7.1.lib;D:\vtk7.1.1\vtk-debug\lib\vtksqlite-7.1.lib;D:\vtk7.1.1\vtk-debug\lib\vtksys-7.1.lib;D:\vtk7.1.1\vtk-debug\lib\vtktiff-7.1.lib;D:\vtk7.1.1\vtk-debug\lib\vtkverdict-7.1.lib;D:\vtk7.1.1\vtk-debug\lib\vtkViewsContext2D-7.1.lib;D:\vtk7.1.1\vtk-debug\lib\vtkViewsCore-7.1.lib;D:\vtk7.1.1\vtk-debug\lib\vtkViewsInfovis-7.1.lib;D:\vtk7.1.1\vtk-debug\lib\vtkViewsQt-7.1.lib;D:\vtk7.1.1\vtk-debug\lib\vtkzlib-7.1.lib;$(QTDIR)\lib\Qt5Widgets.lib;$(QTDIR)\lib\Qt5Gui.lib;$(QTDIR)\lib\Qt5Core.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>$(QTDIR)\lib\qtmain.lib;shell32.lib;E:\compile\SQP_EXL_20160420\vtk-debug\lib\vtkalglib-7.0.lib;E:\compile\SQP_EXL_20160420\vtk-debug\lib\vtkChartsCore-7.0.lib;E:\compile\SQP_EXL_20160420\vtk-debug\lib\vtkCommonColor-7.0.lib;E:\compile\SQP_EXL_20160420\vtk-debug\lib\vtkCommonComputationalGeometry-7.0.lib;E:\compile\SQP_EXL_20160420\vtk-debug\lib\vtkCommonCore-7.0.lib;E:\compile\SQP_EXL_20160420\vtk-debug\lib\vtkCommonDataModel-7.0.lib;E:\compile\SQP_EXL_20160420\vtk-debug\lib\vtkCommonExecutionModel-7.0.lib;E:\compile\SQP_EXL_20160420\vtk-debug\lib\vtkCommonMath-7.0.lib;E:\compile\SQP_EXL_20160420\vtk-debug\lib\vtkCommonMisc-7.0.lib;E:\compile\SQP_EXL_20160420\vtk-debug\lib\vtkCommonSystem-7.0.lib;E:\compile\SQP_EXL_20160420\vtk-debug\lib\vtkCommonTransforms-7.0.lib;E:\compile\SQP_EXL_20160420\vtk-debug\lib\vtkDICOMParser-7.0.lib;E:\compile\SQP_EXL_20160420\vtk-debug\lib\vtkDomainsChemistry-7.0.lib;E:\compile\SQP_EXL_20160420\vtk-debug\lib\vtkexoIIc-7.0.lib;E:\compile\SQP_EXL_20160420\vtk-debug\lib\vtkexpat-7.0.lib;E:\compile\SQP_EXL_20160420\vtk-debug\lib\vtkFiltersAMR-7.0.lib;E:\compile\SQP_EXL_20160420\vtk-debug\lib\vtkFiltersCore-7.0.lib;E:\compile\SQP_EXL_20160420\vtk-debug\lib\vtkFiltersExtraction-7.0.lib;E:\compile\SQP_EXL_20160420\vtk-debug\lib\vtkFiltersFlowPaths-7.0.lib;E:\compile\SQP_EXL_20160420\vtk-debug\lib\vtkFiltersGeneral-7.0.lib;E:\compile\SQP_EXL_20160420\vtk-debug\lib\vtkFiltersGeneric-7.0.lib;E:\compile\SQP_EXL_20160420\vtk-debug\lib\vtkFiltersGeometry-7.0.lib;E:\compile\SQP_EXL_20160420\vtk-debug\lib\vtkFiltersHybrid-7.0.lib;E:\compile\SQP_EXL_20160420\vtk-debug\lib\vtkFiltersHyperTree-7.0.lib;E:\compile\SQP_EXL_20160420\vtk-debug\lib\vtkFiltersImaging-7.0.lib;E:\compile\SQP_EXL_20160420\vtk-debug\lib\vtkFiltersModeling-7.0.lib;E:\compile\SQP_EXL_20160420\vtk-debug\lib\vtkFiltersParallel-7.0.lib;E:\compile\SQP_EXL_20160420\vtk-debug\lib\vtkFiltersParallelImaging-7.0.lib;E:\compile\SQP_EXL_20160420\vtk-debug\lib\vtkFiltersProgrammable-7.0.lib;E:\compile\SQP_EXL_20160420\vtk-debug\lib\vtkFiltersSelection-7.0.lib;E:\compile\SQP_EXL_20160420\vtk-debug\lib\vtkFiltersSMP-7.0.lib;E:\compile\SQP_EXL_20160420\vtk-debug\lib\vtkFiltersSources-7.0.lib;E:\compile\SQP_EXL_20160420\vtk-debug\lib\vtkFiltersStatistics-7.0.lib;E:\compile\SQP_EXL_20160420\vtk-debug\lib\vtkFiltersTexture-7.0.lib;E:\compile\SQP_EXL_20160420\vtk-debug\lib\vtkFiltersVerdict-7.0.lib;E:\compile\SQP_EXL_20160420\vtk-debug\lib\vtkfreetype-7.0.lib;E:\compile\SQP_EXL_20160420\vtk-debug\lib\vtkGeovisCore-7.0.lib;E:\compile\SQP_EXL_20160420\vtk-debug\lib\vtkgl2ps-7.0.lib;E:\compile\SQP_EXL_20160420\vtk-debug\lib\vtkGUISupportQt-7.0.lib;E:\compile\SQP_EXL_20160420\vtk-debug\lib\vtkGUISupportQtOpenGL-7.0.lib;E:\compile\SQP_EXL_20160420\vtk-debug\lib\vtkGUISupportQtSQL-7.0.lib;E:\compile\SQP_EXL_20160420\vtk-debug\lib\vtkhdf5-7.0.lib;E:\compile\SQP_EXL_20160420\vtk-debug\lib\vtkhdf5_hl-7.0.lib;E:\compile\SQP_EXL_20160420\vtk-debug\lib\vtkImagingColor-7.0.lib;E:\compile\SQP_EXL_20160420\vtk-debug\lib\vtkImagingCore-7.0.lib;E:\compile\SQP_EXL_20160420\vtk-debug\lib\vtkImagingFourier-7.0.lib;E:\compile\SQP_EXL_20160420\vtk-debug\lib\vtkImagingGeneral-7.0.lib;E:\compile\SQP_EXL_20160420\vtk-debug\lib\vtkImagingHybrid-7.0.lib;E:\compile\SQP_EXL_20160420\vtk-debug\lib\vtkImagingMath-7.0.lib;E:\compile\SQP_EXL_20160420\vtk-debug\lib\vtkImagingMorphological-7.0.lib;E:\compile\SQP_EXL_20160420\vtk-debug\lib\vtkImagingSources-7.0.lib;E:\compile\SQP_EXL_20160420\vtk-debug\lib\vtkImagingStatistics-7.0.lib;E:\compile\SQP_EXL_20160420\vtk-debug\lib\vtkImagingStencil-7.0.lib;E:\compile\SQP_EXL_20160420\vtk-debug\lib\vtkInfovisCore-7.0.lib;E:\compile\SQP_EXL_20160420\vtk-debug\lib\vtkInfovisLayout-7.0.lib;E:\compile\SQP_EXL_20160420\vtk-debug\lib\vtkInteractionImage-7.0.lib;E:\compile\SQP_EXL_20160420\vtk-debug\lib\vtkInteractionStyle-7.0.lib;E:\compile\SQP_EXL_20160420\vtk-debug\lib\vtkInteractionWidgets-7.0.lib;E:\compile\SQP_EXL_20160420\vtk-debug\lib\vtkIOAMR-7.0.lib;E:\compile\SQP_EXL_20160420\vtk-debug\lib\vtkIOCore-7.0.lib;E:\compile\SQP_EXL_20160420\vtk-debug\lib\vtkIOEnSight-7.0.lib;E:\compile\SQP_EXL_20160420\vtk-debug\lib\vtkIOExodus-7.0.lib;E:\compile\SQP_EXL_20160420\vtk-debug\lib\vtkIOExport-7.0.lib;E:\compile\SQP_EXL_20160420\vtk-debug\lib\vtkIOGeometry-7.0.lib;E:\compile\SQP_EXL_20160420\vtk-debug\lib\vtkIOImage-7.0.lib;E:\compile\SQP_EXL_20160420\vtk-debug\lib\vtkIOImport-7.0.lib;E:\compile\SQP_EXL_20160420\vtk-debug\lib\vtkIOInfovis-7.0.lib;E:\compile\SQP_EXL_20160420\vtk-debug\lib\vtkIOLegacy-7.0.lib;E:\compile\SQP_EXL_20160420\vtk-debug\lib\vtkIOLSDyna-7.0.lib;E:\compile\SQP_EXL_20160420\vtk-debug\lib\vtkIOMINC-7.0.lib;E:\compile\SQP_EXL_20160420\vtk-debug\lib\vtkIOMovie-7.0.lib;E:\compile\SQP_EXL_20160420\vtk-debug\lib\vtkIONetCDF-7.0.lib;E:\compile\SQP_EXL_20160420\vtk-debug\lib\vtkIOParallel-7.0.lib;E:\compile\SQP_EXL_20160420\vtk-debug\lib\vtkIOParallelXML-7.0.lib;E:\compile\SQP_EXL_20160420\vtk-debug\lib\vtkIOPLY-7.0.lib;E:\compile\SQP_EXL_20160420\vtk-debug\lib\vtkIOSQL-7.0.lib;E:\compile\SQP_EXL_20160420\vtk-debug\lib\vtkIOVideo-7.0.lib;E:\compile\SQP_EXL_20160420\vtk-debug\lib\vtkIOXML-7.0.lib;E:\compile\SQP_EXL_20160420\vtk-debug\lib\vtkIOXMLParser-7.0.lib;E:\compile\SQP_EXL_20160420\vtk-debug\lib\vtkjpeg-7.0.lib;E:\compile\SQP_EXL_20160420\vtk-debug\lib\vtkjsoncpp-7.0.lib;E:\compile\SQP_EXL_20160420\vtk-debug\lib\vtklibxml2-7.0.lib;E:\compile\SQP_EXL_20160420\vtk-debug\lib\vtkmetaio-7.0.lib;E:\compile\SQP_EXL_20160420\vtk-debug\lib\vtkNetCDF-7.0.lib;E:\compile\SQP_EXL_20160420\vtk-debug\lib\vtkNetCDF_cxx-7.0.lib;E:\compile\SQP_EXL_20160420\vtk-debug\lib\vtkoggtheora-7.0.lib;E:\compile\SQP_EXL_20160420\vtk-debug\lib\vtkParallelCore-7.0.lib;E:\compile\SQP_EXL_20160420\vtk-debug\lib\vtkpng-7.0.lib;E:\compile\SQP_EXL_20160420\vtk-debug\lib\vtkproj4-7.0.lib;E:\compile\SQP_EXL_20160420\vtk-debug\lib\vtkRenderingAnnotation-7.0.lib;E:\compile\SQP_EXL_20160420\vtk-debug\lib\vtkRenderingContext2D-7.0.lib;E:\compile\SQP_EXL_20160420\vtk-debug\lib\vtkRenderingContextOpenGL-7.0.lib;E:\compile\SQP_EXL_20160420\vtk-debug\lib\vtkRenderingCore-7.0.lib;E:\compile\SQP_EXL_20160420\vtk-debug\lib\vtkRenderingFreeType-7.0.lib;E:\compile\SQP_EXL_20160420\vtk-debug\lib\vtkRenderingGL2PS-7.0.lib;E:\compile\SQP_EXL_20160420\vtk-debug\lib\vtkRenderingImage-7.0.lib;E:\compile\SQP_EXL_20160420\vtk-debug\lib\vtkRenderingLabel-7.0.lib;E:\compile\SQP_EXL_20160420\vtk-debug\lib\vtkRenderingLIC-7.0.lib;E:\compile\SQP_EXL_20160420\vtk-debug\lib\vtkRenderingLOD-7.0.lib;E:\compile\SQP_EXL_20160420\vtk-debug\lib\vtkRenderingOpenGL-7.0.lib;E:\compile\SQP_EXL_20160420\vtk-debug\lib\vtkRenderingQt-7.0.lib;E:\compile\SQP_EXL_20160420\vtk-debug\lib\vtkRenderingVolume-7.0.lib;E:\compile\SQP_EXL_20160420\vtk-debug\lib\vtkRenderingVolumeOpenGL-7.0.lib;E:\compile\SQP_EXL_20160420\vtk-debug\lib\vtksqlite-7.0.lib;E:\compile\SQP_EXL_20160420\vtk-debug\lib\vtksys-7.0.lib;E:\compile\SQP_EXL_20160420\vtk-debug\lib\vtktiff-7.0.lib;E:\compile\SQP_EXL_20160420\vtk-debug\lib\vtkverdict-7.0.lib;E:\compile\SQP_EXL_20160420\vtk-debug\lib\vtkViewsContext2D-7.0.lib;E:\compile\SQP_EXL_20160420\vtk-debug\lib\vtkViewsCore-7.0.lib;E:\compile\SQP_EXL_20160420\vtk-debug\lib\vtkViewsInfovis-7.0.lib;E:\compile\SQP_EXL_20160420\vtk-debug\lib\vtkViewsQt-7.0.lib;E:\compile\SQP_EXL_20160420\vtk-debug\lib\vtkzlib-7.0.lib;$(QTDIR)\lib\Qt5Widgets.lib;$(QTDIR)\lib\Qt5Gui.lib;$(QTDIR)\lib\Qt5Core.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories>$(QTDIR)\lib;C:\Utils\my_sql\my_sqlx86\lib;C:\Utils\postgresqlx86\pgsql\lib;$(QTDIR)\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalOptions>"/MANIFESTDEPENDENCY:type='win32' name='Microsoft.Windows.Common-Controls' version='6.0.0.0' publicKeyToken='6595b64144ccf1df' language='*' processorArchitecture='*'" %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalOptions>&quot;/MANIFESTDEPENDENCY:type=&apos;win32&apos; name=&apos;Microsoft.Windows.Common-Controls&apos; version=&apos;6.0.0.0&apos; publicKeyToken=&apos;6595b64144ccf1df&apos; language=&apos;*&apos; processorArchitecture=&apos;*&apos;&quot; %(AdditionalOptions)</AdditionalOptions>
       <DataExecutionPrevention>true</DataExecutionPrevention>
       <GenerateDebugInformation>false</GenerateDebugInformation>
       <IgnoreImportLibrary>true</IgnoreImportLibrary>
@@ -96,16 +96,16 @@
       <PreprocessorDefinitions>_WINDOWS;UNICODE;WIN32;QT_NO_DEBUG;QT_WIDGETS_LIB;QT_GUI_LIB;QT_CORE_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ResourceCompile>
   </ItemDefinitionGroup>
-  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+  <ItemDefinitionGroup Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Debug|Win32&apos;">
     <ClCompile>
-      <AdditionalIncludeDirectories>.;..\..\vtk7.1.1\vtk-debug\include\vtk-7.1;$(QTDIR)\include;$(QTDIR)\include\QtWidgets;$(QTDIR)\include\QtGui;$(QTDIR)\include\QtANGLE;$(QTDIR)\include\QtCore;debug;.;$(QTDIR)\mkspecs\win32-msvc2015;.\GeneratedFiles;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>.;E:\compile\SQP_EXL_20160420\vtk-debug\include\vtk-7.0;$(QTDIR)\include;$(QTDIR)\include\QtWidgets;$(QTDIR)\include\QtGui;$(QTDIR)\include\QtANGLE;$(QTDIR)\include\QtCore;debug;.;$(QTDIR)\mkspecs\win32-msvc2015;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <AdditionalOptions>-Zc:strictStrings -Zc:throwingNew -w34100 -w34189 -w44996 -w44456 -w44457 -w44458 %(AdditionalOptions)</AdditionalOptions>
       <AssemblerListingLocation>debug\</AssemblerListingLocation>
       <BrowseInformation>false</BrowseInformation>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
       <DisableSpecificWarnings>4577;4467;%(DisableSpecificWarnings)</DisableSpecificWarnings>
       <ExceptionHandling>Sync</ExceptionHandling>
-      <ObjectFileName>$(IntDir)</ObjectFileName>
+      <ObjectFileName>debug\</ObjectFileName>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>_WINDOWS;UNICODE;WIN32;QT_WIDGETS_LIB;QT_GUI_LIB;QT_CORE_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <PreprocessToFile>false</PreprocessToFile>
@@ -114,12 +114,11 @@
       <SuppressStartupBanner>true</SuppressStartupBanner>
       <TreatWChar_tAsBuiltInType>true</TreatWChar_tAsBuiltInType>
       <WarningLevel>Level3</WarningLevel>
-      <ProgramDataBaseFileName>$(IntDir)vc$(PlatformToolsetVersion).pdb</ProgramDataBaseFileName>
     </ClCompile>
     <Link>
-      <AdditionalDependencies>$(QTDIR)\lib\qtmaind.lib;shell32.lib;D:\vtk7.1.1\vtk-debug\lib\vtkalglib-7.1.lib;D:\vtk7.1.1\vtk-debug\lib\vtkChartsCore-7.1.lib;D:\vtk7.1.1\vtk-debug\lib\vtkCommonColor-7.1.lib;D:\vtk7.1.1\vtk-debug\lib\vtkCommonComputationalGeometry-7.1.lib;D:\vtk7.1.1\vtk-debug\lib\vtkCommonCore-7.1.lib;D:\vtk7.1.1\vtk-debug\lib\vtkCommonDataModel-7.1.lib;D:\vtk7.1.1\vtk-debug\lib\vtkCommonExecutionModel-7.1.lib;D:\vtk7.1.1\vtk-debug\lib\vtkCommonMath-7.1.lib;D:\vtk7.1.1\vtk-debug\lib\vtkCommonMisc-7.1.lib;D:\vtk7.1.1\vtk-debug\lib\vtkCommonSystem-7.1.lib;D:\vtk7.1.1\vtk-debug\lib\vtkCommonTransforms-7.1.lib;D:\vtk7.1.1\vtk-debug\lib\vtkDICOMParser-7.1.lib;D:\vtk7.1.1\vtk-debug\lib\vtkDomainsChemistry-7.1.lib;D:\vtk7.1.1\vtk-debug\lib\vtkexoIIc-7.1.lib;D:\vtk7.1.1\vtk-debug\lib\vtkexpat-7.1.lib;D:\vtk7.1.1\vtk-debug\lib\vtkFiltersAMR-7.1.lib;D:\vtk7.1.1\vtk-debug\lib\vtkFiltersCore-7.1.lib;D:\vtk7.1.1\vtk-debug\lib\vtkFiltersExtraction-7.1.lib;D:\vtk7.1.1\vtk-debug\lib\vtkFiltersFlowPaths-7.1.lib;D:\vtk7.1.1\vtk-debug\lib\vtkFiltersGeneral-7.1.lib;D:\vtk7.1.1\vtk-debug\lib\vtkFiltersGeneric-7.1.lib;D:\vtk7.1.1\vtk-debug\lib\vtkFiltersGeometry-7.1.lib;D:\vtk7.1.1\vtk-debug\lib\vtkFiltersHybrid-7.1.lib;D:\vtk7.1.1\vtk-debug\lib\vtkFiltersHyperTree-7.1.lib;D:\vtk7.1.1\vtk-debug\lib\vtkFiltersImaging-7.1.lib;D:\vtk7.1.1\vtk-debug\lib\vtkFiltersModeling-7.1.lib;D:\vtk7.1.1\vtk-debug\lib\vtkFiltersParallel-7.1.lib;D:\vtk7.1.1\vtk-debug\lib\vtkFiltersParallelImaging-7.1.lib;D:\vtk7.1.1\vtk-debug\lib\vtkFiltersPoints-7.1.lib;D:\vtk7.1.1\vtk-debug\lib\vtkFiltersProgrammable-7.1.lib;D:\vtk7.1.1\vtk-debug\lib\vtkFiltersSelection-7.1.lib;D:\vtk7.1.1\vtk-debug\lib\vtkFiltersSMP-7.1.lib;D:\vtk7.1.1\vtk-debug\lib\vtkFiltersSources-7.1.lib;D:\vtk7.1.1\vtk-debug\lib\vtkFiltersStatistics-7.1.lib;D:\vtk7.1.1\vtk-debug\lib\vtkFiltersTexture-7.1.lib;D:\vtk7.1.1\vtk-debug\lib\vtkFiltersVerdict-7.1.lib;D:\vtk7.1.1\vtk-debug\lib\vtkfreetype-7.1.lib;D:\vtk7.1.1\vtk-debug\lib\vtkGeovisCore-7.1.lib;D:\vtk7.1.1\vtk-debug\lib\vtkgl2ps-7.1.lib;D:\vtk7.1.1\vtk-debug\lib\vtkGUISupportQt-7.1.lib;D:\vtk7.1.1\vtk-debug\lib\vtkGUISupportQtOpenGL-7.1.lib;D:\vtk7.1.1\vtk-debug\lib\vtkGUISupportQtSQL-7.1.lib;D:\vtk7.1.1\vtk-debug\lib\vtkhdf5-7.1.lib;D:\vtk7.1.1\vtk-debug\lib\vtkhdf5_hl-7.1.lib;D:\vtk7.1.1\vtk-debug\lib\vtkImagingColor-7.1.lib;D:\vtk7.1.1\vtk-debug\lib\vtkImagingCore-7.1.lib;D:\vtk7.1.1\vtk-debug\lib\vtkImagingFourier-7.1.lib;D:\vtk7.1.1\vtk-debug\lib\vtkImagingGeneral-7.1.lib;D:\vtk7.1.1\vtk-debug\lib\vtkImagingHybrid-7.1.lib;D:\vtk7.1.1\vtk-debug\lib\vtkImagingMath-7.1.lib;D:\vtk7.1.1\vtk-debug\lib\vtkImagingMorphological-7.1.lib;D:\vtk7.1.1\vtk-debug\lib\vtkImagingSources-7.1.lib;D:\vtk7.1.1\vtk-debug\lib\vtkImagingStatistics-7.1.lib;D:\vtk7.1.1\vtk-debug\lib\vtkImagingStencil-7.1.lib;D:\vtk7.1.1\vtk-debug\lib\vtkInfovisCore-7.1.lib;D:\vtk7.1.1\vtk-debug\lib\vtkInfovisLayout-7.1.lib;D:\vtk7.1.1\vtk-debug\lib\vtkInteractionImage-7.1.lib;D:\vtk7.1.1\vtk-debug\lib\vtkInteractionStyle-7.1.lib;D:\vtk7.1.1\vtk-debug\lib\vtkInteractionWidgets-7.1.lib;D:\vtk7.1.1\vtk-debug\lib\vtkIOAMR-7.1.lib;D:\vtk7.1.1\vtk-debug\lib\vtkIOCore-7.1.lib;D:\vtk7.1.1\vtk-debug\lib\vtkIOEnSight-7.1.lib;D:\vtk7.1.1\vtk-debug\lib\vtkIOExodus-7.1.lib;D:\vtk7.1.1\vtk-debug\lib\vtkIOExport-7.1.lib;D:\vtk7.1.1\vtk-debug\lib\vtkIOGeometry-7.1.lib;D:\vtk7.1.1\vtk-debug\lib\vtkIOImage-7.1.lib;D:\vtk7.1.1\vtk-debug\lib\vtkIOImport-7.1.lib;D:\vtk7.1.1\vtk-debug\lib\vtkIOInfovis-7.1.lib;D:\vtk7.1.1\vtk-debug\lib\vtkIOLegacy-7.1.lib;D:\vtk7.1.1\vtk-debug\lib\vtkIOLSDyna-7.1.lib;D:\vtk7.1.1\vtk-debug\lib\vtkIOMINC-7.1.lib;D:\vtk7.1.1\vtk-debug\lib\vtkIOMovie-7.1.lib;D:\vtk7.1.1\vtk-debug\lib\vtkIONetCDF-7.1.lib;D:\vtk7.1.1\vtk-debug\lib\vtkIOParallel-7.1.lib;D:\vtk7.1.1\vtk-debug\lib\vtkIOParallelXML-7.1.lib;D:\vtk7.1.1\vtk-debug\lib\vtkIOPLY-7.1.lib;D:\vtk7.1.1\vtk-debug\lib\vtkIOSQL-7.1.lib;D:\vtk7.1.1\vtk-debug\lib\vtkIOTecplotTable-7.1.lib;D:\vtk7.1.1\vtk-debug\lib\vtkIOVideo-7.1.lib;D:\vtk7.1.1\vtk-debug\lib\vtkIOXML-7.1.lib;D:\vtk7.1.1\vtk-debug\lib\vtkIOXMLParser-7.1.lib;D:\vtk7.1.1\vtk-debug\lib\vtkjpeg-7.1.lib;D:\vtk7.1.1\vtk-debug\lib\vtkjsoncpp-7.1.lib;D:\vtk7.1.1\vtk-debug\lib\vtklibxml2-7.1.lib;D:\vtk7.1.1\vtk-debug\lib\vtkmetaio-7.1.lib;D:\vtk7.1.1\vtk-debug\lib\vtkNetCDF-7.1.lib;D:\vtk7.1.1\vtk-debug\lib\vtkNetCDF_cxx-7.1.lib;D:\vtk7.1.1\vtk-debug\lib\vtkoggtheora-7.1.lib;D:\vtk7.1.1\vtk-debug\lib\vtkParallelCore-7.1.lib;D:\vtk7.1.1\vtk-debug\lib\vtkpng-7.1.lib;D:\vtk7.1.1\vtk-debug\lib\vtkproj4-7.1_d.lib;D:\vtk7.1.1\vtk-debug\lib\vtkRenderingAnnotation-7.1.lib;D:\vtk7.1.1\vtk-debug\lib\vtkRenderingContext2D-7.1.lib;D:\vtk7.1.1\vtk-debug\lib\vtkRenderingContextOpenGL-7.1.lib;D:\vtk7.1.1\vtk-debug\lib\vtkRenderingCore-7.1.lib;D:\vtk7.1.1\vtk-debug\lib\vtkRenderingFreeType-7.1.lib;D:\vtk7.1.1\vtk-debug\lib\vtkRenderingGL2PS-7.1.lib;D:\vtk7.1.1\vtk-debug\lib\vtkRenderingImage-7.1.lib;D:\vtk7.1.1\vtk-debug\lib\vtkRenderingLabel-7.1.lib;D:\vtk7.1.1\vtk-debug\lib\vtkRenderingLIC-7.1.lib;D:\vtk7.1.1\vtk-debug\lib\vtkRenderingLOD-7.1.lib;D:\vtk7.1.1\vtk-debug\lib\vtkRenderingOpenGL-7.1.lib;D:\vtk7.1.1\vtk-debug\lib\vtkRenderingQt-7.1.lib;D:\vtk7.1.1\vtk-debug\lib\vtkRenderingVolume-7.1.lib;D:\vtk7.1.1\vtk-debug\lib\vtkRenderingVolumeOpenGL-7.1.lib;D:\vtk7.1.1\vtk-debug\lib\vtksqlite-7.1.lib;D:\vtk7.1.1\vtk-debug\lib\vtksys-7.1.lib;D:\vtk7.1.1\vtk-debug\lib\vtktiff-7.1.lib;D:\vtk7.1.1\vtk-debug\lib\vtkverdict-7.1.lib;D:\vtk7.1.1\vtk-debug\lib\vtkViewsContext2D-7.1.lib;D:\vtk7.1.1\vtk-debug\lib\vtkViewsCore-7.1.lib;D:\vtk7.1.1\vtk-debug\lib\vtkViewsInfovis-7.1.lib;D:\vtk7.1.1\vtk-debug\lib\vtkViewsQt-7.1.lib;D:\vtk7.1.1\vtk-debug\lib\vtkzlib-7.1.lib;$(QTDIR)\lib\Qt5Widgetsd.lib;$(QTDIR)\lib\Qt5Guid.lib;$(QTDIR)\lib\Qt5Cored.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>$(QTDIR)\lib\qtmaind.lib;shell32.lib;E:\compile\SQP_EXL_20160420\vtk-debug\lib\vtkalglib-7.0.lib;E:\compile\SQP_EXL_20160420\vtk-debug\lib\vtkChartsCore-7.0.lib;E:\compile\SQP_EXL_20160420\vtk-debug\lib\vtkCommonColor-7.0.lib;E:\compile\SQP_EXL_20160420\vtk-debug\lib\vtkCommonComputationalGeometry-7.0.lib;E:\compile\SQP_EXL_20160420\vtk-debug\lib\vtkCommonCore-7.0.lib;E:\compile\SQP_EXL_20160420\vtk-debug\lib\vtkCommonDataModel-7.0.lib;E:\compile\SQP_EXL_20160420\vtk-debug\lib\vtkCommonExecutionModel-7.0.lib;E:\compile\SQP_EXL_20160420\vtk-debug\lib\vtkCommonMath-7.0.lib;E:\compile\SQP_EXL_20160420\vtk-debug\lib\vtkCommonMisc-7.0.lib;E:\compile\SQP_EXL_20160420\vtk-debug\lib\vtkCommonSystem-7.0.lib;E:\compile\SQP_EXL_20160420\vtk-debug\lib\vtkCommonTransforms-7.0.lib;E:\compile\SQP_EXL_20160420\vtk-debug\lib\vtkDICOMParser-7.0.lib;E:\compile\SQP_EXL_20160420\vtk-debug\lib\vtkDomainsChemistry-7.0.lib;E:\compile\SQP_EXL_20160420\vtk-debug\lib\vtkexoIIc-7.0.lib;E:\compile\SQP_EXL_20160420\vtk-debug\lib\vtkexpat-7.0.lib;E:\compile\SQP_EXL_20160420\vtk-debug\lib\vtkFiltersAMR-7.0.lib;E:\compile\SQP_EXL_20160420\vtk-debug\lib\vtkFiltersCore-7.0.lib;E:\compile\SQP_EXL_20160420\vtk-debug\lib\vtkFiltersExtraction-7.0.lib;E:\compile\SQP_EXL_20160420\vtk-debug\lib\vtkFiltersFlowPaths-7.0.lib;E:\compile\SQP_EXL_20160420\vtk-debug\lib\vtkFiltersGeneral-7.0.lib;E:\compile\SQP_EXL_20160420\vtk-debug\lib\vtkFiltersGeneric-7.0.lib;E:\compile\SQP_EXL_20160420\vtk-debug\lib\vtkFiltersGeometry-7.0.lib;E:\compile\SQP_EXL_20160420\vtk-debug\lib\vtkFiltersHybrid-7.0.lib;E:\compile\SQP_EXL_20160420\vtk-debug\lib\vtkFiltersHyperTree-7.0.lib;E:\compile\SQP_EXL_20160420\vtk-debug\lib\vtkFiltersImaging-7.0.lib;E:\compile\SQP_EXL_20160420\vtk-debug\lib\vtkFiltersModeling-7.0.lib;E:\compile\SQP_EXL_20160420\vtk-debug\lib\vtkFiltersParallel-7.0.lib;E:\compile\SQP_EXL_20160420\vtk-debug\lib\vtkFiltersParallelImaging-7.0.lib;E:\compile\SQP_EXL_20160420\vtk-debug\lib\vtkFiltersProgrammable-7.0.lib;E:\compile\SQP_EXL_20160420\vtk-debug\lib\vtkFiltersSelection-7.0.lib;E:\compile\SQP_EXL_20160420\vtk-debug\lib\vtkFiltersSMP-7.0.lib;E:\compile\SQP_EXL_20160420\vtk-debug\lib\vtkFiltersSources-7.0.lib;E:\compile\SQP_EXL_20160420\vtk-debug\lib\vtkFiltersStatistics-7.0.lib;E:\compile\SQP_EXL_20160420\vtk-debug\lib\vtkFiltersTexture-7.0.lib;E:\compile\SQP_EXL_20160420\vtk-debug\lib\vtkFiltersVerdict-7.0.lib;E:\compile\SQP_EXL_20160420\vtk-debug\lib\vtkfreetype-7.0.lib;E:\compile\SQP_EXL_20160420\vtk-debug\lib\vtkGeovisCore-7.0.lib;E:\compile\SQP_EXL_20160420\vtk-debug\lib\vtkgl2ps-7.0.lib;E:\compile\SQP_EXL_20160420\vtk-debug\lib\vtkGUISupportQt-7.0.lib;E:\compile\SQP_EXL_20160420\vtk-debug\lib\vtkGUISupportQtOpenGL-7.0.lib;E:\compile\SQP_EXL_20160420\vtk-debug\lib\vtkGUISupportQtSQL-7.0.lib;E:\compile\SQP_EXL_20160420\vtk-debug\lib\vtkhdf5-7.0.lib;E:\compile\SQP_EXL_20160420\vtk-debug\lib\vtkhdf5_hl-7.0.lib;E:\compile\SQP_EXL_20160420\vtk-debug\lib\vtkImagingColor-7.0.lib;E:\compile\SQP_EXL_20160420\vtk-debug\lib\vtkImagingCore-7.0.lib;E:\compile\SQP_EXL_20160420\vtk-debug\lib\vtkImagingFourier-7.0.lib;E:\compile\SQP_EXL_20160420\vtk-debug\lib\vtkImagingGeneral-7.0.lib;E:\compile\SQP_EXL_20160420\vtk-debug\lib\vtkImagingHybrid-7.0.lib;E:\compile\SQP_EXL_20160420\vtk-debug\lib\vtkImagingMath-7.0.lib;E:\compile\SQP_EXL_20160420\vtk-debug\lib\vtkImagingMorphological-7.0.lib;E:\compile\SQP_EXL_20160420\vtk-debug\lib\vtkImagingSources-7.0.lib;E:\compile\SQP_EXL_20160420\vtk-debug\lib\vtkImagingStatistics-7.0.lib;E:\compile\SQP_EXL_20160420\vtk-debug\lib\vtkImagingStencil-7.0.lib;E:\compile\SQP_EXL_20160420\vtk-debug\lib\vtkInfovisCore-7.0.lib;E:\compile\SQP_EXL_20160420\vtk-debug\lib\vtkInfovisLayout-7.0.lib;E:\compile\SQP_EXL_20160420\vtk-debug\lib\vtkInteractionImage-7.0.lib;E:\compile\SQP_EXL_20160420\vtk-debug\lib\vtkInteractionStyle-7.0.lib;E:\compile\SQP_EXL_20160420\vtk-debug\lib\vtkInteractionWidgets-7.0.lib;E:\compile\SQP_EXL_20160420\vtk-debug\lib\vtkIOAMR-7.0.lib;E:\compile\SQP_EXL_20160420\vtk-debug\lib\vtkIOCore-7.0.lib;E:\compile\SQP_EXL_20160420\vtk-debug\lib\vtkIOEnSight-7.0.lib;E:\compile\SQP_EXL_20160420\vtk-debug\lib\vtkIOExodus-7.0.lib;E:\compile\SQP_EXL_20160420\vtk-debug\lib\vtkIOExport-7.0.lib;E:\compile\SQP_EXL_20160420\vtk-debug\lib\vtkIOGeometry-7.0.lib;E:\compile\SQP_EXL_20160420\vtk-debug\lib\vtkIOImage-7.0.lib;E:\compile\SQP_EXL_20160420\vtk-debug\lib\vtkIOImport-7.0.lib;E:\compile\SQP_EXL_20160420\vtk-debug\lib\vtkIOInfovis-7.0.lib;E:\compile\SQP_EXL_20160420\vtk-debug\lib\vtkIOLegacy-7.0.lib;E:\compile\SQP_EXL_20160420\vtk-debug\lib\vtkIOLSDyna-7.0.lib;E:\compile\SQP_EXL_20160420\vtk-debug\lib\vtkIOMINC-7.0.lib;E:\compile\SQP_EXL_20160420\vtk-debug\lib\vtkIOMovie-7.0.lib;E:\compile\SQP_EXL_20160420\vtk-debug\lib\vtkIONetCDF-7.0.lib;E:\compile\SQP_EXL_20160420\vtk-debug\lib\vtkIOParallel-7.0.lib;E:\compile\SQP_EXL_20160420\vtk-debug\lib\vtkIOParallelXML-7.0.lib;E:\compile\SQP_EXL_20160420\vtk-debug\lib\vtkIOPLY-7.0.lib;E:\compile\SQP_EXL_20160420\vtk-debug\lib\vtkIOSQL-7.0.lib;E:\compile\SQP_EXL_20160420\vtk-debug\lib\vtkIOVideo-7.0.lib;E:\compile\SQP_EXL_20160420\vtk-debug\lib\vtkIOXML-7.0.lib;E:\compile\SQP_EXL_20160420\vtk-debug\lib\vtkIOXMLParser-7.0.lib;E:\compile\SQP_EXL_20160420\vtk-debug\lib\vtkjpeg-7.0.lib;E:\compile\SQP_EXL_20160420\vtk-debug\lib\vtkjsoncpp-7.0.lib;E:\compile\SQP_EXL_20160420\vtk-debug\lib\vtklibxml2-7.0.lib;E:\compile\SQP_EXL_20160420\vtk-debug\lib\vtkmetaio-7.0.lib;E:\compile\SQP_EXL_20160420\vtk-debug\lib\vtkNetCDF-7.0.lib;E:\compile\SQP_EXL_20160420\vtk-debug\lib\vtkNetCDF_cxx-7.0.lib;E:\compile\SQP_EXL_20160420\vtk-debug\lib\vtkoggtheora-7.0.lib;E:\compile\SQP_EXL_20160420\vtk-debug\lib\vtkParallelCore-7.0.lib;E:\compile\SQP_EXL_20160420\vtk-debug\lib\vtkpng-7.0.lib;E:\compile\SQP_EXL_20160420\vtk-debug\lib\vtkproj4-7.0.lib;E:\compile\SQP_EXL_20160420\vtk-debug\lib\vtkRenderingAnnotation-7.0.lib;E:\compile\SQP_EXL_20160420\vtk-debug\lib\vtkRenderingContext2D-7.0.lib;E:\compile\SQP_EXL_20160420\vtk-debug\lib\vtkRenderingContextOpenGL-7.0.lib;E:\compile\SQP_EXL_20160420\vtk-debug\lib\vtkRenderingCore-7.0.lib;E:\compile\SQP_EXL_20160420\vtk-debug\lib\vtkRenderingFreeType-7.0.lib;E:\compile\SQP_EXL_20160420\vtk-debug\lib\vtkRenderingGL2PS-7.0.lib;E:\compile\SQP_EXL_20160420\vtk-debug\lib\vtkRenderingImage-7.0.lib;E:\compile\SQP_EXL_20160420\vtk-debug\lib\vtkRenderingLabel-7.0.lib;E:\compile\SQP_EXL_20160420\vtk-debug\lib\vtkRenderingLIC-7.0.lib;E:\compile\SQP_EXL_20160420\vtk-debug\lib\vtkRenderingLOD-7.0.lib;E:\compile\SQP_EXL_20160420\vtk-debug\lib\vtkRenderingOpenGL-7.0.lib;E:\compile\SQP_EXL_20160420\vtk-debug\lib\vtkRenderingQt-7.0.lib;E:\compile\SQP_EXL_20160420\vtk-debug\lib\vtkRenderingVolume-7.0.lib;E:\compile\SQP_EXL_20160420\vtk-debug\lib\vtkRenderingVolumeOpenGL-7.0.lib;E:\compile\SQP_EXL_20160420\vtk-debug\lib\vtksqlite-7.0.lib;E:\compile\SQP_EXL_20160420\vtk-debug\lib\vtksys-7.0.lib;E:\compile\SQP_EXL_20160420\vtk-debug\lib\vtktiff-7.0.lib;E:\compile\SQP_EXL_20160420\vtk-debug\lib\vtkverdict-7.0.lib;E:\compile\SQP_EXL_20160420\vtk-debug\lib\vtkViewsContext2D-7.0.lib;E:\compile\SQP_EXL_20160420\vtk-debug\lib\vtkViewsCore-7.0.lib;E:\compile\SQP_EXL_20160420\vtk-debug\lib\vtkViewsInfovis-7.0.lib;E:\compile\SQP_EXL_20160420\vtk-debug\lib\vtkViewsQt-7.0.lib;E:\compile\SQP_EXL_20160420\vtk-debug\lib\vtkzlib-7.0.lib;$(QTDIR)\lib\Qt5Widgetsd.lib;$(QTDIR)\lib\Qt5Guid.lib;$(QTDIR)\lib\Qt5Cored.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories>$(QTDIR)\lib;C:\Utils\my_sql\my_sqlx86\lib;C:\Utils\postgresqlx86\pgsql\lib;$(QTDIR)\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalOptions>"/MANIFESTDEPENDENCY:type='win32' name='Microsoft.Windows.Common-Controls' version='6.0.0.0' publicKeyToken='6595b64144ccf1df' language='*' processorArchitecture='*'" %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalOptions>&quot;/MANIFESTDEPENDENCY:type=&apos;win32&apos; name=&apos;Microsoft.Windows.Common-Controls&apos; version=&apos;6.0.0.0&apos; publicKeyToken=&apos;6595b64144ccf1df&apos; language=&apos;*&apos; processorArchitecture=&apos;*&apos;&quot; %(AdditionalOptions)</AdditionalOptions>
       <DataExecutionPrevention>true</DataExecutionPrevention>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <IgnoreImportLibrary>true</IgnoreImportLibrary>
@@ -140,40 +139,9 @@
   <ItemGroup>
     <ClCompile Include="CoordinateConverter.cpp" />
     <ClCompile Include="actormanager.cpp" />
+    <ClCompile Include="animator.cpp" />
+    <ClCompile Include="animatorset.cpp" />
     <ClCompile Include="backgroundbutton.cpp" />
-    <ClCompile Include="Debug\moc_backgroundbutton.cpp">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
-    </ClCompile>
-    <ClCompile Include="Debug\moc_greenbutton.cpp">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
-    </ClCompile>
-    <ClCompile Include="Debug\moc_mainwindow.cpp">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
-    </ClCompile>
-    <ClCompile Include="Debug\moc_mydialog.cpp">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
-    </ClCompile>
-    <ClCompile Include="Debug\moc_mygridlayout.cpp">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
-    </ClCompile>
-    <ClCompile Include="Debug\moc_mypushbutton.cpp">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
-    </ClCompile>
-    <ClCompile Include="Debug\moc_myslicerwidget.cpp">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
-    </ClCompile>
-    <ClCompile Include="Debug\moc_myvolumewidget.cpp">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
-    </ClCompile>
-    <ClCompile Include="Debug\moc_widget.cpp">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
-    </ClCompile>
-    <ClCompile Include="GeneratedFiles\qrc_resources.cpp">
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-      </PrecompiledHeader>
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
-      </PrecompiledHeader>
-    </ClCompile>
     <ClCompile Include="greenbutton.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="mainwindow.cpp" />
@@ -182,33 +150,6 @@
     <ClCompile Include="mypushbutton.cpp" />
     <ClCompile Include="myslicerwidget.cpp" />
     <ClCompile Include="myvolumewidget.cpp" />
-    <ClCompile Include="Release\moc_backgroundbutton.cpp">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
-    </ClCompile>
-    <ClCompile Include="Release\moc_greenbutton.cpp">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
-    </ClCompile>
-    <ClCompile Include="Release\moc_mainwindow.cpp">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
-    </ClCompile>
-    <ClCompile Include="Release\moc_mydialog.cpp">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
-    </ClCompile>
-    <ClCompile Include="Release\moc_mygridlayout.cpp">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
-    </ClCompile>
-    <ClCompile Include="Release\moc_mypushbutton.cpp">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
-    </ClCompile>
-    <ClCompile Include="Release\moc_myslicerwidget.cpp">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
-    </ClCompile>
-    <ClCompile Include="Release\moc_myvolumewidget.cpp">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
-    </ClCompile>
-    <ClCompile Include="Release\moc_widget.cpp">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
-    </ClCompile>
     <ClCompile Include="rendersetting.cpp" />
     <ClCompile Include="stlmanager.cpp" />
     <ClCompile Include="vtkcustomtransformanimationcue.cpp" />
@@ -217,162 +158,200 @@
   <ItemGroup>
     <ClInclude Include="CoordinateConverter.h" />
     <ClInclude Include="actormanager.h" />
+    <ClInclude Include="animator.h" />
+    <ClInclude Include="animatorset.h" />
     <CustomBuild Include="backgroundbutton.h">
-      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">"$(QTDIR)\bin\moc.exe"  "%(FullPath)" -o "$(ConfigurationName)\moc_%(Filename).cpp"  -D_WINDOWS -DUNICODE -DWIN32 -DQT_NO_DEBUG -DQT_WIDGETS_LIB -DQT_GUI_LIB -DQT_CORE_LIB -DNDEBUG "-I." "-I.\..\..\vtk7.1.1\vtk-debug\include\vtk-7.1" "-I$(QTDIR)\include" "-I$(QTDIR)\include\QtWidgets" "-I$(QTDIR)\include\QtGui" "-I$(QTDIR)\include\QtANGLE" "-I$(QTDIR)\include\QtCore" "-I.\release" "-I$(QTDIR)\mkspecs\win32-msvc2015"</Command>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Moc%27ing backgroundbutton.h...</Message>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">"$(QTDIR)\bin\moc.exe"  "%(FullPath)" -o "$(ConfigurationName)\moc_%(Filename).cpp"  -D_WINDOWS -DUNICODE -DWIN32 -DQT_WIDGETS_LIB -DQT_GUI_LIB -DQT_CORE_LIB "-I." "-I.\..\..\vtk7.1.1\vtk-debug\include\vtk-7.1" "-I$(QTDIR)\include" "-I$(QTDIR)\include\QtWidgets" "-I$(QTDIR)\include\QtGui" "-I$(QTDIR)\include\QtANGLE" "-I$(QTDIR)\include\QtCore" "-I.\debug" "-I$(QTDIR)\mkspecs\win32-msvc2015"</Command>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Moc%27ing backgroundbutton.h...</Message>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(ConfigurationName)\moc_%(Filename).cpp</Outputs>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(ConfigurationName)\moc_%(Filename).cpp</Outputs>
-      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(QTDIR)\bin\moc.exe;%(FullPath)</AdditionalInputs>
-      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(QTDIR)\bin\moc.exe;%(FullPath)</AdditionalInputs>
+      <AdditionalInputs Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Release|Win32&apos;">backgroundbutton.h;%(AdditionalInputs)</AdditionalInputs>
+      <Command Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Release|Win32&apos;">$(QTDIR)\bin\moc.exe  -DUNICODE -DWIN32 -DQT_NO_DEBUG -DQT_WIDGETS_LIB -DQT_GUI_LIB -DQT_CORE_LIB -D_MSC_VER=1900 -D_WIN32 -IC:/QT/QT5.6.3/5.6.3/MSVC2015/mkspecs/win32-msvc2015 -ID:/qtSpace/mnavigation -IE:/compile/SQP_EXL_20160420/vtk-debug/include/vtk-7.0 -IC:/QT/QT5.6.3/5.6.3/MSVC2015/include -IC:/QT/QT5.6.3/5.6.3/MSVC2015/include/QtWidgets -IC:/QT/QT5.6.3/5.6.3/MSVC2015/include/QtGui -IC:/QT/QT5.6.3/5.6.3/MSVC2015/include/QtANGLE -IC:/QT/QT5.6.3/5.6.3/MSVC2015/include/QtCore backgroundbutton.h -o release\moc_backgroundbutton.cpp</Command>
+      <Message Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Release|Win32&apos;">MOC backgroundbutton.h</Message>
+      <Outputs Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Release|Win32&apos;">release\moc_backgroundbutton.cpp;%(Outputs)</Outputs>
+      <AdditionalInputs Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Debug|Win32&apos;">backgroundbutton.h;%(AdditionalInputs)</AdditionalInputs>
+      <Command Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Debug|Win32&apos;">$(QTDIR)\bin\moc.exe  -DUNICODE -DWIN32 -DQT_WIDGETS_LIB -DQT_GUI_LIB -DQT_CORE_LIB -D_MSC_VER=1900 -D_WIN32 -IC:/QT/QT5.6.3/5.6.3/MSVC2015/mkspecs/win32-msvc2015 -ID:/qtSpace/mnavigation -IE:/compile/SQP_EXL_20160420/vtk-debug/include/vtk-7.0 -IC:/QT/QT5.6.3/5.6.3/MSVC2015/include -IC:/QT/QT5.6.3/5.6.3/MSVC2015/include/QtWidgets -IC:/QT/QT5.6.3/5.6.3/MSVC2015/include/QtGui -IC:/QT/QT5.6.3/5.6.3/MSVC2015/include/QtANGLE -IC:/QT/QT5.6.3/5.6.3/MSVC2015/include/QtCore backgroundbutton.h -o debug\moc_backgroundbutton.cpp</Command>
+      <Message Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Debug|Win32&apos;">MOC backgroundbutton.h</Message>
+      <Outputs Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Debug|Win32&apos;">debug\moc_backgroundbutton.cpp;%(Outputs)</Outputs>
     </CustomBuild>
     <CustomBuild Include="greenbutton.h">
-      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">"$(QTDIR)\bin\moc.exe"  "%(FullPath)" -o "$(ConfigurationName)\moc_%(Filename).cpp"  -D_WINDOWS -DUNICODE -DWIN32 -DQT_NO_DEBUG -DQT_WIDGETS_LIB -DQT_GUI_LIB -DQT_CORE_LIB -DNDEBUG "-I." "-I.\..\..\vtk7.1.1\vtk-debug\include\vtk-7.1" "-I$(QTDIR)\include" "-I$(QTDIR)\include\QtWidgets" "-I$(QTDIR)\include\QtGui" "-I$(QTDIR)\include\QtANGLE" "-I$(QTDIR)\include\QtCore" "-I.\release" "-I$(QTDIR)\mkspecs\win32-msvc2015"</Command>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Moc%27ing greenbutton.h...</Message>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">"$(QTDIR)\bin\moc.exe"  "%(FullPath)" -o "$(ConfigurationName)\moc_%(Filename).cpp"  -D_WINDOWS -DUNICODE -DWIN32 -DQT_WIDGETS_LIB -DQT_GUI_LIB -DQT_CORE_LIB "-I." "-I.\..\..\vtk7.1.1\vtk-debug\include\vtk-7.1" "-I$(QTDIR)\include" "-I$(QTDIR)\include\QtWidgets" "-I$(QTDIR)\include\QtGui" "-I$(QTDIR)\include\QtANGLE" "-I$(QTDIR)\include\QtCore" "-I.\debug" "-I$(QTDIR)\mkspecs\win32-msvc2015"</Command>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Moc%27ing greenbutton.h...</Message>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(ConfigurationName)\moc_%(Filename).cpp</Outputs>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(ConfigurationName)\moc_%(Filename).cpp</Outputs>
-      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(QTDIR)\bin\moc.exe;%(FullPath)</AdditionalInputs>
-      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(QTDIR)\bin\moc.exe;%(FullPath)</AdditionalInputs>
+      <AdditionalInputs Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Release|Win32&apos;">greenbutton.h;%(AdditionalInputs)</AdditionalInputs>
+      <Command Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Release|Win32&apos;">$(QTDIR)\bin\moc.exe  -DUNICODE -DWIN32 -DQT_NO_DEBUG -DQT_WIDGETS_LIB -DQT_GUI_LIB -DQT_CORE_LIB -D_MSC_VER=1900 -D_WIN32 -IC:/QT/QT5.6.3/5.6.3/MSVC2015/mkspecs/win32-msvc2015 -ID:/qtSpace/mnavigation -IE:/compile/SQP_EXL_20160420/vtk-debug/include/vtk-7.0 -IC:/QT/QT5.6.3/5.6.3/MSVC2015/include -IC:/QT/QT5.6.3/5.6.3/MSVC2015/include/QtWidgets -IC:/QT/QT5.6.3/5.6.3/MSVC2015/include/QtGui -IC:/QT/QT5.6.3/5.6.3/MSVC2015/include/QtANGLE -IC:/QT/QT5.6.3/5.6.3/MSVC2015/include/QtCore greenbutton.h -o release\moc_greenbutton.cpp</Command>
+      <Message Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Release|Win32&apos;">MOC greenbutton.h</Message>
+      <Outputs Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Release|Win32&apos;">release\moc_greenbutton.cpp;%(Outputs)</Outputs>
+      <AdditionalInputs Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Debug|Win32&apos;">greenbutton.h;%(AdditionalInputs)</AdditionalInputs>
+      <Command Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Debug|Win32&apos;">$(QTDIR)\bin\moc.exe  -DUNICODE -DWIN32 -DQT_WIDGETS_LIB -DQT_GUI_LIB -DQT_CORE_LIB -D_MSC_VER=1900 -D_WIN32 -IC:/QT/QT5.6.3/5.6.3/MSVC2015/mkspecs/win32-msvc2015 -ID:/qtSpace/mnavigation -IE:/compile/SQP_EXL_20160420/vtk-debug/include/vtk-7.0 -IC:/QT/QT5.6.3/5.6.3/MSVC2015/include -IC:/QT/QT5.6.3/5.6.3/MSVC2015/include/QtWidgets -IC:/QT/QT5.6.3/5.6.3/MSVC2015/include/QtGui -IC:/QT/QT5.6.3/5.6.3/MSVC2015/include/QtANGLE -IC:/QT/QT5.6.3/5.6.3/MSVC2015/include/QtCore greenbutton.h -o debug\moc_greenbutton.cpp</Command>
+      <Message Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Debug|Win32&apos;">MOC greenbutton.h</Message>
+      <Outputs Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Debug|Win32&apos;">debug\moc_greenbutton.cpp;%(Outputs)</Outputs>
     </CustomBuild>
     <CustomBuild Include="mainwindow.h">
-      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">"$(QTDIR)\bin\moc.exe"  "%(FullPath)" -o "$(ConfigurationName)\moc_%(Filename).cpp"  -D_WINDOWS -DUNICODE -DWIN32 -DQT_NO_DEBUG -DQT_WIDGETS_LIB -DQT_GUI_LIB -DQT_CORE_LIB -DNDEBUG "-I." "-I.\..\..\vtk7.1.1\vtk-debug\include\vtk-7.1" "-I$(QTDIR)\include" "-I$(QTDIR)\include\QtWidgets" "-I$(QTDIR)\include\QtGui" "-I$(QTDIR)\include\QtANGLE" "-I$(QTDIR)\include\QtCore" "-I.\release" "-I$(QTDIR)\mkspecs\win32-msvc2015"</Command>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Moc%27ing mainwindow.h...</Message>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">"$(QTDIR)\bin\moc.exe"  "%(FullPath)" -o "$(ConfigurationName)\moc_%(Filename).cpp"  -D_WINDOWS -DUNICODE -DWIN32 -DQT_WIDGETS_LIB -DQT_GUI_LIB -DQT_CORE_LIB "-I." "-I.\..\..\vtk7.1.1\vtk-debug\include\vtk-7.1" "-I$(QTDIR)\include" "-I$(QTDIR)\include\QtWidgets" "-I$(QTDIR)\include\QtGui" "-I$(QTDIR)\include\QtANGLE" "-I$(QTDIR)\include\QtCore" "-I.\debug" "-I$(QTDIR)\mkspecs\win32-msvc2015"</Command>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Moc%27ing mainwindow.h...</Message>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(ConfigurationName)\moc_%(Filename).cpp</Outputs>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(ConfigurationName)\moc_%(Filename).cpp</Outputs>
-      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(QTDIR)\bin\moc.exe;%(FullPath)</AdditionalInputs>
-      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(QTDIR)\bin\moc.exe;%(FullPath)</AdditionalInputs>
+      <AdditionalInputs Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Release|Win32&apos;">mainwindow.h;%(AdditionalInputs)</AdditionalInputs>
+      <Command Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Release|Win32&apos;">$(QTDIR)\bin\moc.exe  -DUNICODE -DWIN32 -DQT_NO_DEBUG -DQT_WIDGETS_LIB -DQT_GUI_LIB -DQT_CORE_LIB -D_MSC_VER=1900 -D_WIN32 -IC:/QT/QT5.6.3/5.6.3/MSVC2015/mkspecs/win32-msvc2015 -ID:/qtSpace/mnavigation -IE:/compile/SQP_EXL_20160420/vtk-debug/include/vtk-7.0 -IC:/QT/QT5.6.3/5.6.3/MSVC2015/include -IC:/QT/QT5.6.3/5.6.3/MSVC2015/include/QtWidgets -IC:/QT/QT5.6.3/5.6.3/MSVC2015/include/QtGui -IC:/QT/QT5.6.3/5.6.3/MSVC2015/include/QtANGLE -IC:/QT/QT5.6.3/5.6.3/MSVC2015/include/QtCore mainwindow.h -o release\moc_mainwindow.cpp</Command>
+      <Message Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Release|Win32&apos;">MOC mainwindow.h</Message>
+      <Outputs Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Release|Win32&apos;">release\moc_mainwindow.cpp;%(Outputs)</Outputs>
+      <AdditionalInputs Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Debug|Win32&apos;">mainwindow.h;%(AdditionalInputs)</AdditionalInputs>
+      <Command Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Debug|Win32&apos;">$(QTDIR)\bin\moc.exe  -DUNICODE -DWIN32 -DQT_WIDGETS_LIB -DQT_GUI_LIB -DQT_CORE_LIB -D_MSC_VER=1900 -D_WIN32 -IC:/QT/QT5.6.3/5.6.3/MSVC2015/mkspecs/win32-msvc2015 -ID:/qtSpace/mnavigation -IE:/compile/SQP_EXL_20160420/vtk-debug/include/vtk-7.0 -IC:/QT/QT5.6.3/5.6.3/MSVC2015/include -IC:/QT/QT5.6.3/5.6.3/MSVC2015/include/QtWidgets -IC:/QT/QT5.6.3/5.6.3/MSVC2015/include/QtGui -IC:/QT/QT5.6.3/5.6.3/MSVC2015/include/QtANGLE -IC:/QT/QT5.6.3/5.6.3/MSVC2015/include/QtCore mainwindow.h -o debug\moc_mainwindow.cpp</Command>
+      <Message Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Debug|Win32&apos;">MOC mainwindow.h</Message>
+      <Outputs Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Debug|Win32&apos;">debug\moc_mainwindow.cpp;%(Outputs)</Outputs>
     </CustomBuild>
     <CustomBuild Include="mydialog.h">
-      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">"$(QTDIR)\bin\moc.exe"  "%(FullPath)" -o "$(ConfigurationName)\moc_%(Filename).cpp"  -D_WINDOWS -DUNICODE -DWIN32 -DQT_NO_DEBUG -DQT_WIDGETS_LIB -DQT_GUI_LIB -DQT_CORE_LIB -DNDEBUG "-I." "-I.\..\..\vtk7.1.1\vtk-debug\include\vtk-7.1" "-I$(QTDIR)\include" "-I$(QTDIR)\include\QtWidgets" "-I$(QTDIR)\include\QtGui" "-I$(QTDIR)\include\QtANGLE" "-I$(QTDIR)\include\QtCore" "-I.\release" "-I$(QTDIR)\mkspecs\win32-msvc2015"</Command>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Moc%27ing mydialog.h...</Message>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">"$(QTDIR)\bin\moc.exe"  "%(FullPath)" -o "$(ConfigurationName)\moc_%(Filename).cpp"  -D_WINDOWS -DUNICODE -DWIN32 -DQT_WIDGETS_LIB -DQT_GUI_LIB -DQT_CORE_LIB "-I." "-I.\..\..\vtk7.1.1\vtk-debug\include\vtk-7.1" "-I$(QTDIR)\include" "-I$(QTDIR)\include\QtWidgets" "-I$(QTDIR)\include\QtGui" "-I$(QTDIR)\include\QtANGLE" "-I$(QTDIR)\include\QtCore" "-I.\debug" "-I$(QTDIR)\mkspecs\win32-msvc2015"</Command>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Moc%27ing mydialog.h...</Message>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(ConfigurationName)\moc_%(Filename).cpp</Outputs>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(ConfigurationName)\moc_%(Filename).cpp</Outputs>
-      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(QTDIR)\bin\moc.exe;%(FullPath)</AdditionalInputs>
-      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(QTDIR)\bin\moc.exe;%(FullPath)</AdditionalInputs>
+      <AdditionalInputs Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Release|Win32&apos;">mydialog.h;%(AdditionalInputs)</AdditionalInputs>
+      <Command Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Release|Win32&apos;">$(QTDIR)\bin\moc.exe  -DUNICODE -DWIN32 -DQT_NO_DEBUG -DQT_WIDGETS_LIB -DQT_GUI_LIB -DQT_CORE_LIB -D_MSC_VER=1900 -D_WIN32 -IC:/QT/QT5.6.3/5.6.3/MSVC2015/mkspecs/win32-msvc2015 -ID:/qtSpace/mnavigation -IE:/compile/SQP_EXL_20160420/vtk-debug/include/vtk-7.0 -IC:/QT/QT5.6.3/5.6.3/MSVC2015/include -IC:/QT/QT5.6.3/5.6.3/MSVC2015/include/QtWidgets -IC:/QT/QT5.6.3/5.6.3/MSVC2015/include/QtGui -IC:/QT/QT5.6.3/5.6.3/MSVC2015/include/QtANGLE -IC:/QT/QT5.6.3/5.6.3/MSVC2015/include/QtCore mydialog.h -o release\moc_mydialog.cpp</Command>
+      <Message Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Release|Win32&apos;">MOC mydialog.h</Message>
+      <Outputs Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Release|Win32&apos;">release\moc_mydialog.cpp;%(Outputs)</Outputs>
+      <AdditionalInputs Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Debug|Win32&apos;">mydialog.h;%(AdditionalInputs)</AdditionalInputs>
+      <Command Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Debug|Win32&apos;">$(QTDIR)\bin\moc.exe  -DUNICODE -DWIN32 -DQT_WIDGETS_LIB -DQT_GUI_LIB -DQT_CORE_LIB -D_MSC_VER=1900 -D_WIN32 -IC:/QT/QT5.6.3/5.6.3/MSVC2015/mkspecs/win32-msvc2015 -ID:/qtSpace/mnavigation -IE:/compile/SQP_EXL_20160420/vtk-debug/include/vtk-7.0 -IC:/QT/QT5.6.3/5.6.3/MSVC2015/include -IC:/QT/QT5.6.3/5.6.3/MSVC2015/include/QtWidgets -IC:/QT/QT5.6.3/5.6.3/MSVC2015/include/QtGui -IC:/QT/QT5.6.3/5.6.3/MSVC2015/include/QtANGLE -IC:/QT/QT5.6.3/5.6.3/MSVC2015/include/QtCore mydialog.h -o debug\moc_mydialog.cpp</Command>
+      <Message Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Debug|Win32&apos;">MOC mydialog.h</Message>
+      <Outputs Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Debug|Win32&apos;">debug\moc_mydialog.cpp;%(Outputs)</Outputs>
     </CustomBuild>
     <CustomBuild Include="mygridlayout.h">
-      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">"$(QTDIR)\bin\moc.exe"  "%(FullPath)" -o "$(ConfigurationName)\moc_%(Filename).cpp"  -D_WINDOWS -DUNICODE -DWIN32 -DQT_NO_DEBUG -DQT_WIDGETS_LIB -DQT_GUI_LIB -DQT_CORE_LIB -DNDEBUG "-I." "-I.\..\..\vtk7.1.1\vtk-debug\include\vtk-7.1" "-I$(QTDIR)\include" "-I$(QTDIR)\include\QtWidgets" "-I$(QTDIR)\include\QtGui" "-I$(QTDIR)\include\QtANGLE" "-I$(QTDIR)\include\QtCore" "-I.\release" "-I$(QTDIR)\mkspecs\win32-msvc2015"</Command>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Moc%27ing mygridlayout.h...</Message>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">"$(QTDIR)\bin\moc.exe"  "%(FullPath)" -o "$(ConfigurationName)\moc_%(Filename).cpp"  -D_WINDOWS -DUNICODE -DWIN32 -DQT_WIDGETS_LIB -DQT_GUI_LIB -DQT_CORE_LIB "-I." "-I.\..\..\vtk7.1.1\vtk-debug\include\vtk-7.1" "-I$(QTDIR)\include" "-I$(QTDIR)\include\QtWidgets" "-I$(QTDIR)\include\QtGui" "-I$(QTDIR)\include\QtANGLE" "-I$(QTDIR)\include\QtCore" "-I.\debug" "-I$(QTDIR)\mkspecs\win32-msvc2015"</Command>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Moc%27ing mygridlayout.h...</Message>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(ConfigurationName)\moc_%(Filename).cpp</Outputs>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(ConfigurationName)\moc_%(Filename).cpp</Outputs>
-      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(QTDIR)\bin\moc.exe;%(FullPath)</AdditionalInputs>
-      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(QTDIR)\bin\moc.exe;%(FullPath)</AdditionalInputs>
+      <AdditionalInputs Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Release|Win32&apos;">mygridlayout.h;%(AdditionalInputs)</AdditionalInputs>
+      <Command Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Release|Win32&apos;">$(QTDIR)\bin\moc.exe  -DUNICODE -DWIN32 -DQT_NO_DEBUG -DQT_WIDGETS_LIB -DQT_GUI_LIB -DQT_CORE_LIB -D_MSC_VER=1900 -D_WIN32 -IC:/QT/QT5.6.3/5.6.3/MSVC2015/mkspecs/win32-msvc2015 -ID:/qtSpace/mnavigation -IE:/compile/SQP_EXL_20160420/vtk-debug/include/vtk-7.0 -IC:/QT/QT5.6.3/5.6.3/MSVC2015/include -IC:/QT/QT5.6.3/5.6.3/MSVC2015/include/QtWidgets -IC:/QT/QT5.6.3/5.6.3/MSVC2015/include/QtGui -IC:/QT/QT5.6.3/5.6.3/MSVC2015/include/QtANGLE -IC:/QT/QT5.6.3/5.6.3/MSVC2015/include/QtCore mygridlayout.h -o release\moc_mygridlayout.cpp</Command>
+      <Message Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Release|Win32&apos;">MOC mygridlayout.h</Message>
+      <Outputs Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Release|Win32&apos;">release\moc_mygridlayout.cpp;%(Outputs)</Outputs>
+      <AdditionalInputs Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Debug|Win32&apos;">mygridlayout.h;%(AdditionalInputs)</AdditionalInputs>
+      <Command Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Debug|Win32&apos;">$(QTDIR)\bin\moc.exe  -DUNICODE -DWIN32 -DQT_WIDGETS_LIB -DQT_GUI_LIB -DQT_CORE_LIB -D_MSC_VER=1900 -D_WIN32 -IC:/QT/QT5.6.3/5.6.3/MSVC2015/mkspecs/win32-msvc2015 -ID:/qtSpace/mnavigation -IE:/compile/SQP_EXL_20160420/vtk-debug/include/vtk-7.0 -IC:/QT/QT5.6.3/5.6.3/MSVC2015/include -IC:/QT/QT5.6.3/5.6.3/MSVC2015/include/QtWidgets -IC:/QT/QT5.6.3/5.6.3/MSVC2015/include/QtGui -IC:/QT/QT5.6.3/5.6.3/MSVC2015/include/QtANGLE -IC:/QT/QT5.6.3/5.6.3/MSVC2015/include/QtCore mygridlayout.h -o debug\moc_mygridlayout.cpp</Command>
+      <Message Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Debug|Win32&apos;">MOC mygridlayout.h</Message>
+      <Outputs Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Debug|Win32&apos;">debug\moc_mygridlayout.cpp;%(Outputs)</Outputs>
     </CustomBuild>
     <CustomBuild Include="mypushbutton.h">
-      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">"$(QTDIR)\bin\moc.exe"  "%(FullPath)" -o "$(ConfigurationName)\moc_%(Filename).cpp"  -D_WINDOWS -DUNICODE -DWIN32 -DQT_NO_DEBUG -DQT_WIDGETS_LIB -DQT_GUI_LIB -DQT_CORE_LIB -DNDEBUG "-I." "-I.\..\..\vtk7.1.1\vtk-debug\include\vtk-7.1" "-I$(QTDIR)\include" "-I$(QTDIR)\include\QtWidgets" "-I$(QTDIR)\include\QtGui" "-I$(QTDIR)\include\QtANGLE" "-I$(QTDIR)\include\QtCore" "-I.\release" "-I$(QTDIR)\mkspecs\win32-msvc2015"</Command>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Moc%27ing mypushbutton.h...</Message>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">"$(QTDIR)\bin\moc.exe"  "%(FullPath)" -o "$(ConfigurationName)\moc_%(Filename).cpp"  -D_WINDOWS -DUNICODE -DWIN32 -DQT_WIDGETS_LIB -DQT_GUI_LIB -DQT_CORE_LIB "-I." "-I.\..\..\vtk7.1.1\vtk-debug\include\vtk-7.1" "-I$(QTDIR)\include" "-I$(QTDIR)\include\QtWidgets" "-I$(QTDIR)\include\QtGui" "-I$(QTDIR)\include\QtANGLE" "-I$(QTDIR)\include\QtCore" "-I.\debug" "-I$(QTDIR)\mkspecs\win32-msvc2015"</Command>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Moc%27ing mypushbutton.h...</Message>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(ConfigurationName)\moc_%(Filename).cpp</Outputs>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(ConfigurationName)\moc_%(Filename).cpp</Outputs>
-      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(QTDIR)\bin\moc.exe;%(FullPath)</AdditionalInputs>
-      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(QTDIR)\bin\moc.exe;%(FullPath)</AdditionalInputs>
+      <AdditionalInputs Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Release|Win32&apos;">mypushbutton.h;%(AdditionalInputs)</AdditionalInputs>
+      <Command Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Release|Win32&apos;">$(QTDIR)\bin\moc.exe  -DUNICODE -DWIN32 -DQT_NO_DEBUG -DQT_WIDGETS_LIB -DQT_GUI_LIB -DQT_CORE_LIB -D_MSC_VER=1900 -D_WIN32 -IC:/QT/QT5.6.3/5.6.3/MSVC2015/mkspecs/win32-msvc2015 -ID:/qtSpace/mnavigation -IE:/compile/SQP_EXL_20160420/vtk-debug/include/vtk-7.0 -IC:/QT/QT5.6.3/5.6.3/MSVC2015/include -IC:/QT/QT5.6.3/5.6.3/MSVC2015/include/QtWidgets -IC:/QT/QT5.6.3/5.6.3/MSVC2015/include/QtGui -IC:/QT/QT5.6.3/5.6.3/MSVC2015/include/QtANGLE -IC:/QT/QT5.6.3/5.6.3/MSVC2015/include/QtCore mypushbutton.h -o release\moc_mypushbutton.cpp</Command>
+      <Message Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Release|Win32&apos;">MOC mypushbutton.h</Message>
+      <Outputs Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Release|Win32&apos;">release\moc_mypushbutton.cpp;%(Outputs)</Outputs>
+      <AdditionalInputs Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Debug|Win32&apos;">mypushbutton.h;%(AdditionalInputs)</AdditionalInputs>
+      <Command Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Debug|Win32&apos;">$(QTDIR)\bin\moc.exe  -DUNICODE -DWIN32 -DQT_WIDGETS_LIB -DQT_GUI_LIB -DQT_CORE_LIB -D_MSC_VER=1900 -D_WIN32 -IC:/QT/QT5.6.3/5.6.3/MSVC2015/mkspecs/win32-msvc2015 -ID:/qtSpace/mnavigation -IE:/compile/SQP_EXL_20160420/vtk-debug/include/vtk-7.0 -IC:/QT/QT5.6.3/5.6.3/MSVC2015/include -IC:/QT/QT5.6.3/5.6.3/MSVC2015/include/QtWidgets -IC:/QT/QT5.6.3/5.6.3/MSVC2015/include/QtGui -IC:/QT/QT5.6.3/5.6.3/MSVC2015/include/QtANGLE -IC:/QT/QT5.6.3/5.6.3/MSVC2015/include/QtCore mypushbutton.h -o debug\moc_mypushbutton.cpp</Command>
+      <Message Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Debug|Win32&apos;">MOC mypushbutton.h</Message>
+      <Outputs Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Debug|Win32&apos;">debug\moc_mypushbutton.cpp;%(Outputs)</Outputs>
     </CustomBuild>
     <CustomBuild Include="myslicerwidget.h">
-      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">"$(QTDIR)\bin\moc.exe"  "%(FullPath)" -o "$(ConfigurationName)\moc_%(Filename).cpp"  -D_WINDOWS -DUNICODE -DWIN32 -DQT_NO_DEBUG -DQT_WIDGETS_LIB -DQT_GUI_LIB -DQT_CORE_LIB -DNDEBUG "-I." "-I.\..\..\vtk7.1.1\vtk-debug\include\vtk-7.1" "-I$(QTDIR)\include" "-I$(QTDIR)\include\QtWidgets" "-I$(QTDIR)\include\QtGui" "-I$(QTDIR)\include\QtANGLE" "-I$(QTDIR)\include\QtCore" "-I.\release" "-I$(QTDIR)\mkspecs\win32-msvc2015"</Command>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Moc%27ing myslicerwidget.h...</Message>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">"$(QTDIR)\bin\moc.exe"  "%(FullPath)" -o "$(ConfigurationName)\moc_%(Filename).cpp"  -D_WINDOWS -DUNICODE -DWIN32 -DQT_WIDGETS_LIB -DQT_GUI_LIB -DQT_CORE_LIB "-I." "-I.\..\..\vtk7.1.1\vtk-debug\include\vtk-7.1" "-I$(QTDIR)\include" "-I$(QTDIR)\include\QtWidgets" "-I$(QTDIR)\include\QtGui" "-I$(QTDIR)\include\QtANGLE" "-I$(QTDIR)\include\QtCore" "-I.\debug" "-I$(QTDIR)\mkspecs\win32-msvc2015"</Command>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Moc%27ing myslicerwidget.h...</Message>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(ConfigurationName)\moc_%(Filename).cpp</Outputs>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(ConfigurationName)\moc_%(Filename).cpp</Outputs>
-      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(QTDIR)\bin\moc.exe;%(FullPath)</AdditionalInputs>
-      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(QTDIR)\bin\moc.exe;%(FullPath)</AdditionalInputs>
+      <AdditionalInputs Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Release|Win32&apos;">myslicerwidget.h;%(AdditionalInputs)</AdditionalInputs>
+      <Command Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Release|Win32&apos;">$(QTDIR)\bin\moc.exe  -DUNICODE -DWIN32 -DQT_NO_DEBUG -DQT_WIDGETS_LIB -DQT_GUI_LIB -DQT_CORE_LIB -D_MSC_VER=1900 -D_WIN32 -IC:/QT/QT5.6.3/5.6.3/MSVC2015/mkspecs/win32-msvc2015 -ID:/qtSpace/mnavigation -IE:/compile/SQP_EXL_20160420/vtk-debug/include/vtk-7.0 -IC:/QT/QT5.6.3/5.6.3/MSVC2015/include -IC:/QT/QT5.6.3/5.6.3/MSVC2015/include/QtWidgets -IC:/QT/QT5.6.3/5.6.3/MSVC2015/include/QtGui -IC:/QT/QT5.6.3/5.6.3/MSVC2015/include/QtANGLE -IC:/QT/QT5.6.3/5.6.3/MSVC2015/include/QtCore myslicerwidget.h -o release\moc_myslicerwidget.cpp</Command>
+      <Message Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Release|Win32&apos;">MOC myslicerwidget.h</Message>
+      <Outputs Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Release|Win32&apos;">release\moc_myslicerwidget.cpp;%(Outputs)</Outputs>
+      <AdditionalInputs Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Debug|Win32&apos;">myslicerwidget.h;%(AdditionalInputs)</AdditionalInputs>
+      <Command Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Debug|Win32&apos;">$(QTDIR)\bin\moc.exe  -DUNICODE -DWIN32 -DQT_WIDGETS_LIB -DQT_GUI_LIB -DQT_CORE_LIB -D_MSC_VER=1900 -D_WIN32 -IC:/QT/QT5.6.3/5.6.3/MSVC2015/mkspecs/win32-msvc2015 -ID:/qtSpace/mnavigation -IE:/compile/SQP_EXL_20160420/vtk-debug/include/vtk-7.0 -IC:/QT/QT5.6.3/5.6.3/MSVC2015/include -IC:/QT/QT5.6.3/5.6.3/MSVC2015/include/QtWidgets -IC:/QT/QT5.6.3/5.6.3/MSVC2015/include/QtGui -IC:/QT/QT5.6.3/5.6.3/MSVC2015/include/QtANGLE -IC:/QT/QT5.6.3/5.6.3/MSVC2015/include/QtCore myslicerwidget.h -o debug\moc_myslicerwidget.cpp</Command>
+      <Message Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Debug|Win32&apos;">MOC myslicerwidget.h</Message>
+      <Outputs Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Debug|Win32&apos;">debug\moc_myslicerwidget.cpp;%(Outputs)</Outputs>
     </CustomBuild>
     <CustomBuild Include="myvolumewidget.h">
-      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">"$(QTDIR)\bin\moc.exe"  "%(FullPath)" -o "$(ConfigurationName)\moc_%(Filename).cpp"  -D_WINDOWS -DUNICODE -DWIN32 -DQT_NO_DEBUG -DQT_WIDGETS_LIB -DQT_GUI_LIB -DQT_CORE_LIB -DNDEBUG "-I." "-I.\..\..\vtk7.1.1\vtk-debug\include\vtk-7.1" "-I$(QTDIR)\include" "-I$(QTDIR)\include\QtWidgets" "-I$(QTDIR)\include\QtGui" "-I$(QTDIR)\include\QtANGLE" "-I$(QTDIR)\include\QtCore" "-I.\release" "-I$(QTDIR)\mkspecs\win32-msvc2015"</Command>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Moc%27ing myvolumewidget.h...</Message>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">"$(QTDIR)\bin\moc.exe"  "%(FullPath)" -o "$(ConfigurationName)\moc_%(Filename).cpp"  -D_WINDOWS -DUNICODE -DWIN32 -DQT_WIDGETS_LIB -DQT_GUI_LIB -DQT_CORE_LIB "-I." "-I.\..\..\vtk7.1.1\vtk-debug\include\vtk-7.1" "-I$(QTDIR)\include" "-I$(QTDIR)\include\QtWidgets" "-I$(QTDIR)\include\QtGui" "-I$(QTDIR)\include\QtANGLE" "-I$(QTDIR)\include\QtCore" "-I.\debug" "-I$(QTDIR)\mkspecs\win32-msvc2015"</Command>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Moc%27ing myvolumewidget.h...</Message>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(ConfigurationName)\moc_%(Filename).cpp</Outputs>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(ConfigurationName)\moc_%(Filename).cpp</Outputs>
-      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(QTDIR)\bin\moc.exe;%(FullPath)</AdditionalInputs>
-      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(QTDIR)\bin\moc.exe;%(FullPath)</AdditionalInputs>
+      <AdditionalInputs Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Release|Win32&apos;">myvolumewidget.h;%(AdditionalInputs)</AdditionalInputs>
+      <Command Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Release|Win32&apos;">$(QTDIR)\bin\moc.exe  -DUNICODE -DWIN32 -DQT_NO_DEBUG -DQT_WIDGETS_LIB -DQT_GUI_LIB -DQT_CORE_LIB -D_MSC_VER=1900 -D_WIN32 -IC:/QT/QT5.6.3/5.6.3/MSVC2015/mkspecs/win32-msvc2015 -ID:/qtSpace/mnavigation -IE:/compile/SQP_EXL_20160420/vtk-debug/include/vtk-7.0 -IC:/QT/QT5.6.3/5.6.3/MSVC2015/include -IC:/QT/QT5.6.3/5.6.3/MSVC2015/include/QtWidgets -IC:/QT/QT5.6.3/5.6.3/MSVC2015/include/QtGui -IC:/QT/QT5.6.3/5.6.3/MSVC2015/include/QtANGLE -IC:/QT/QT5.6.3/5.6.3/MSVC2015/include/QtCore myvolumewidget.h -o release\moc_myvolumewidget.cpp</Command>
+      <Message Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Release|Win32&apos;">MOC myvolumewidget.h</Message>
+      <Outputs Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Release|Win32&apos;">release\moc_myvolumewidget.cpp;%(Outputs)</Outputs>
+      <AdditionalInputs Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Debug|Win32&apos;">myvolumewidget.h;%(AdditionalInputs)</AdditionalInputs>
+      <Command Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Debug|Win32&apos;">$(QTDIR)\bin\moc.exe  -DUNICODE -DWIN32 -DQT_WIDGETS_LIB -DQT_GUI_LIB -DQT_CORE_LIB -D_MSC_VER=1900 -D_WIN32 -IC:/QT/QT5.6.3/5.6.3/MSVC2015/mkspecs/win32-msvc2015 -ID:/qtSpace/mnavigation -IE:/compile/SQP_EXL_20160420/vtk-debug/include/vtk-7.0 -IC:/QT/QT5.6.3/5.6.3/MSVC2015/include -IC:/QT/QT5.6.3/5.6.3/MSVC2015/include/QtWidgets -IC:/QT/QT5.6.3/5.6.3/MSVC2015/include/QtGui -IC:/QT/QT5.6.3/5.6.3/MSVC2015/include/QtANGLE -IC:/QT/QT5.6.3/5.6.3/MSVC2015/include/QtCore myvolumewidget.h -o debug\moc_myvolumewidget.cpp</Command>
+      <Message Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Debug|Win32&apos;">MOC myvolumewidget.h</Message>
+      <Outputs Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Debug|Win32&apos;">debug\moc_myvolumewidget.cpp;%(Outputs)</Outputs>
     </CustomBuild>
-    <ClInclude Include="GeneratedFiles\ui_widget.h" />
     <ClInclude Include="qts.h" />
     <ClInclude Include="rendersetting.h" />
     <ClInclude Include="stlmanager.h" />
     <ClInclude Include="vtkcustomtransformanimationcue.h" />
     <ClInclude Include="vtks.h" />
     <CustomBuild Include="widget.h">
-      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">"$(QTDIR)\bin\moc.exe"  "%(FullPath)" -o "$(ConfigurationName)\moc_%(Filename).cpp"  -D_WINDOWS -DUNICODE -DWIN32 -DQT_NO_DEBUG -DQT_WIDGETS_LIB -DQT_GUI_LIB -DQT_CORE_LIB -DNDEBUG "-I." "-I.\..\..\vtk7.1.1\vtk-debug\include\vtk-7.1" "-I$(QTDIR)\include" "-I$(QTDIR)\include\QtWidgets" "-I$(QTDIR)\include\QtGui" "-I$(QTDIR)\include\QtANGLE" "-I$(QTDIR)\include\QtCore" "-I.\release" "-I$(QTDIR)\mkspecs\win32-msvc2015"</Command>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Moc%27ing widget.h...</Message>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">"$(QTDIR)\bin\moc.exe"  "%(FullPath)" -o "$(ConfigurationName)\moc_%(Filename).cpp"  -D_WINDOWS -DUNICODE -DWIN32 -DQT_WIDGETS_LIB -DQT_GUI_LIB -DQT_CORE_LIB "-I." "-I.\..\..\vtk7.1.1\vtk-debug\include\vtk-7.1" "-I$(QTDIR)\include" "-I$(QTDIR)\include\QtWidgets" "-I$(QTDIR)\include\QtGui" "-I$(QTDIR)\include\QtANGLE" "-I$(QTDIR)\include\QtCore" "-I.\debug" "-I$(QTDIR)\mkspecs\win32-msvc2015"</Command>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Moc%27ing widget.h...</Message>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(ConfigurationName)\moc_%(Filename).cpp</Outputs>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(ConfigurationName)\moc_%(Filename).cpp</Outputs>
-      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(QTDIR)\bin\moc.exe;%(FullPath)</AdditionalInputs>
-      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(QTDIR)\bin\moc.exe;%(FullPath)</AdditionalInputs>
+      <AdditionalInputs Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Release|Win32&apos;">widget.h;%(AdditionalInputs)</AdditionalInputs>
+      <Command Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Release|Win32&apos;">$(QTDIR)\bin\moc.exe  -DUNICODE -DWIN32 -DQT_NO_DEBUG -DQT_WIDGETS_LIB -DQT_GUI_LIB -DQT_CORE_LIB -D_MSC_VER=1900 -D_WIN32 -IC:/QT/QT5.6.3/5.6.3/MSVC2015/mkspecs/win32-msvc2015 -ID:/qtSpace/mnavigation -IE:/compile/SQP_EXL_20160420/vtk-debug/include/vtk-7.0 -IC:/QT/QT5.6.3/5.6.3/MSVC2015/include -IC:/QT/QT5.6.3/5.6.3/MSVC2015/include/QtWidgets -IC:/QT/QT5.6.3/5.6.3/MSVC2015/include/QtGui -IC:/QT/QT5.6.3/5.6.3/MSVC2015/include/QtANGLE -IC:/QT/QT5.6.3/5.6.3/MSVC2015/include/QtCore widget.h -o release\moc_widget.cpp</Command>
+      <Message Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Release|Win32&apos;">MOC widget.h</Message>
+      <Outputs Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Release|Win32&apos;">release\moc_widget.cpp;%(Outputs)</Outputs>
+      <AdditionalInputs Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Debug|Win32&apos;">widget.h;%(AdditionalInputs)</AdditionalInputs>
+      <Command Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Debug|Win32&apos;">$(QTDIR)\bin\moc.exe  -DUNICODE -DWIN32 -DQT_WIDGETS_LIB -DQT_GUI_LIB -DQT_CORE_LIB -D_MSC_VER=1900 -D_WIN32 -IC:/QT/QT5.6.3/5.6.3/MSVC2015/mkspecs/win32-msvc2015 -ID:/qtSpace/mnavigation -IE:/compile/SQP_EXL_20160420/vtk-debug/include/vtk-7.0 -IC:/QT/QT5.6.3/5.6.3/MSVC2015/include -IC:/QT/QT5.6.3/5.6.3/MSVC2015/include/QtWidgets -IC:/QT/QT5.6.3/5.6.3/MSVC2015/include/QtGui -IC:/QT/QT5.6.3/5.6.3/MSVC2015/include/QtANGLE -IC:/QT/QT5.6.3/5.6.3/MSVC2015/include/QtCore widget.h -o debug\moc_widget.cpp</Command>
+      <Message Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Debug|Win32&apos;">MOC widget.h</Message>
+      <Outputs Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Debug|Win32&apos;">debug\moc_widget.cpp;%(Outputs)</Outputs>
     </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="debug\moc_backgroundbutton.cpp">
+      <ExcludedFromBuild Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Release|Win32&apos;">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="release\moc_backgroundbutton.cpp">
+      <ExcludedFromBuild Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Debug|Win32&apos;">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="debug\moc_greenbutton.cpp">
+      <ExcludedFromBuild Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Release|Win32&apos;">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="release\moc_greenbutton.cpp">
+      <ExcludedFromBuild Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Debug|Win32&apos;">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="debug\moc_mainwindow.cpp">
+      <ExcludedFromBuild Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Release|Win32&apos;">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="release\moc_mainwindow.cpp">
+      <ExcludedFromBuild Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Debug|Win32&apos;">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="debug\moc_mydialog.cpp">
+      <ExcludedFromBuild Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Release|Win32&apos;">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="release\moc_mydialog.cpp">
+      <ExcludedFromBuild Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Debug|Win32&apos;">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="debug\moc_mygridlayout.cpp">
+      <ExcludedFromBuild Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Release|Win32&apos;">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="release\moc_mygridlayout.cpp">
+      <ExcludedFromBuild Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Debug|Win32&apos;">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="debug\moc_mypushbutton.cpp">
+      <ExcludedFromBuild Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Release|Win32&apos;">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="release\moc_mypushbutton.cpp">
+      <ExcludedFromBuild Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Debug|Win32&apos;">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="debug\moc_myslicerwidget.cpp">
+      <ExcludedFromBuild Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Release|Win32&apos;">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="release\moc_myslicerwidget.cpp">
+      <ExcludedFromBuild Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Debug|Win32&apos;">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="debug\moc_myvolumewidget.cpp">
+      <ExcludedFromBuild Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Release|Win32&apos;">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="release\moc_myvolumewidget.cpp">
+      <ExcludedFromBuild Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Debug|Win32&apos;">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="debug\moc_widget.cpp">
+      <ExcludedFromBuild Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Release|Win32&apos;">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="release\moc_widget.cpp">
+      <ExcludedFromBuild Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Debug|Win32&apos;">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="debug\qrc_resources.cpp">
+      <ExcludedFromBuild Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Release|Win32&apos;">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="release\qrc_resources.cpp">
+      <ExcludedFromBuild Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Debug|Win32&apos;">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClInclude Include="ui_widget.h" />
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="widget.ui">
       <FileType>Document</FileType>
-      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(QTDIR)\bin\uic.exe;%(AdditionalInputs)</AdditionalInputs>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">"$(QTDIR)\bin\uic.exe" -o ".\GeneratedFiles\ui_%(Filename).h" "%(FullPath)"</Command>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Uic%27ing %(Identity)...</Message>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">.\GeneratedFiles\ui_%(Filename).h;%(Outputs)</Outputs>
-      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(QTDIR)\bin\uic.exe;%(AdditionalInputs)</AdditionalInputs>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">"$(QTDIR)\bin\uic.exe" -o ".\GeneratedFiles\ui_%(Filename).h" "%(FullPath)"</Command>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Uic%27ing %(Identity)...</Message>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">.\GeneratedFiles\ui_%(Filename).h;%(Outputs)</Outputs>
+      <AdditionalInputs Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Release|Win32&apos;">widget.ui;QVTKWidget.h;%(AdditionalInputs)</AdditionalInputs>
+      <Command Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Release|Win32&apos;">$(QTDIR)\bin\uic.exe widget.ui -o ui_widget.h</Command>
+      <Message Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Release|Win32&apos;">UIC widget.ui</Message>
+      <Outputs Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Release|Win32&apos;">ui_widget.h;%(Outputs)</Outputs>
+      <AdditionalInputs Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Debug|Win32&apos;">widget.ui;QVTKWidget.h;%(AdditionalInputs)</AdditionalInputs>
+      <Command Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Debug|Win32&apos;">$(QTDIR)\bin\uic.exe widget.ui -o ui_widget.h</Command>
+      <Message Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Debug|Win32&apos;">UIC widget.ui</Message>
+      <Outputs Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Debug|Win32&apos;">ui_widget.h;%(Outputs)</Outputs>
     </CustomBuild>
   </ItemGroup>
   <ItemGroup>
-    <None Include="resources\background.jpg">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
-    </None>
-    <None Include="resources\greenButton.png">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
-    </None>
-    <None Include="resources\mainMagnify.png">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
-    </None>
-    <None Include="resources\mainPower.png">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
-    </None>
-    <None Include="resources\mainShrink.png">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
-    </None>
-    <None Include="resources\mainTranslation.png">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
-    </None>
-    <None Include="resources\navigation.png">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
-    </None>
+    <None Include="resources\background.jpg" />
+    <None Include="resources\greenButton.png" />
+    <None Include="resources\mainMagnify.png" />
+    <None Include="resources\mainPower.png" />
+    <None Include="resources\mainShrink.png" />
+    <None Include="resources\mainTranslation.png" />
+    <None Include="resources\navigation.png" />
     <CustomBuild Include="resources.qrc">
       <FileType>Document</FileType>
-      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">%(FullPath);.\resources\navigation.png;.\resources\mainMagnify.png;.\resources\mainPower.png;.\resources\mainShrink.png;.\resources\mainTranslation.png;.\resources\greenButton.png;.\resources\background.jpg;%(AdditionalInputs)</AdditionalInputs>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">"$(QTDIR)\bin\rcc.exe" -name "%(Filename)" -no-compress "%(FullPath)" -o .\GeneratedFiles\qrc_%(Filename).cpp</Command>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Rcc%27ing %(Identity)...</Message>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">.\GeneratedFiles\qrc_%(Filename).cpp;%(Outputs)</Outputs>
-      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">%(FullPath);.\resources\navigation.png;.\resources\mainMagnify.png;.\resources\mainPower.png;.\resources\mainShrink.png;.\resources\mainTranslation.png;.\resources\greenButton.png;.\resources\background.jpg;%(AdditionalInputs)</AdditionalInputs>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">"$(QTDIR)\bin\rcc.exe" -name "%(Filename)" -no-compress "%(FullPath)" -o .\GeneratedFiles\qrc_%(Filename).cpp</Command>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Rcc%27ing %(Identity)...</Message>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">.\GeneratedFiles\qrc_%(Filename).cpp;%(Outputs)</Outputs>
+      <AdditionalInputs Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Release|Win32&apos;">resources.qrc;resources\greenButton.png;resources\navigation.png;resources\mainMagnify.png;resources\mainTranslation.png;resources\mainShrink.png;resources\mainPower.png;resources\background.jpg;%(AdditionalInputs)</AdditionalInputs>
+      <Command Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Release|Win32&apos;">$(QTDIR)\bin\rcc.exe -name resources resources.qrc -o release\qrc_resources.cpp</Command>
+      <Message Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Release|Win32&apos;">RCC resources.qrc</Message>
+      <Outputs Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Release|Win32&apos;">release\qrc_resources.cpp;%(Outputs)</Outputs>
+      <AdditionalInputs Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Debug|Win32&apos;">resources.qrc;resources\greenButton.png;resources\navigation.png;resources\mainMagnify.png;resources\mainTranslation.png;resources\mainShrink.png;resources\mainPower.png;resources\background.jpg;%(AdditionalInputs)</AdditionalInputs>
+      <Command Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Debug|Win32&apos;">$(QTDIR)\bin\rcc.exe -name resources resources.qrc -o debug\qrc_resources.cpp</Command>
+      <Message Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Debug|Win32&apos;">RCC resources.qrc</Message>
+      <Outputs Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Debug|Win32&apos;">debug\qrc_resources.cpp;%(Outputs)</Outputs>
     </CustomBuild>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets" />
-  <ProjectExtensions>
-    <VisualStudio>
-      <UserProperties UicDir=".\GeneratedFiles" RccDir=".\GeneratedFiles" Qt5Version_x0020_Win32="msvc2015" />
-    </VisualStudio>
-  </ProjectExtensions>
 </Project>

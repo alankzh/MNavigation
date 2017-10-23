@@ -35,6 +35,8 @@ private:
 
     void setLayout();
 
+    void reset();
+
     void setConnection();
 
     void setDrawConnection();
@@ -66,7 +68,7 @@ private:
     MyDialog *stlSelectDialog;//选择操作哪个.stl模型
     MyDialog *stlDeleteDialog;//选择删除哪个.stl模型
     QPushButton *stlDeleteButton;//按下弹出删除哪个.stl模型的对话框
-    bool isOpenDir;
+    bool isOpenDir=false;
     int lastposition;
     //能否做标记
     bool canTarger=false;

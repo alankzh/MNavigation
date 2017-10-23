@@ -1,4 +1,4 @@
-#include "mypushbutton.h"
+ï»¿#include "mypushbutton.h"
 
 MyPushButton::MyPushButton(QWidget *parent):QPushButton(parent)
 {    
@@ -10,6 +10,5 @@ MyPushButton::MyPushButton(const QString &text,QWidget *parent):QPushButton(pare
 }
 
 void MyPushButton::mouseReleaseEvent(QMouseEvent *event){
-    //ºöÂÔÊÂ¼þ£¬ÈÃ¸¸¿Ø¼þ²¶×½,layout²¼¾Ö²»½Ð¸¸¿Ø¼þ
     event->ignore();
 }

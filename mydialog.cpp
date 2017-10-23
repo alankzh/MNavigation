@@ -1,32 +1,28 @@
-#include "mydialog.h"
+ï»¿#include "mydialog.h"
 
 MyDialog::MyDialog(QWidget *parent):QDialog(parent)
 {
     vLayout=new QVBoxLayout();
 
     myGrid=new MyGridLayout();
-    hint=new QLabel(QString::fromLocal8Bit("ÇëÑ¡Ôñµ¼ÈëµÄ.stlÄ£ĞÍ"));
+    hint=new QLabel(QString::fromLocal8Bit("é€‰æ‹©è¦å¯¼å…¥çš„æ¨¡å‹"));
     hint->setAlignment(Qt::AlignTop);
     vLayout->addWidget(hint);
     vLayout->addLayout(myGrid);
 
-    QPushButton *closeButton=new QPushButton(QString::fromLocal8Bit("È¡Ïû"));
+    QPushButton *closeButton=new QPushButton(QString::fromLocal8Bit("å–æ¶ˆ"));
     vLayout->addWidget(closeButton);
     connect(closeButton,SIGNAL(clicked()),this,SLOT(activeQuit()));
     setWindowFlags(Qt::CustomizeWindowHint);
     setLayout(vLayout);
 
-    setMaximumHeight(200);
-    setMaximumWidth(200);
-    //ÉèÖÃÎªÈç¹û²»´¦Àí£¬ÔòÆäËû´°¿ÚµÄÊÂ¼şÎŞ·¨´¥·¢(°´Å¥ÎŞ·¨µã»÷µÈ)
+    setMaximumSize(200,200);
+    setMinimumSize(200,200);
+    
     setModal(true);
 }
 
-/**
- * @brief MyDialog::mouseReleaseEvent
- * µã»÷gridLayout²¼¾ÖÄÚµÄ°´Å¥»á·¢ËÍÊÂ¼şonItemClicked
- * @param event
- */
+
 void MyDialog::mouseReleaseEvent(QMouseEvent *event){
     int x=event->pos().x()-myGrid->getXPos();
     int y=event->pos().y()-myGrid->getYPos();
@@ -34,22 +30,16 @@ void MyDialog::mouseReleaseEvent(QMouseEvent *event){
     int height=myGrid->getHeight();
     int columnCount=myGrid->getColumnCount();
     int rowCount=myGrid->getRowCount();
-
-    //Èç¹û0ĞĞÎŞÊı¾İµÄÇé¿öÏÂ
+    
     if(rowCount==0){
         return ;
     }
-    //ÊÂ¼ş·¢ÉúÊÇ·ñÔÚgridLayout²¼¾ÖÄÚ
+    
     if(x >= 0 && x <= width && y >= 0 && y <= height){
-        //ËùÔÚÁĞ,0¿ªÍ·
         int column=x/(width/columnCount);
-        //ËùÔÚĞĞ£¬0¿ªÍ·
         int row=y/(height/rowCount);
-
-        //ÅĞ¶ÏÊÇ·ñµã»÷µÄÊÇ°´Å¥£¬Èô×îºóÒ»ĞĞÖ»ÓĞÒ»¸ö°´Å¥£¬Ôò×îºóÒ»ĞĞµÄÁô°×´¦±»µã»÷²»»á·¢ËÍµã»÷ĞÅºÅ
         QString buttonName=myGrid->getItemName(row,column);
-        if(buttonName!=NULL){
-            //·¢ËÍµã»÷ĞÅºÅ
+        if(buttonName!=NULL){       
             qDebug()<<"emit!!!"<<"  buttonName:"<<buttonName<<"  row:"<<row<<"  column"<<column;
             int index=row*columnCount+column;
             emit this->onItemClicked(buttonName,index);
@@ -59,34 +49,19 @@ void MyDialog::mouseReleaseEvent(QMouseEvent *event){
     update();
 }
 
-/**
- * @brief MyDialog::showEvent
- * µ±showEventÊÂ¼ş±»´¥·¢Ê±£¬¿Ø¼şµÄÕıÈ·³ß´çÖÕÓÚµÃµ½¼ÆËã
- * @param event
- */
+
 void MyDialog::showEvent(QShowEvent *event){
     myGrid->updateGeometry();
 }
 
-/**
- * @brief MyDialog::setGridTexts
- * ÉèÖÃÍø¸ñ°´Å¥µÄÃû×Ö
- * @param list
- */
+
 void MyDialog::setGridTexts(QList<QString> list){
   //  myGrid->setTexts(list);
     myGrid->setTexts(list);
+    update();
 }
 
-/**
- * @brief MyDialog::setLocation
- * setGeometry·½·¨¿ÉÒÔÉèÖÃMyDialogµÄ×ø±ê£¬ÕâÀï·â×°Ò»²ã£¬ÒÔ±¸ºóĞø¿ÉÄÜµÄ²Ù×÷
- * TODO ¿¼²ìÕâ¸ö·½·¨ÊÇ·ñĞèÒªÉ¾µô
- * @param x
- * @param y
- * @param w
- * @param h
- */
+
 void MyDialog::setLocation(int x, int y, int w, int h){
     setGeometry(x,y,w,h);
 }
@@ -98,3 +73,4 @@ void MyDialog::setHint(QString str){
 void MyDialog::activeQuit(){
     this->close();
 }
+
