@@ -22,13 +22,6 @@ myVolumeWidget::myVolumeWidget(QWidget *parent):QVTKWidget(parent)
  * 体绘制，传入的路径为文件夹地址
  */
 bool myVolumeWidget::setVolumeData(const char *dirPath){
-<<<<<<< HEAD
-=======
-    if(hasVolume){
-     //   dicomReader->Delete();
-     //   volume->Delete();
-    }
->>>>>>> temp
     vtkAlgorithm *reader=0;
     vtkImageData *input=0;
 
@@ -151,15 +144,13 @@ vtkVector<double, 6> myVolumeWidget::GetVolumeBounds() const{
 }
 
 void myVolumeWidget::ListenMarkClick() {
-<<<<<<< HEAD
+
 	vtkConnections->Connect(m_pRenderer->GetRenderWindow()->GetInteractor(), vtkCommand::RightButtonPressEvent, this, SLOT(Mark(vtkObject*, unsigned long, void*, void*)));
-=======
-    vtkConnections->Connect(m_pRenderer->GetRenderWindow()->GetInteractor(), vtkCommand::LeftButtonPressEvent, this, SLOT(Mark(vtkObject*, unsigned long, void*, void*)));
->>>>>>> temp
+
 }
 
 void myVolumeWidget::Mark(vtkObject* obj, unsigned long, void*, void*) {
-<<<<<<< HEAD
+
 	vtkRenderWindowInteractor* iren = vtkRenderWindowInteractor::SafeDownCast(obj);
 	int EventPointX = iren->GetEventPosition()[0];
 	int EventPointY = iren->GetEventPosition()[1];
@@ -169,11 +160,6 @@ void myVolumeWidget::Mark(vtkObject* obj, unsigned long, void*, void*) {
 	vtkVector3d WorldPosition = vtkVector3d(picker->GetPickPosition());
 	vtkVector3d ModelPosition = CoordinateConverter::WorldToModel(volume, WorldPosition);
 	emit OnMarkClick(ModelPosition);
-=======
-    vtkRenderWindowInteractor* iren = vtkRenderWindowInteractor::SafeDownCast(obj);
-    int EventPointX = iren->GetEventPosition()[0];
-    int EventPointY = iren->GetEventPosition()[1];
->>>>>>> temp
 }
 
 void myVolumeWidget::MarkReact(vtkVector3d ModelPosition) {
