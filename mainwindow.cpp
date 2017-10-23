@@ -32,6 +32,7 @@ void MainWindow::update_background(){
     update();
 }
 
+
 //初始化
 void MainWindow::init(){
     greenButton1=new GreenButton(this);
@@ -238,8 +239,6 @@ void MainWindow::paintEvent(QPaintEvent* e)
     painter.drawPixmap(e->rect(), m_background, e->rect());
 }
 
-
-
 //打开体绘制文件夹
 void MainWindow::onOpenVolumeDir(){
     qDebug()<<"MainWindow::onOpenVolumeDir";
@@ -249,9 +248,8 @@ void MainWindow::onOpenVolumeDir(){
         qDebug()<<"exit";
         //        QApplication::exit();
         return;
-    }else{
-        isOpenDir=true;
     }
+
 	//支持带中文路径的读取
     QByteArray ba=dirPath.toLocal8Bit();
     const char *dirPath_str=ba.data();

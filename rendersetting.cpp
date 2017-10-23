@@ -172,11 +172,9 @@ void RenderSetting::SetRenderType(RenderType rendertype, RenderSetting::RenderAr
     }
 }
 
-
 void RenderSetting::SetRenderType(RenderType rendertype){
     SetRenderType(rendertype,args);
 }
-
 
 void RenderSetting::ShiftRenderFunction(double shift, vtkColorTransferFunction* colorFun) {
 
@@ -231,7 +229,6 @@ void RenderSetting::ShiftRenderFunction(double shift, vtkPiecewiseFunction* opac
     }
     opacityFun->FillFromDataPointer(n, data);
 }
-
 
 void RenderSetting::ShiftRenderFunction(double shift,int choose){
     qDebug()<<"ShiftRenderFunction";

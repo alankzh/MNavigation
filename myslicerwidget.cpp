@@ -136,7 +136,7 @@ vtkSmartPointer<vtkImageViewer2> mySlicerWidget::getImageViewer2(){
 }
 
 void mySlicerWidget::ListenMarkClick() {
-	vtkConnections->Connect(imageViewer2->GetRenderWindow()->GetInteractor(), vtkCommand::LeftButtonPressEvent, this, SLOT(Mark(vtkObject*, unsigned long, void*, void*)));
+	vtkConnections->Connect(imageViewer2->GetRenderWindow()->GetInteractor(), vtkCommand::RightButtonPressEvent, this, SLOT(Mark(vtkObject*, unsigned long, void*, void*)));
 }
 
 void mySlicerWidget::Mark(vtkObject* obj, unsigned long, void*, void*) {

@@ -14,5 +14,7 @@ public:
 	static double GetSliceRatio(vtkImageViewer2* viewer);
 
 	static vtkVector3d ModelToWorld(vtkProp3D* prop, vtkVector3d ModelPosition);
+
+	static vtkVector3d WorldToModel(vtkProp3D* prop, vtkVector3d WorldPosition);
 };
 

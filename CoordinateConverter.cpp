@@ -126,6 +126,20 @@ vtkVector3d CoordinateConverter::ModelToWorld(vtkProp3D* prop, vtkVector3d model
 	return vtkVector3d(matrix->MultiplyDoublePoint(modelPosition.GetData()));
 }
 
+vtkVector3d CoordinateConverter::WorldToModel(vtkProp3D* prop, vtkVector3d WorldPosition) {
+	prop->ComputeMatrix();
+	auto inverse = vtkSmartPointer<vtkMatrix4x4>::New();
+	vtkMatrix4x4* matrix = prop->GetMatrix();
+	double last = matrix->Element[3][3];
+	vtkVector<double, 4> homoWorld;
+	for (int i = 0; i < 3; i++) {
+		homoWorld[i] = WorldPosition[i];
+	}
+	homoWorld[3] = last;
+	vtkMatrix4x4::Invert(matrix, inverse);
+	return vtkVector3d(inverse->MultiplyDoublePoint(homoWorld.GetData()));
+}
+
 int CoordinateConverter::ModelToSlice(vtkImageViewer2* viewer, vtkVector3d ModelPosition) {
 	int orientation = viewer->GetSliceOrientation();
 	double* bounds = viewer->GetImageActor()->GetMapper()->GetBounds();
