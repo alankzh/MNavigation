@@ -9,12 +9,12 @@ MainWindow::MainWindow(QWidget *parent)
     update_background();
     init();
 
-   
+
     this->setFocus();
     setLayout();
     setConnection();
 
-   
+
     QPushButton *textButton1=new QPushButton(this);
     textButton1->setGeometry(1531,434,60,60);
 }
@@ -31,6 +31,30 @@ void MainWindow::update_background(){
     setMask(bitmap);
     update();
 }
+
+//void MainWindow::reset(){
+//    volumeWidget->close();
+//    sagitalWidget->close();
+//    axialWidget->close();
+//    coronalWidget->close();
+//    volumeWidget=new myVolumeWidget(this);
+//    volumeWidget->setLocation(20,55,735,365);//默认的几何位置
+//    sagitalWidget=new mySlicerWidget(this);
+//    sagitalWidget->setLocation(775,55,735,365);
+//    axialWidget=new mySlicerWidget(this);
+//    axialWidget->setLocation(775,455,735,365);
+//    coronalWidget=new mySlicerWidget(this);
+//    coronalWidget->setLocation(20,455,735,365);
+//    volumeWidget->show();
+//    sagitalWidget->show();
+//    axialWidget->show();
+//    coronalWidget->show();
+//    isOpenDir=false;
+//    lastposition=120;
+//    vtkQtConnect=vtkSmartPointer<vtkEventQtSlotConnect>::New();
+//    stlManager=new StlManager();
+//    actorM=new actorManager();
+//}
 
 //初始化
 void MainWindow::init(){
@@ -72,9 +96,9 @@ void MainWindow::setLayout(){
     greenButton1->setPos(1531,55);
     stlLoadDialog->setGeometry(greenButton1->getXpos()-100,greenButton1->getYpos()+100,200,200);
 
-	/**
-	*TODO 这部分应该写入配置文件，而不是直接加载
-	*/
+    /**
+    *TODO 这部分应该写入配置文件，而不是直接加载
+    */
     stlList.append(QString::fromLocal8Bit("双通道导管"));
     stlList.append(QString::fromLocal8Bit("安全骨钻1"));
     stlList.append(QString::fromLocal8Bit("安全骨钻2"));
@@ -132,40 +156,40 @@ void MainWindow::setLayout(){
 
 //按钮信号连接
 void MainWindow::setConnection(){
-	//退出按钮点击的信号绑定
+    //退出按钮点击的信号绑定
     connect(exitButton,SIGNAL(clicked()),this,SLOT(exitClicked()));
-	//导航按钮的信号绑定
+    //导航按钮的信号绑定
     connect(navigationButton,SIGNAL(clicked()),this,SLOT(navigationClicked()));
-	//十字箭头按钮的信号绑定
+    //十字箭头按钮的信号绑定
     connect(translateButton,SIGNAL(clicked()),this,SLOT(translateClicked()));
-	//放大按钮点击的信号绑定
+    //放大按钮点击的信号绑定
     connect(magnifyButton,SIGNAL(clicked()),this,SLOT(magnifyClicked()));
-	//缩小按钮点击的信号绑定
+    //缩小按钮点击的信号绑定
     connect(shrinkButton,SIGNAL(clicked()),this,SLOT(shrinkCliked()));
 }
 
 //有体绘制数据时需要连接的信号
 void MainWindow::setDrawConnection(){
-	//体绘制窗口下滑动条数值改变的信号绑定
+    //体绘制窗口下滑动条数值改变的信号绑定
     connect(volumeSlider,SIGNAL(valueChanged(int)),this,SLOT(vSlicerValueChange(int)));
-	//sagital截面窗口下滑动条数值改变的信号绑定
+    //sagital截面窗口下滑动条数值改变的信号绑定
     connect(sagitalSlider,SIGNAL(valueChanged(int)),this,SLOT(sSlicerValueChange(int)));
-	//axial截面窗口下滑动条数值改变的信号绑定
+    //axial截面窗口下滑动条数值改变的信号绑定
     connect(axialSlider,SIGNAL(valueChanged(int)),this,SLOT(aSlicerValueChange(int)));
-	//coronal截面窗口下滑动条数值改变的信号绑定
+    //coronal截面窗口下滑动条数值改变的信号绑定
     connect(coronalSlider,SIGNAL(valueChanged(int)),this,SLOT(cSlicerValueChange(int)));
-	//绿色按钮1点击的信号绑定
+    //绿色按钮1点击的信号绑定
     connect(greenButton1,SIGNAL(clicked()),this,SLOT(greenButton1Clicked()));
-	//绿色按钮2点击的信号绑定
+    //绿色按钮2点击的信号绑定
     connect(greenButton2,SIGNAL(clicked()),this,SLOT(greenButton2Clicked()));
-	//删除按钮点击的信号绑定
-	connect(stlDeleteButton, SIGNAL(clicked()), this, SLOT(deleteButtonClicked()));
-	//加载哪一个.stl模型对话框的信号绑定
-	connect(stlLoadDialog, SIGNAL(onItemClicked(QString, int)), this, SLOT(loadStl(QString, int)));
-	//选择操作哪一个.stl模型对话框的信号绑定
-	connect(stlSelectDialog, SIGNAL(onItemClicked(QString, int)), this, SLOT(selectStl(QString, int)));
-	//选择删除哪一个.stl模型对话框的信号绑定
-	connect(stlDeleteDialog, SIGNAL(onItemClicked(QString, int)), this, SLOT(deleteStl(QString, int)));
+    //删除按钮点击的信号绑定
+    connect(stlDeleteButton, SIGNAL(clicked()), this, SLOT(deleteButtonClicked()));
+    //加载哪一个.stl模型对话框的信号绑定
+    connect(stlLoadDialog, SIGNAL(onItemClicked(QString, int)), this, SLOT(loadStl(QString, int)));
+    //选择操作哪一个.stl模型对话框的信号绑定
+    connect(stlSelectDialog, SIGNAL(onItemClicked(QString, int)), this, SLOT(selectStl(QString, int)));
+    //选择删除哪一个.stl模型对话框的信号绑定
+    connect(stlDeleteDialog, SIGNAL(onItemClicked(QString, int)), this, SLOT(deleteStl(QString, int)));
 }
 
 //体绘制窗口下滑动条 拖动触发事件
@@ -202,7 +226,7 @@ void MainWindow::navigationClicked(){
 //点击退出
 void MainWindow::exitClicked(){
     qDebug()<<"MainWindow::exitClicked";
-	//TODO 退出应该弹出窗口请求确认
+    //TODO 退出应该弹出窗口请求确认
     QCoreApplication::instance()->quit();
 }
 
@@ -227,13 +251,13 @@ void MainWindow::translateClicked(){
 //放大按钮点击
 void MainWindow::magnifyClicked(){
     qDebug()<<"MainWindow::magnifyClicked";
-	//TODO 我tm也不知道这个按钮设计来干啥的
+    //TODO 我tm也不知道这个按钮设计来干啥的
 }
 
 //缩小按钮
 void MainWindow::shrinkCliked(){
     qDebug()<<"MainWindow::shrinkCliked";
-	//TODO 我tm还是不知道这个按钮设计来干啥的
+    //TODO 我tm还是不知道这个按钮设计来干啥的
 }
 
 //主窗口重绘制触发事件，一般发生在窗口切换
@@ -254,32 +278,34 @@ void MainWindow::onOpenVolumeDir(){
         qDebug()<<"exit";
         //        QApplication::exit();
         return;
-    }else{
-        isOpenDir=true;
     }
-	//支持带中文路径的读取
+    qDebug()<<"11111111111";
+     qDebug()<<"222222222222222222222";
+    //支持带中文路径的读取
     QByteArray ba=dirPath.toLocal8Bit();
     const char *dirPath_str=ba.data();
 
     volumeWidget->setVolumeData(dirPath_str);
+      qDebug()<<"3333333333333333333333333333333";
     if(volumeWidget->hasVolumeData()){
+          qDebug()<<"444444444444444444";
         volumeSlider->setValue(120);
         lastposition=120;
-		//TODO弹出进度条
+        //TODO弹出进度条
 
-		//sagittal为xy方向截面
+        //sagittal为xy方向截面
         sagitalWidget->setSlicerData(volumeWidget->dicomReader,mySlicerWidget::ORIENTATION::XY);
         sagitalWidget->setSlicerValue(100);
         sagitalSlider->setRange(sagitalWidget->getSlicerMin(),sagitalWidget->getSlicerMax());
         sagitalSlider->setValue(100);
 
-		//axial为xz截面
+        //axial为xz截面
         axialWidget->setSlicerData(volumeWidget->dicomReader,mySlicerWidget::ORIENTATION::XZ);
         axialWidget->setSlicerValue(140);
         axialSlider->setRange(axialWidget->getSlicerMin(),axialWidget->getSlicerMax());
         axialSlider->setValue(140);
 
-		//coronal为yz截面
+        //coronal为yz截面
         coronalWidget->setSlicerData(volumeWidget->dicomReader,mySlicerWidget::ORIENTATION::YZ);
         coronalWidget->setSlicerValue(140);
         coronalSlider->setRange(coronalWidget->getSlicerMin(),coronalWidget->getSlicerMax());
@@ -287,27 +313,27 @@ void MainWindow::onOpenVolumeDir(){
 
         setDrawConnection();
 
-		//得到边界与三个截面Slice的比例关系
-        double *boundary=sagitalWidget->getImageViewer2()->GetImageActor()->GetBounds();
-        boundary[1]=sagitalWidget->getImageViewer2()->GetImageActor()->GetBounds()[1];
-        boundary[3]=sagitalWidget->getImageViewer2()->GetImageActor()->GetBounds()[3];
-        boundary[5]=coronalWidget->getImageViewer2()->GetImageActor()->GetBounds()[5];
+        //		//得到边界与三个截面Slice的比例关系
+        //        double *boundary=sagitalWidget->getImageViewer2()->GetImageActor()->GetBounds();
+        //        boundary[1]=sagitalWidget->getImageViewer2()->GetImageActor()->GetBounds()[1];
+        //        boundary[3]=sagitalWidget->getImageViewer2()->GetImageActor()->GetBounds()[3];
+        //        boundary[5]=coronalWidget->getImageViewer2()->GetImageActor()->GetBounds()[5];
 
-        qDebug()<<"boundarx:"<<boundary[1];
-        qDebug()<<"boundary:"<<boundary[3];
-        qDebug()<<"boundarz:"<<boundary[5];
-        qDebug()<<"sagitalSlicerMAX:"<<sagitalWidget->getImageViewer2()->GetSliceMax();
-        qDebug()<<"axialSlicerMax:"<<sagitalWidget->getImageViewer2()->GetSliceMax();
-        qDebug()<<"coronalSlicerMax:"<<coronalWidget->getImageViewer2()->GetSliceMax();
+        //        qDebug()<<"boundarx:"<<boundary[1];
+        //        qDebug()<<"boundary:"<<boundary[3];
+        //        qDebug()<<"boundarz:"<<boundary[5];
+        //        qDebug()<<"sagitalSlicerMAX:"<<sagitalWidget->getImageViewer2()->GetSliceMax();
+        //        qDebug()<<"axialSlicerMax:"<<sagitalWidget->getImageViewer2()->GetSliceMax();
+        //        qDebug()<<"coronalSlicerMax:"<<coronalWidget->getImageViewer2()->GetSliceMax();
 
-        proportionZ=boundary[5]/sagitalWidget->getImageViewer2()->GetSliceMax();
-        qDebug()<<"proportionZ"<<proportionZ;
-        proportionY=boundary[3]/axialWidget->getImageViewer2()->GetSliceMax();
-        qDebug()<<"proportionY"<<proportionY;
-        proportionX=boundary[1]/coronalWidget->getImageViewer2()->GetSliceMax();
-        qDebug()<<"proportionX"<<proportionX;
+        //        proportionZ=boundary[5]/sagitalWidget->getImageViewer2()->GetSliceMax();
+        //        qDebug()<<"proportionZ"<<proportionZ;
+        //        proportionY=boundary[3]/axialWidget->getImageViewer2()->GetSliceMax();
+        //        qDebug()<<"proportionY"<<proportionY;
+        //        proportionX=boundary[1]/coronalWidget->getImageViewer2()->GetSliceMax();
+        //        qDebug()<<"proportionX"<<proportionX;
     }else{
-		//TODO  这里提示路径错误
+        //TODO  这里提示路径错误
     }
 
 }
@@ -362,7 +388,7 @@ void MainWindow::keyPressEvent(QKeyEvent *event){
         lastposition=120;
         volumeSlider->setValue(120);
     }
-	/*变换操作开始*/
+    /*变换操作开始*/
     if(event->key()==Qt::Key_Q){
         stlManager->translate(operationStlName,10,0,0);
     }
@@ -415,25 +441,25 @@ void MainWindow::deleteButtonClicked(){
         return ;
     }
 
-	//每次弹出对话框之前更新当前场景中已经加载的.stl模型的标识符有哪些
+    //每次弹出对话框之前更新当前场景中已经加载的.stl模型的标识符有哪些
     //stlDeleteDialog->setGridTexts(stlManager->getActorList());
     stlDeleteDialog->show();
 }
 
 void MainWindow::deleteStl(QString name, int index){
-	//如果当期操作的.stl为要删除的，那么置空
-//    if(operationStlName.compare(name)){
-//         operationStlName=NULL;
-//    }
+    //如果当期操作的.stl为要删除的，那么置空
+    //    if(operationStlName.compare(name)){
+    //         operationStlName=NULL;
+    //    }
     stlManager->deleteActor(name,volumeWidget->getRenderer());
 }
 
 //绿色按钮1点击事件,弹出对话框，选择要加载的.stl模型
 void MainWindow::greenButton1Clicked(){
-	//弹出对话框，选择要加载的.stl模型
-	if (volumeWidget->hasVolumeData()) {
-		stlLoadDialog->show();
-	}
+    //弹出对话框，选择要加载的.stl模型
+    if (volumeWidget->hasVolumeData()) {
+        stlLoadDialog->show();
+    }
 }
 
 /**
@@ -444,51 +470,51 @@ void MainWindow::greenButton1Clicked(){
 * @param index
 */
 void MainWindow::loadStl(QString name, int index) {
-	//默认当前操作的.stl模型为最后加载的那个
-	operationStlName = name;
-	qDebug() << "MainWindow::loadStl";
-	QString dirPath = QDir::currentPath() + "/externalResources/";
-	/*根据选择的.stl名加载控件，
-	* TODO 这里应该读取配置文件
-	*/
-	switch (index) {
-	case 0:
-		dirPath += "qx_1.stl";
-		break;
-	case 1:
-		dirPath += "YLQX_A_1.stl";
-		break;
-	case 2:
-		dirPath += "YLQX_B_1.stl";
-		break;
-	case 3:
-		dirPath += "YLQX_C_1.stl";
-		break;
-	case 4:
-		dirPath += "YLQX_D.stl";
-		break;
-	case 5:
-		dirPath += "YLQX_E.stl";
-		break;
-	case 6:
-		dirPath += "body.stl";
-	}
-	vtkSmartPointer<vtkActor> operationActor = stlManager->LoadStl(dirPath, operationStlName);
-	if (operationActor == NULL) {
-		return;
-	}
-	//如果为人体，默认设置了一些颜色和透明度
-	//TODO 对.stl模型颜色和透明度的设置应该放在stlManageranager这个类中
-	if (index == 6) {
-		operationActor->GetProperty()->SetOpacity(0.2);
-		operationActor->GetProperty()->SetColor(0.243, 0.5725, 0.843);
-	}
-	volumeWidget->getRenderer()->AddActor(operationActor);
-	volumeWidget->GetRenderWindow()->Render();
+    //默认当前操作的.stl模型为最后加载的那个
+    operationStlName = name;
+    qDebug() << "MainWindow::loadStl";
+    QString dirPath = QDir::currentPath() + "/externalResources/";
+    /*根据选择的.stl名加载控件，
+    * TODO 这里应该读取配置文件
+    */
+    switch (index) {
+    case 0:
+        dirPath += "qx_1.stl";
+        break;
+    case 1:
+        dirPath += "YLQX_A_1.stl";
+        break;
+    case 2:
+        dirPath += "YLQX_B_1.stl";
+        break;
+    case 3:
+        dirPath += "YLQX_C_1.stl";
+        break;
+    case 4:
+        dirPath += "YLQX_D.stl";
+        break;
+    case 5:
+        dirPath += "YLQX_E.stl";
+        break;
+    case 6:
+        dirPath += "body.stl";
+    }
+    vtkSmartPointer<vtkActor> operationActor = stlManager->LoadStl(dirPath, operationStlName);
+    if (operationActor == NULL) {
+        return;
+    }
+    //如果为人体，默认设置了一些颜色和透明度
+    //TODO 对.stl模型颜色和透明度的设置应该放在stlManageranager这个类中
+    if (index == 6) {
+        operationActor->GetProperty()->SetOpacity(0.2);
+        operationActor->GetProperty()->SetColor(0.243, 0.5725, 0.843);
+    }
+    volumeWidget->getRenderer()->AddActor(operationActor);
+    volumeWidget->GetRenderWindow()->Render();
 }
 
 void MainWindow::selectStl(QString name, int index) {
-	operationStlName = name;
+    operationStlName = name;
 }
 
 void MainWindow::greenButton2Clicked(){

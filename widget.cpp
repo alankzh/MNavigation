@@ -777,7 +777,7 @@ void Widget::on_greenButton2_clicked()
     qDebug()<<"on_greenButton2_clicked";
     vtkSmartPointer<vtkRenderWindow> renWin =m_pRenderer->GetRenderWindow();
     //    vtkSmartPointer<vtkRenderWindowInteractor> iren =vtkSmartPointer<vtkRenderWindowInteractor>::New();
-    vtkSmartPointer<vtkInteractorStyleTrackballCamera> style=vtkSmartPointer<vtkInteractorStyleTrackballCamera>::New();
+ //   vtkSmartPointer<vtkInteractorStyleTrackballCamera> style=vtkSmartPointer<vtkInteractorStyleTrackballCamera>::New();
     //   iren->SetInteractorStyle(style);
     renWin->AddRenderer(m_pRenderer);
     //  iren->SetRenderWindow(renWin);
@@ -803,9 +803,10 @@ void Widget::on_greenButton2_clicked()
     vtkSmartPointer<vtkAnimationScene> scene = vtkSmartPointer<vtkAnimationScene>::New();
     //   scene->SetLoop(true);
     scene->SetTimeModeToRelative();
-    scene->SetFrameRate(5);
+   // scene->SetFrameRate(5);
     scene->SetStartTime(0);
-    scene->SetEndTime(10);
+    scene->SetEndTime(5);
+    scene->SetPlayMode(vtkAnimationScene::PLAYMODE_REALTIME);
     // Create an Animation Cue to animate thecamera.
     vtkSmartPointer<vtkCustomTransformAnimationCue> cue1 = vtkSmartPointer<vtkCustomTransformAnimationCue>::New();
     cue1->Sphere = sphere;

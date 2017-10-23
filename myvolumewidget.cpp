@@ -11,9 +11,10 @@ myVolumeWidget::myVolumeWidget(QWidget *parent):QVTKWidget(parent)
     m_pRenderer->SetRenderWindow(this->GetRenderWindow());
     m_pRenderer->ResetCamera();
     m_pRenderer->SetBackground(0,0,0);
-	vtkConnections = vtkSmartPointer<vtkEventQtSlotConnect>::New();
-	connect(this, SIGNAL(OnMarkClick(vtkVector3d)), parent, SIGNAL(Mark(vtkVector3d)));
-	connect(parent, SIGNAL(Mark(vtkVector3d)), this, SLOT(MarkReact(vtkVector3d)));
+    vtkConnections = vtkSmartPointer<vtkEventQtSlotConnect>::New();
+    connect(this, SIGNAL(OnMarkClick(vtkVector3d)), parent, SIGNAL(Mark(vtkVector3d)));
+    connect(parent, SIGNAL(Mark(vtkVector3d)), this, SLOT(MarkReact(vtkVector3d)));
+    hasVolume=false;
 }
 
 /**
@@ -21,15 +22,18 @@ myVolumeWidget::myVolumeWidget(QWidget *parent):QVTKWidget(parent)
  */
 bool myVolumeWidget::setVolumeData(const char *dirPath){
     if(hasVolume){
-        dicomReader->Delete();
-        volume->Delete();
+     //   dicomReader->Delete();
+     //   volume->Delete();
     }
     vtkAlgorithm *reader=0;
     vtkImageData *input=0;
+
     //读取.dcm
     dicomReader = vtkSmartPointer<vtkDICOMImageReader>::New();
+
     dicomReader->SetDirectoryName(dirPath);
     dicomReader->Update();//耗时操作
+
     input=dicomReader->GetOutput();
     reader=dicomReader;
     // Verify that we actually have a volume
@@ -60,7 +64,7 @@ bool myVolumeWidget::setVolumeData(const char *dirPath){
     volume->SetMapper( mapper );
     mapper->SetBlendModeToComposite();
 
-	VolumeBounds = vtkVector<double,6>(volume->GetBounds());
+    VolumeBounds = vtkVector<double,6>(volume->GetBounds());
 
     m_pRenderer=vtkSmartPointer<vtkRenderer>::New();
     this->GetRenderWindow()->AddRenderer(m_pRenderer);
@@ -68,7 +72,7 @@ bool myVolumeWidget::setVolumeData(const char *dirPath){
     // Add the volume to the scene
     m_pRenderer->AddVolume( volume );
 
-	volume->RotateX(30);
+    volume->RotateX(30);
     //    ui->volumeSlider->setRange(0,255);
     //    ui->volumeSlider->setValue(120);
     settingDefault->SetRenderType(RenderSetting::RenderType::CT_Bone);//默认的渲染
@@ -78,7 +82,7 @@ bool myVolumeWidget::setVolumeData(const char *dirPath){
     updateRender();
 
     hasVolume=true;
-	ListenMarkClick();
+    ListenMarkClick();
 
     return true;
 }
@@ -104,7 +108,7 @@ void myVolumeWidget::renderValueChange(double shiftValue){
  */
 void myVolumeWidget::updateRender(){
     this->GetRenderWindow()->Render();
- //   qvtkwidget->GetRenderWindow()->GetInteractor()->Start();
+    //   qvtkwidget->GetRenderWindow()->GetInteractor()->Start();
 }
 
 /**
@@ -122,7 +126,7 @@ vtkSmartPointer<vtkRenderer> myVolumeWidget::getRenderer(){
  */
 vtkSmartPointer<vtkVolume> myVolumeWidget::getVolume(){
     if(hasVolume){
-         return volume;
+        return volume;
     }else{
         //TODO 抛出错误
         return NULL;
@@ -139,24 +143,24 @@ bool myVolumeWidget::hasVolumeData(){
 }
 
 vtkVector<double, 6> myVolumeWidget::GetVolumeBounds() const{
-	return VolumeBounds;
+    return VolumeBounds;
 }
 
 void myVolumeWidget::ListenMarkClick() {
-	vtkConnections->Connect(m_pRenderer->GetRenderWindow()->GetInteractor(), vtkCommand::LeftButtonPressEvent, this, SLOT(Mark(vtkObject*, unsigned long, void*, void*)));
+    vtkConnections->Connect(m_pRenderer->GetRenderWindow()->GetInteractor(), vtkCommand::LeftButtonPressEvent, this, SLOT(Mark(vtkObject*, unsigned long, void*, void*)));
 }
 
 // TO DO: calculate the right point's position in the volume, and emit the signal
 void myVolumeWidget::Mark(vtkObject* obj, unsigned long, void*, void*) {
-	vtkRenderWindowInteractor* iren = vtkRenderWindowInteractor::SafeDownCast(obj);
-	int EventPointX = iren->GetEventPosition()[0];
-	int EventPointY = iren->GetEventPosition()[1];
+    vtkRenderWindowInteractor* iren = vtkRenderWindowInteractor::SafeDownCast(obj);
+    int EventPointX = iren->GetEventPosition()[0];
+    int EventPointY = iren->GetEventPosition()[1];
 }
 
 void myVolumeWidget::MarkReact(vtkVector3d ModelPosition) {
-	vtkVector3d worldPostion = CoordinateConverter::ModelToWorld(volume, ModelPosition);
-	actorManager* manager = new actorManager;
-	auto sphere = manager->getSphereActor(worldPostion[0], worldPostion[1], worldPostion[2]);
-	m_pRenderer->AddActor(sphere);
-	updateRender();
+    vtkVector3d worldPostion = CoordinateConverter::ModelToWorld(volume, ModelPosition);
+    actorManager* manager = new actorManager;
+    auto sphere = manager->getSphereActor(worldPostion[0], worldPostion[1], worldPostion[2]);
+    m_pRenderer->AddActor(sphere);
+    updateRender();
 }

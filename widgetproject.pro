@@ -140,7 +140,9 @@ SOURCES += main.cpp\
     mypushbutton.cpp \
     mygridlayout.cpp \
     mydialog.cpp \
-    CoordinateConverter.cpp
+    CoordinateConverter.cpp \
+    animator.cpp \
+    animatorset.cpp
 
 HEADERS  += widget.h \
     rendersetting.h \
@@ -157,7 +159,9 @@ HEADERS  += widget.h \
     mypushbutton.h \
     mygridlayout.h \
     mydialog.h \
-    CoordinateConverter.h
+    CoordinateConverter.h \
+    animator.h \
+    animatorset.h
 
 FORMS    += widget.ui
 
