@@ -32,8 +32,6 @@ void MainWindow::update_background(){
     update();
 }
 
-
-
 //初始化
 void MainWindow::init(){
     greenButton1=new GreenButton(this);
@@ -411,6 +409,7 @@ void MainWindow::keyPressEvent(QKeyEvent *event){
     }
     volumeWidget->updateRender();
 }
+
 void MainWindow::deleteButtonClicked(){
     if(!volumeWidget->hasVolumeData()){
         return ;

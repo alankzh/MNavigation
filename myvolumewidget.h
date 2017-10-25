@@ -6,6 +6,7 @@
 #include <QVTKWidget.h>
 #include "vtks.h"
 #include "rendersetting.h"
+#include "MarkerCreator.h"
 /**
  * @brief The myQVTKWidget class
  * 这个类封装了QVTKWidget控件，让vtk风格代码能专一的存在于这个类中
@@ -52,8 +53,15 @@ private:
 
 	vtkSmartPointer<vtkEventQtSlotConnect> vtkConnections;
 
-	//监听内部标记事件
-	void ListenMarkClick();
+	void ListenVTKInteractorEvent();
+
+	MarkerCreator mc;
+
+	void Mark(vtkRenderWindowInteractor* iren);
+
+	void SelectMark(vtkRenderWindowInteractor* iren);
+
+	void DrawLine();
 
 signals:
 	void OnMarkClick(vtkVector3d ModelPosition);
@@ -62,7 +70,7 @@ public slots:
 
 	void MarkReact(vtkVector3d ModelPosition);
 
-	void Mark(vtkObject* obj, unsigned long, void*, void*);
+	void vtkInteractorEventDispatch(vtkObject* obj, unsigned long, void*, void*);
 };
 
 #endif // MYQVTKWIDGET_H
