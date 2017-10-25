@@ -59,6 +59,7 @@ bool myVolumeWidget::setVolumeData(const char *dirPath){
     // connect up the volume to the property and the mapper
     volume->SetProperty( settingDefault->args->property );
     volume->SetMapper( mapper );
+
     mapper->SetBlendModeToComposite();
 
     VolumeBounds = vtkVector<double,6>(volume->GetBounds());
@@ -79,8 +80,7 @@ bool myVolumeWidget::setVolumeData(const char *dirPath){
     updateRender();
 
     hasVolume=true;
-    ListenMarkClick();
-
+	ListenVTKInteractorEvent();
     return true;
 }
 
@@ -143,18 +143,22 @@ vtkVector<double, 6> myVolumeWidget::GetVolumeBounds() const{
     return VolumeBounds;
 }
 
-void myVolumeWidget::ListenMarkClick() {
-
-	vtkConnections->Connect(m_pRenderer->GetRenderWindow()->GetInteractor(), vtkCommand::RightButtonPressEvent, this, SLOT(Mark(vtkObject*, unsigned long, void*, void*)));
-
+void myVolumeWidget::ListenVTKInteractorEvent() {
+	vtkConnections->Connect(m_pRenderer->GetRenderWindow()->GetInteractor(), vtkCommand::AnyEvent, this, SLOT(vtkInteractorEventDispatch(vtkObject*, unsigned long, void*, void*)));
 }
 
-void myVolumeWidget::Mark(vtkObject* obj, unsigned long, void*, void*) {
-
-	vtkRenderWindowInteractor* iren = vtkRenderWindowInteractor::SafeDownCast(obj);
+void myVolumeWidget::Mark(vtkRenderWindowInteractor* iren) {
 	int EventPointX = iren->GetEventPosition()[0];
 	int EventPointY = iren->GetEventPosition()[1];
 	auto picker = vtkSmartPointer<vtkVolumePicker>::New();
+	picker->Pick(EventPointX, EventPointY, 0, getRenderer());
+	auto target = picker->GetProp3D();
+	if (mc.isMarker(target)) {
+		mc.RemoveMarker(target);
+		getRenderer()->RemoveActor(target);
+		target->Delete();
+		return;
+	}
 	picker->SetVolumeOpacityIsovalue(0.5);
 	picker->Pick(EventPointX, EventPointY, 0, getRenderer());
 	vtkVector3d WorldPosition = vtkVector3d(picker->GetPickPosition());
@@ -162,10 +166,41 @@ void myVolumeWidget::Mark(vtkObject* obj, unsigned long, void*, void*) {
 	emit OnMarkClick(ModelPosition);
 }
 
+void myVolumeWidget::SelectMark(vtkRenderWindowInteractor* iren) {
+	int EventPointX = iren->GetEventPosition()[0];
+	int EventPointY = iren->GetEventPosition()[1];
+	auto picker = vtkSmartPointer<vtkVolumePicker>::New();
+	picker->Pick(EventPointX, EventPointY, 0, getRenderer());
+	mc.SelectMarker(picker->GetProp3D());
+}
+
 void myVolumeWidget::MarkReact(vtkVector3d ModelPosition) {
     vtkVector3d worldPostion = CoordinateConverter::ModelToWorld(volume, ModelPosition);
-    actorManager* manager = new actorManager;
-    auto sphere = manager->getSphereActor(worldPostion[0], worldPostion[1], worldPostion[2]);
-    m_pRenderer->AddActor(sphere);
+	mc.CreateMarker(getRenderer(), worldPostion);
     updateRender();
+}
+
+void myVolumeWidget::DrawLine() {
+	mc.CreateLine(getRenderer());
+	updateRender();
+}
+
+void myVolumeWidget::vtkInteractorEventDispatch(vtkObject* obj, unsigned long eventID, void*, void*) {
+	auto iren = vtkRenderWindowInteractor::SafeDownCast(obj);
+	switch (eventID)
+	{
+	case vtkCommand::RightButtonPressEvent:
+		Mark(iren);
+		break;
+	case vtkCommand::LeftButtonPressEvent:
+		SelectMark(iren);
+		break;
+	case vtkCommand::KeyPressEvent:
+		if (*(iren->GetKeySym()) = 'B') {
+			DrawLine();
+		}
+		break;
+	default:
+		break;
+	}
 }

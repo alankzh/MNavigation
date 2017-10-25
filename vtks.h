@@ -36,5 +36,7 @@
 #include <vtkInteractorStyleTrackballCamera.h>
 #include <vtkImageMapper3D.h>
 #include <vtkImageSliceMapper.h>
+#include <vtkTextActor.h>
+#include <vtkTextProperty.h>
 
 #endif
