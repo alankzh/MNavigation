@@ -23,8 +23,6 @@ class MainWindow : public QWidget
 public:
     MainWindow(QWidget *parent = 0);
     ~MainWindow();
-
-
 private:
     bool m_embedded;
     QPixmap m_background;
@@ -46,8 +44,8 @@ private:
     StlManager *stlManager;
     actorManager *actorM;
 
-    GreenButton *greenButton1;
-    GreenButton *greenButton2;
+    BackgroundButton *greenButton1;
+    BackgroundButton *greenButton2;
     BackgroundButton *navigationButton;
     BackgroundButton *exitButton;
     BackgroundButton *translateButton;
@@ -67,7 +65,7 @@ private:
     MyDialog *stlLoadDialog;//选择加载哪个.stl模型
     MyDialog *stlSelectDialog;//选择操作哪个.stl模型
     MyDialog *stlDeleteDialog;//选择删除哪个.stl模型
-    QPushButton *stlDeleteButton;//按下弹出删除哪个.stl模型的对话框
+    BackgroundButton *stlDeleteButton;//按下弹出删除哪个.stl模型的对话框
     bool isOpenDir=false;
     int lastposition;
     //能否做标记
@@ -94,6 +92,7 @@ public slots:
 	void translateClicked();
 	void magnifyClicked();
 	void shrinkCliked();
+    void focusButtonClicked();
 
 	void vSlicerValueChange(int v);
 	void sSlicerValueChange(int v);

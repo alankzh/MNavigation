@@ -2,7 +2,8 @@
 
 BackgroundButton::BackgroundButton(QWidget *parent):QWidget(parent)
 {
-    clickColor=QColor(170,128,38,150);
+   // clickColor=QColor(170,128,38,150);
+    clickColor=QColor(195,195,195,150);
     xPos=this->x();
     yPos=this->y();
     width=60;
@@ -41,7 +42,7 @@ void BackgroundButton::paintEvent(QPaintEvent *event){
     Q_UNUSED(event);
     QPainter painter(this);
     painter.drawPixmap(event->rect(), backgroundPix, event->rect());
-    if(isClicked){
+    if(isClicked&&clickEffect){
        QBrush brush;
        brush.setColor(clickColor);
        brush.setStyle(Qt::SolidPattern);
@@ -123,4 +124,8 @@ int BackgroundButton::getYpos(){
  */
 void BackgroundButton::setClickedColor(QColor color){
     clickColor=color;
+}
+
+void BackgroundButton::needClickEffect(bool b){
+    clickEffect=b;
 }

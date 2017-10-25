@@ -15,7 +15,7 @@ public:
 
     void setBackground(const char* fileName,const char* flag);
     void setClickedColor(QColor color);
-
+    void needClickEffect(bool b);
 protected :
     virtual void paintEvent(QPaintEvent *event);
 
@@ -30,6 +30,7 @@ signals:
     void clicked();
 
 private:
+    bool clickEffect=true;
     bool isClicked=false;
     bool hasBackground=false;
     //Constructs a rectangle with (x, y) as its top-left corner.
@@ -44,6 +45,7 @@ private:
     QPixmap backgroundPix;
 
     QColor clickColor;
+
 };
 
 #endif // BACKGROUNDBUTTON_H

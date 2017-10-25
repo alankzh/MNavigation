@@ -7,5 +7,18 @@
         <file>resources/mainTranslation.png</file>
         <file>resources/greenButton.png</file>
         <file>resources/background.jpg</file>
+        <file>resources/background2.png</file>
+        <file>resources/deleteStl.png</file>
+        <file>resources/getFocus.png</file>
+        <file>resources/loadStl.png</file>
+        <file>resources/loadVolume.png</file>
+        <file>resources/selectStl.png</file>
+        <file>resources/title.png</file>
+        <file>resources/power_click.png</file>
+        <file>resources/mainMagnify2.png</file>
+        <file>resources/mainShrink2.png</file>
+        <file>resources/power_normal.png</file>
+        <file>resources/max_normal.png</file>
+        <file>resources/title2.png</file>
     </qresource>
 </RCC>

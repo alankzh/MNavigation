@@ -25,7 +25,6 @@ Widget::Widget(QWidget *parent) :
     style();
 
     //  onOpenVolumeDir();//软件开始直接打开文件夹
-
 }
 
 Widget::~Widget()

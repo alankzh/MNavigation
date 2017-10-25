@@ -8,4 +8,5 @@
 #include <QVBoxLayout>
 #include <QVTKWidget.h>
 #include <qsizepolicy.h>
+#include <QIcon>
 #endif // QTS_H

@@ -14,9 +14,11 @@ MainWindow::MainWindow(QWidget *parent)
     setLayout();
     setConnection();
 
-
-    QPushButton *textButton1=new QPushButton(this);
-    textButton1->setGeometry(1531,434,60,60);
+    BackgroundButton *titleButton=new BackgroundButton(this);
+    titleButton->setBackground(":/resources/title2.png","png");
+    titleButton->setGeometry(3,3,334,32);
+    titleButton->setPos(3,3);
+    titleButton->needClickEffect(false);
 }
 
 MainWindow::~MainWindow()
@@ -25,7 +27,7 @@ MainWindow::~MainWindow()
 
 //主窗口更新背景
 void MainWindow::update_background(){
-    m_background=QPixmap(":/resources/background.jpg", "jpg");
+    m_background=QPixmap(":/resources/background2.png", "png");
     QBitmap bitmap = m_background.createHeuristicMask();
     setFixedSize(m_background.size());
     setMask(bitmap);
@@ -36,8 +38,8 @@ void MainWindow::update_background(){
 
 //初始化
 void MainWindow::init(){
-    greenButton1=new GreenButton(this);
-    greenButton2=new GreenButton(this);
+    greenButton1=new BackgroundButton(this);
+    greenButton2=new BackgroundButton(this);
     navigationButton=new BackgroundButton(this);
     exitButton=new BackgroundButton(this);
     translateButton=new BackgroundButton(this);
@@ -52,7 +54,7 @@ void MainWindow::init(){
     stlLoadDialog=new MyDialog();
     stlSelectDialog=new MyDialog();
     stlDeleteDialog=new MyDialog();
-    stlDeleteButton=new QPushButton(this);
+    stlDeleteButton=new BackgroundButton(this);
 
     sagitalLabel=new QLabel(this);
     coronalLabel=new QLabel(this);
@@ -71,9 +73,42 @@ void MainWindow::init(){
 
 //布局
 void MainWindow::setLayout(){
-    greenButton1->setPos(1531,55);
-    stlLoadDialog->setGeometry(greenButton1->getXpos()-100,greenButton1->getYpos()+100,200,200);
+    exitButton->setPos(1531,3);
+    exitButton->setBackground(":/resources/power_normal.png","png");
+    exitButton->setClickedColor(QColor(95,100,137,150));
 
+    navigationButton->setPos(1531,78);
+    navigationButton->setBackground(":/resources/loadVolume.png","png");
+
+    greenButton1->setPos(1531,147);
+    greenButton1->setBackground(":/resources/loadStl.png","png");
+
+    greenButton2->setPos(1531,216);
+    greenButton2->setBackground(":/resources/selectStl.png","png");
+
+    // stlDeleteButton->setGeometry(730,3,80,43);
+    stlDeleteButton->setPos(1531,285);
+    //  stlDeleteButton->setText(QString::fromLocal8Bit("删除.stl"));
+    stlDeleteButton->setBackground(":/resources/deleteStl.png","png");
+
+    translateButton->setPos(1541,372);
+    translateButton->setBackground(":/resources/max_normal.png","png");
+    translateButton->setClickedColor(QColor(185,188,193,150));
+
+    magnifyButton->setPos(1536,425);
+    magnifyButton->setBackground(":/resources/mainMagnify2.png","png");
+    magnifyButton->setClickedColor(QColor(185,188,193,150));
+    shrinkButton->setPos(1536,481);
+    shrinkButton->setBackground(":/resources/mainShrink2.png","png");
+    shrinkButton->setClickedColor(QColor(185,188,193,150));
+
+    BackgroundButton *focusButton=new BackgroundButton(this);
+    focusButton->setBackground(":/resources/getFocus.png","png");
+    connect(focusButton,SIGNAL(clicked()),this,SLOT(focusButtonClicked()));
+    focusButton->setGeometry(1531,556,66,67);
+    focusButton->setPos(1531,556);
+
+    stlLoadDialog->setGeometry(greenButton1->getXpos()-100,greenButton1->getYpos()+100,200,200);
     /**
     *TODO 这部分应该写入配置文件，而不是直接加载
     */
@@ -86,49 +121,39 @@ void MainWindow::setLayout(){
     stlList.append(QString::fromLocal8Bit("人体"));
     stlLoadDialog->setGridTexts(stlList);
 
-    greenButton2->setPos(1531,118);
     stlSelectDialog->setGeometry(greenButton2->getXpos()-100,greenButton2->getYpos()+100,200,200);
     stlSelectDialog->setGridTexts(stlList);
     stlSelectDialog->setHint(QString::fromLocal8Bit("选中你要操作的.stl模型"));
 
-
-    navigationButton->setPos(510,3);
-    navigationButton->setBackground(":/resources/navigation.png","png");
-    stlDeleteButton->setGeometry(730,3,80,43);
-
     stlDeleteDialog->setGridTexts(stlList);
-    stlDeleteButton->setText(QString::fromLocal8Bit("删除.stl"));
-    stlDeleteDialog->setGeometry(stlDeleteButton->x(),stlDeleteButton->y()+150,200,200);
+    stlDeleteDialog->setGeometry(stlDeleteButton->getXpos()-100,stlDeleteButton->getYpos()+100,200,200);
     stlDeleteDialog->setHint(QString::fromLocal8Bit("选择删除场景中的.stl模型"));
 
-    exitButton->setPos(1530,3);
-    exitButton->setBackground(":/resources/mainPower.png","png");
-    exitButton->setClickedColor(QColor(95,100,137,150));
-    translateButton->setPos(1531,181);
-    translateButton->setBackground(":/resources/mainTranslation","png");
-    translateButton->setClickedColor(QColor(185,188,193,150));
-    magnifyButton->setPos(1531,271);
-    magnifyButton->setBackground(":/resources/mainMagnify.png","png");
-    magnifyButton->setClickedColor(QColor(185,188,193,150));
-    shrinkButton->setPos(1531,334);
-    shrinkButton->setBackground(":/resources/mainShrink.png","png");
-    shrinkButton->setClickedColor(QColor(185,188,193,150));
-
     volumeWidget->setLocation(20,55,735,365);//默认的几何位置
+
     volumeSlider->setGeometry(20,425,735,20);
     volumeSlider->setOrientation(Qt::Horizontal);
     volumeSlider->setRange(0,255);
 
     sagitalWidget->setLocation(775,55,735,365);
-    sagitalSlider->setGeometry(775,425,735,20);
+    sagitalSlider->setGeometry(775,425,713,20);
+    sagitalLabel->setGeometry(1490,425,18,20);
+    sagitalLabel->setText(QString::fromLocal8Bit("0"));
+    sagitalLabel->setAlignment(Qt::AlignCenter);
     sagitalSlider->setOrientation(Qt::Horizontal);
 
     axialWidget->setLocation(775,455,735,365);
-    axialSlider->setGeometry(775,830,735,20);
+    axialSlider->setGeometry(775,830,713,20);
+    axialLabel->setGeometry(1490,830,18,20);
+    axialLabel->setText(QString::fromLocal8Bit("0"));
+    axialLabel->setAlignment(Qt::AlignCenter);
     axialSlider->setOrientation(Qt::Horizontal);
 
     coronalWidget->setLocation(20,455,735,365);
-    coronalSlider->setGeometry(20,830,735,20);
+    coronalSlider->setGeometry(20,830,713,20);
+    coronalLabel->setGeometry(735,830,18,20);
+    coronalLabel->setText(QString::fromLocal8Bit("0"));
+    coronalLabel->setAlignment(Qt::AlignCenter);
     coronalSlider->setOrientation(Qt::Horizontal);
 }
 
@@ -183,16 +208,22 @@ void MainWindow::vSlicerValueChange(int v){
 //sagital窗口下滑动条 拖动触发事件
 void MainWindow::sSlicerValueChange(int v){
     sagitalWidget->setSlicerValue(v);
+    sagitalLabel->setText(QString::number(v));
+    this->update();
 }
 
 //axial窗口下滑动条 拖动触发事件
 void MainWindow::aSlicerValueChange(int v){
     axialWidget->setSlicerValue(v);
+    axialLabel->setText(QString::number(v));
+    this->update();
 }
 
 //axial窗口下滑动条 拖动触发事件
 void MainWindow::cSlicerValueChange(int v){
     coronalWidget->setSlicerValue(v);
+    coronalLabel->setText(QString::number(v));
+    this->update();
 }
 
 //导航按钮点击
@@ -261,9 +292,9 @@ void MainWindow::onOpenVolumeDir(){
     const char *dirPath_str=ba.data();
 
     volumeWidget->setVolumeData(dirPath_str);
-      qDebug()<<"3333333333333333333333333333333";
+    qDebug()<<"3333333333333333333333333333333";
     if(volumeWidget->hasVolumeData()){
-          qDebug()<<"444444444444444444";
+        qDebug()<<"444444444444444444";
         volumeSlider->setValue(120);
         lastposition=120;
         //TODO弹出进度条
@@ -273,18 +304,21 @@ void MainWindow::onOpenVolumeDir(){
         sagitalWidget->setSlicerValue(100);
         sagitalSlider->setRange(sagitalWidget->getSlicerMin(),sagitalWidget->getSlicerMax());
         sagitalSlider->setValue(100);
+        sagitalLabel->setText("100");
 
         //axial为xz截面
         axialWidget->setSlicerData(volumeWidget->dicomReader,mySlicerWidget::ORIENTATION::XZ);
         axialWidget->setSlicerValue(140);
         axialSlider->setRange(axialWidget->getSlicerMin(),axialWidget->getSlicerMax());
         axialSlider->setValue(140);
+        axialLabel->setText("140");
 
         //coronal为yz截面
         coronalWidget->setSlicerData(volumeWidget->dicomReader,mySlicerWidget::ORIENTATION::YZ);
         coronalWidget->setSlicerValue(140);
         coronalSlider->setRange(coronalWidget->getSlicerMin(),coronalWidget->getSlicerMax());
         coronalSlider->setValue(140);
+        coronalLabel->setText("140");
 
         setDrawConnection();
 
@@ -498,5 +532,8 @@ void MainWindow::greenButton2Clicked(){
         return;
     }
     stlSelectDialog->show();
+}
 
+void MainWindow::focusButtonClicked(){
+    this->setFocus();
 }

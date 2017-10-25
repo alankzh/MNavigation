@@ -33,7 +33,6 @@ public:
     void rotateZ(QString stlName,double angle);
     void scale(QString stlName,double s);
     void saveLocation(QString stlName);
-
 };
 
 #endif // StlManager_H
