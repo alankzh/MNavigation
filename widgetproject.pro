@@ -143,7 +143,8 @@ SOURCES += main.cpp\
     mydialog.cpp \
     CoordinateConverter.cpp \
     animator.cpp \
-    animatorset.cpp
+    animatorset.cpp \
+    MarkerCreator.cpp
 
 HEADERS  += widget.h \
     rendersetting.h \
@@ -162,7 +163,8 @@ HEADERS  += widget.h \
     mydialog.h \
     CoordinateConverter.h \
     animator.h \
-    animatorset.h
+    animatorset.h \
+    MarkerCreator.h
 
 FORMS    += widget.ui
 
