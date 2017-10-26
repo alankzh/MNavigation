@@ -35,7 +35,7 @@
 #include <rendersetting.h>
 #include <QKeyEvent>
 #include <QPaintEvent>
-#include "greenbutton.h"
+#include "customWidgets/greenbutton.h"
 #include <vtkActor.h>
 #include <vtkSphereSource.h>
 #include <vtkPolyDataMapper.h>
@@ -52,6 +52,8 @@
 #include <vtkCirclePackToPolyData.h>
 #include <vtkLine.h>
 #include <vtkLineSource.h>
+#include "customAnimator/animator.h"
+#include "customAnimator/animatorset.h"
 
 class vtkImageViewer2;
 class vtkRenderer;

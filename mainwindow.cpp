@@ -200,7 +200,7 @@ void MainWindow::vSlicerValueChange(int v){
     volumeWidget->settingDefault->ShiftRenderFunction(shiftValue,1);
     volumeWidget->settingDefault->ShiftRenderFunction(shiftValue,2);
     volumeWidget->updateRender();
-
+    obtainFocus();
 }
 
 //sagital窗口下滑动条 拖动触发事件
@@ -208,6 +208,7 @@ void MainWindow::sSlicerValueChange(int v){
     sagitalWidget->setSlicerValue(v);
     sagitalLabel->setText(QString::number(v));
     this->update();
+    obtainFocus();
 }
 
 //axial窗口下滑动条 拖动触发事件
@@ -215,6 +216,7 @@ void MainWindow::aSlicerValueChange(int v){
     axialWidget->setSlicerValue(v);
     axialLabel->setText(QString::number(v));
     this->update();
+    obtainFocus();
 }
 
 //axial窗口下滑动条 拖动触发事件
@@ -222,12 +224,14 @@ void MainWindow::cSlicerValueChange(int v){
     coronalWidget->setSlicerValue(v);
     coronalLabel->setText(QString::number(v));
     this->update();
+    obtainFocus();
 }
 
 //导航按钮点击
 void MainWindow::navigationClicked(){
     qDebug()<<"MainWindow::navigationClicked";
     onOpenVolumeDir();
+    obtainFocus();
 }
 
 //点击退出
@@ -253,18 +257,21 @@ void MainWindow::translateClicked(){
     }
     volumeWidget->raise();
     update();
+    obtainFocus();
 }
 
 //放大按钮点击
 void MainWindow::magnifyClicked(){
     qDebug()<<"MainWindow::magnifyClicked";
     //TODO 我tm也不知道这个按钮设计来干啥的
+    obtainFocus();
 }
 
 //缩小按钮
 void MainWindow::shrinkCliked(){
     qDebug()<<"MainWindow::shrinkCliked";
     //TODO 我tm还是不知道这个按钮设计来干啥的
+    obtainFocus();
 }
 
 //主窗口重绘制触发事件，一般发生在窗口切换
@@ -272,6 +279,7 @@ void MainWindow::paintEvent(QPaintEvent* e)
 {
     QPainter painter(this);
     painter.drawPixmap(e->rect(), m_background, e->rect());
+    obtainFocus();
 }
 
 //打开体绘制文件夹
@@ -452,6 +460,7 @@ void MainWindow::deleteButtonClicked(){
     //每次弹出对话框之前更新当前场景中已经加载的.stl模型的标识符有哪些
     //stlDeleteDialog->setGridTexts(stlManager->getActorList());
     stlDeleteDialog->show();
+    obtainFocus();
 }
 
 void MainWindow::deleteStl(QString name, int index){
@@ -468,6 +477,7 @@ void MainWindow::greenButton1Clicked(){
     if (volumeWidget->hasVolumeData()) {
         stlLoadDialog->show();
     }
+    obtainFocus();
 }
 
 /**
@@ -531,8 +541,13 @@ void MainWindow::greenButton2Clicked(){
         return;
     }
     stlSelectDialog->show();
+    obtainFocus();
 }
 
 void MainWindow::focusButtonClicked(){
+    obtainFocus();
+}
+
+void MainWindow::obtainFocus(){
     this->setFocus();
 }

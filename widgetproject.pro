@@ -130,41 +130,46 @@ TEMPLATE = app
 SOURCES += main.cpp\
         widget.cpp \
     rendersetting.cpp \
-    greenbutton.cpp \
     mainwindow.cpp \
     myvolumewidget.cpp \
-    backgroundbutton.cpp \
     vtkcustomtransformanimationcue.cpp \
     myslicerwidget.cpp \
     stlmanager.cpp \
     actormanager.cpp \
-    mypushbutton.cpp \
-    mygridlayout.cpp \
-    mydialog.cpp \
     CoordinateConverter.cpp \
-    animator.cpp \
-    animatorset.cpp \
-    MarkerCreator.cpp
+    MarkerCreator.cpp \
+    customWidgets/backgroundbutton.cpp \
+    customWidgets/greenbutton.cpp \
+    customWidgets/mygridlayout.cpp \
+    customWidgets/mypushbutton.cpp \
+    customWidgets/mydialog.cpp \
+    customAnimator/animator.cpp \
+    customAnimator/animatorset.cpp \
+    customAnimator/motion.cpp \
+    customAnimator/myvtkcustomanimationcue.cpp
 
 HEADERS  += widget.h \
     rendersetting.h \
-    greenbutton.h \
     mainwindow.h \
     vtks.h \
     myvolumewidget.h \
-    backgroundbutton.h \
     vtkcustomtransformanimationcue.h \
     myslicerwidget.h \
     qts.h \
     stlmanager.h \
     actormanager.h \
-    mypushbutton.h \
-    mygridlayout.h \
-    mydialog.h \
     CoordinateConverter.h \
-    animator.h \
-    animatorset.h \
-    MarkerCreator.h
+    MarkerCreator.h \
+    customWidgets/backgroundbutton.h \
+    customWidgets/greenbutton.h \
+    customWidgets/mydialog.h \
+    customWidgets/myGridLayout.h \
+    customWidgets/mypushbutton.h \
+    customAnimator/animator.h \
+    customAnimator/animatorfinisherlistener.h \
+    customAnimator/animatorset.h \
+    customAnimator/motion.h \
+    customAnimator/myvtkcustomanimationcue.h
 
 FORMS    += widget.ui
 

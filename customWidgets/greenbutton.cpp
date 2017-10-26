@@ -1,4 +1,5 @@
-﻿#include "greenbutton.h"
+﻿
+#include "greenbutton.h"
 
 GreenButton::GreenButton(QWidget *parent):QWidget(parent)
 {
