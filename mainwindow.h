@@ -3,16 +3,17 @@
 
 #include "qts.h"
 #include "vtks.h"
-#include "greenbutton.h"
+#include "customWidgets/greenbutton.h"
 #include "myvolumewidget.h"
-#include "backgroundbutton.h"
+#include "customWidgets/backgroundbutton.h"
 #include "rendersetting.h"
 #include "myslicerwidget.h"
 #include "vtkcustomtransformanimationcue.h"
 #include "stlmanager.h"
 #include "actormanager.h"
-#include "mygridlayout.h"
-#include "mydialog.h"
+#include "customWidgets/mygridlayout.h"
+#include "customWidgets/mydialog.h"
+
 /**
  * @brief The MainWindow class
  * 这是主窗口
@@ -38,6 +39,8 @@ private:
     void setDrawConnection();
 
     void onOpenVolumeDir();
+
+    void obtainFocus();
 
     StlManager *stlManager;
     actorManager *actorM;

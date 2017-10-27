@@ -54,8 +54,8 @@ void Widget::init(){
 
     qDebug()<<"current applicationDirPath: "<<QCoreApplication::applicationDirPath();
     qDebug()<<"current currentPath: "<<QDir::currentPath();
- //   ui->sagitalLabel->setText("applicationDirPath:"+QCoreApplication::applicationDirPath());
- //   ui->axialLabel->setText(" currentPath:"+QDir::currentPath());
+    //   ui->sagitalLabel->setText("applicationDirPath:"+QCoreApplication::applicationDirPath());
+    //   ui->axialLabel->setText(" currentPath:"+QDir::currentPath());
 
 }
 
@@ -439,7 +439,7 @@ void Widget::axialClicked(vtkObject *obj, unsigned long, void*, void*){
     vtkVector3d adjust = vtkVector3d(matrix->MultiplyDoublePoint(targetPosition.GetData()));
 
     if(adjust[0]>0&&adjust[2]>0){
-     //   m_pRenderer->AddActor(getSphereActor(adjust[0],adjust[1],adjust[2]));
+        //   m_pRenderer->AddActor(getSphereActor(adjust[0],adjust[1],adjust[2]));
 
 
         ui->axialSlider->setValue(ui->axialSlider->value()+1);
@@ -494,7 +494,7 @@ void Widget::coronalClicked(vtkObject *obj, unsigned long, void*, void*){
     vtkVector3d adjust = vtkVector3d(matrix->MultiplyDoublePoint(targetPosition.GetData()));
 
     if(adjust[1]>0&&adjust[2]>0){
-    //    m_pRenderer->AddActor(getSphereActor(adjust[0],adjust[1],adjust[2]));
+        //    m_pRenderer->AddActor(getSphereActor(adjust[0],adjust[1],adjust[2]));
 
 
 
@@ -769,77 +769,46 @@ void Widget::on_greenButton1_clicked()
     operationStlName="gx_1";
     m_pRenderer->AddActor(stlM->LoadStl(QDir::currentPath()+"/externalResources/qx_1.stl",operationStlName));
     volumeWidget->GetRenderWindow()->Render();
+
 }
 
 void Widget::on_greenButton2_clicked()
 {
     qDebug()<<"on_greenButton2_clicked";
     vtkSmartPointer<vtkRenderWindow> renWin =m_pRenderer->GetRenderWindow();
-    //    vtkSmartPointer<vtkRenderWindowInteractor> iren =vtkSmartPointer<vtkRenderWindowInteractor>::New();
- //   vtkSmartPointer<vtkInteractorStyleTrackballCamera> style=vtkSmartPointer<vtkInteractorStyleTrackballCamera>::New();
-    //   iren->SetInteractorStyle(style);
-    renWin->AddRenderer(m_pRenderer);
-    //  iren->SetRenderWindow(renWin);
-    vtkSmartPointer<vtkSphereSource> sphere =vtkSmartPointer<vtkSphereSource>::New();
-    sphere->SetCenter(0,0,0);   // 设置中心
-    sphere->SetRadius(10);             // 设置半径
-    sphere->SetThetaResolution(52);
-    sphere->SetPhiResolution(52);
-    vtkSmartPointer<vtkPolyDataMapper> mapper =vtkSmartPointer<vtkPolyDataMapper>::New();
-    vtkSmartPointer<vtkTransform> transform= vtkSmartPointer<vtkTransform>::New();
-    vtkSmartPointer<vtkTransformPolyDataFilter> transformFilter= vtkSmartPointer<vtkTransformPolyDataFilter>::New();
-    //   transform->Translate(120,0,0);
-    transformFilter->SetTransform(transform);
-    transformFilter->SetInputConnection(sphere->GetOutputPort());
-    transformFilter->Update();
-    mapper->SetInputConnection(transformFilter->GetOutputPort());
-    vtkSmartPointer<vtkActor> actor1 =vtkSmartPointer<vtkActor>::New();
-    actor1->SetMapper(mapper);
-    actor1->GetProperty()->SetColor(0.32,0,0.68);
-    m_pRenderer->AddActor(actor1);
-    renWin->Render();
-    //Create an Animation Scene
-    vtkSmartPointer<vtkAnimationScene> scene = vtkSmartPointer<vtkAnimationScene>::New();
-    //   scene->SetLoop(true);
-    scene->SetTimeModeToRelative();
-   // scene->SetFrameRate(5);
-    scene->SetStartTime(0);
-    scene->SetEndTime(5);
-    scene->SetPlayMode(vtkAnimationScene::PLAYMODE_REALTIME);
-    // Create an Animation Cue to animate thecamera.
-    vtkSmartPointer<vtkCustomTransformAnimationCue> cue1 = vtkSmartPointer<vtkCustomTransformAnimationCue>::New();
-    cue1->Sphere = sphere;
-    cue1->RenWin = renWin;
-    cue1->renderer=m_pRenderer;
-    cue1->transform=transform;
-    cue1->SetTimeModeToNormalized();
-    cue1->SetStartTime(0);
-    cue1->SetEndTime(1.0);
-    scene->AddCue(cue1);
-    scene->Play();
-    scene->Stop();
-    /*
-    if(clickTimes>0){
-        qDebug()<<"clickTimes:"<<clickTimes;
-        qDebug()<<"actors:"<<m_pRenderer->GetActors()->GetNumberOfItems();
-       m_pRenderer->RemoveActor(actor);
-    }
-    clickTimes++;
-    vtkSmartPointer<vtkSphereSource> sphere =vtkSmartPointer<vtkSphereSource>::New();
-    sphere->SetCenter(clickTimes*20,0,0);   // 设置中心
-    sphere->SetRadius(10);             // 设置半径
-    sphere->SetThetaResolution(52);
-    sphere->SetPhiResolution(52);
-    vtkSmartPointer<vtkPolyDataMapper> mapper =vtkSmartPointer<vtkPolyDataMapper>::New();
-    mapper->SetInputConnection(sphere->GetOutputPort());
+    vtkSmartPointer<vtkActor> a=getSphereActor(0,0,0);
+    m_pRenderer->AddActor(a);
+    Animator *animator=new Animator(renWin,a,Motion::translate,0,100,0);
+    Animator *animator2=new Animator(renWin,a,Motion::scale,1.5,1.5,1.5);
+    AnimatorSet *animatorSet=new AnimatorSet();
+    animatorSet->addAnimator(animator);
+    animatorSet->addAnimator(animator2);
+    animatorSet->setDuration(3000);
+    animatorSet->start();
 
-    actor=getSphereActor(0,0,0);
-    actor->GetProperty()->SetColor(0.32,0,0.68);
-    actor->SetMapper(mapper);
-    m_pRenderer->AddActor(actor);
-    m_pRenderer->GetRenderWindow()->Render();
-    m_pRenderer->GetRenderWindow()->GetInteractor()->Start();
-    */
+
+//    Animator *animators=new Animator(renWin,a,Motion::scale,1.5,1.5,3);
+//    animators->setDuration(2000);
+//    animators->start();
+
+
+//    Animator *animators2=new Animator(renWin,a,Motion::scale,3,3,3);
+//    animators2->setDuration(2000);
+//    animators2->start();
+
+    //    vtkSmartPointer<vtkRenderWindow> renWin =m_pRenderer->GetRenderWindow();
+    //    vtkSmartPointer<vtkActor> a=getSphereActor(0,0,0);
+    //    m_pRenderer->AddActor(a);
+    //    Animator *animator=new Animator(renWin,a,Motion::translate,100,0,0);
+    //    animator->setDuration(2000);
+    //    animator->start();
+
+    //    Animator *animator2=new Animator(renWin,a,Motion::translate,0,100,0);
+    //    animator2->setDuration(2000);
+    //    animator2->start();
+
+    //    //start again well be duration error
+    // //   animator->start();
 }
 
 void Widget::on_translateButton_clicked()
