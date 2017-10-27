@@ -290,9 +290,7 @@ void MainWindow::onOpenVolumeDir(){
     const char *dirPath_str=ba.data();
 
     volumeWidget->setVolumeData(dirPath_str);
-    qDebug()<<"3333333333333333333333333333333";
     if(volumeWidget->hasVolumeData()){
-        qDebug()<<"444444444444444444";
         volumeSlider->setValue(120);
         lastposition=120;
         //TODO弹出进度条
@@ -320,25 +318,6 @@ void MainWindow::onOpenVolumeDir(){
 
         setDrawConnection();
 
-        //		//得到边界与三个截面Slice的比例关系
-        //        double *boundary=sagitalWidget->getImageViewer2()->GetImageActor()->GetBounds();
-        //        boundary[1]=sagitalWidget->getImageViewer2()->GetImageActor()->GetBounds()[1];
-        //        boundary[3]=sagitalWidget->getImageViewer2()->GetImageActor()->GetBounds()[3];
-        //        boundary[5]=coronalWidget->getImageViewer2()->GetImageActor()->GetBounds()[5];
-
-        //        qDebug()<<"boundarx:"<<boundary[1];
-        //        qDebug()<<"boundary:"<<boundary[3];
-        //        qDebug()<<"boundarz:"<<boundary[5];
-        //        qDebug()<<"sagitalSlicerMAX:"<<sagitalWidget->getImageViewer2()->GetSliceMax();
-        //        qDebug()<<"axialSlicerMax:"<<sagitalWidget->getImageViewer2()->GetSliceMax();
-        //        qDebug()<<"coronalSlicerMax:"<<coronalWidget->getImageViewer2()->GetSliceMax();
-
-        //        proportionZ=boundary[5]/sagitalWidget->getImageViewer2()->GetSliceMax();
-        //        qDebug()<<"proportionZ"<<proportionZ;
-        //        proportionY=boundary[3]/axialWidget->getImageViewer2()->GetSliceMax();
-        //        qDebug()<<"proportionY"<<proportionY;
-        //        proportionX=boundary[1]/coronalWidget->getImageViewer2()->GetSliceMax();
-        //        qDebug()<<"proportionX"<<proportionX;
     }else{
         //TODO  这里提示路径错误
     }

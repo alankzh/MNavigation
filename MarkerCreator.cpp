@@ -1,6 +1,5 @@
 #include "MarkerCreator.h"
 
-
 MarkerCreator::MarkerCreator()
 {
 	LastMarker = nullptr;

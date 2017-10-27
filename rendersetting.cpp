@@ -187,8 +187,8 @@ void RenderSetting::ShiftRenderFunction(double shift, vtkColorTransferFunction* 
     double min = data[0];
     double max = data[4 * (n - 1)];
     double Range = max - min;
-    double minShift = min - data[4];
-    double maxShift = max - data[4 * (n - 2)];
+    double minShift = min + 10 - data[4];
+    double maxShift = max - 10 - data[4 * (n - 2)];
     double offset = Range * shift;
     if (offset < minShift) {
         offset = minShift;
@@ -215,8 +215,8 @@ void RenderSetting::ShiftRenderFunction(double shift, vtkPiecewiseFunction* opac
     double min = data[0];
     double max = data[2 * (n - 1)];
     double Range = max - min;
-    double minShift = min - data[2];
-    double maxShift = max - data[2* (n - 2)];
+    double minShift = min + 10 - data[2];
+    double maxShift = max - 10 - data[2* (n - 2)];
     double offset = Range * shift;
     if (offset < minShift) {
         offset = minShift;
@@ -231,7 +231,6 @@ void RenderSetting::ShiftRenderFunction(double shift, vtkPiecewiseFunction* opac
 }
 
 void RenderSetting::ShiftRenderFunction(double shift,int choose){
-    qDebug()<<"ShiftRenderFunction";
     switch(choose){
     case 1:
         ShiftRenderFunction(shift,this->args->opacityFun);

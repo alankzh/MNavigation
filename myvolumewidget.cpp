@@ -4,7 +4,7 @@
 #include "vtkVolumePicker.h"
 
 myVolumeWidget::myVolumeWidget(QWidget *parent):QVTKWidget(parent)
-{
+{	
     settingDefault=new RenderSetting();//构造函数初始化
     setLocation(20,55,735,365);//默认的几何位置
     //设置默认背景为黑色
@@ -12,9 +12,11 @@ myVolumeWidget::myVolumeWidget(QWidget *parent):QVTKWidget(parent)
     m_pRenderer->SetRenderWindow(this->GetRenderWindow());
     m_pRenderer->ResetCamera();
     m_pRenderer->SetBackground(0,0,0);
+
     vtkConnections = vtkSmartPointer<vtkEventQtSlotConnect>::New();
     connect(this, SIGNAL(OnMarkClick(vtkVector3d)), parent, SIGNAL(Mark(vtkVector3d)));
     connect(parent, SIGNAL(Mark(vtkVector3d)), this, SLOT(MarkReact(vtkVector3d)));
+	ListenVTKInteractorEvent();
     hasVolume=false;
 }
 
@@ -22,11 +24,14 @@ myVolumeWidget::myVolumeWidget(QWidget *parent):QVTKWidget(parent)
  * 体绘制，传入的路径为文件夹地址
  */
 bool myVolumeWidget::setVolumeData(const char *dirPath){
+
     vtkAlgorithm *reader=0;
     vtkImageData *input=0;
 
     //读取.dcm
     dicomReader = vtkSmartPointer<vtkDICOMImageReader>::New();
+
+
 
     dicomReader->SetDirectoryName(dirPath);
     dicomReader->Update();//耗时操作
@@ -64,7 +69,9 @@ bool myVolumeWidget::setVolumeData(const char *dirPath){
 
     VolumeBounds = vtkVector<double,6>(volume->GetBounds());
 
+	this->GetRenderWindow()->RemoveRenderer(m_pRenderer);
     m_pRenderer=vtkSmartPointer<vtkRenderer>::New();
+
     this->GetRenderWindow()->AddRenderer(m_pRenderer);
     this->GetRenderWindow()->GetInteractor()->GetInteractorStyle()->SetDefaultRenderer(m_pRenderer);
     // Add the volume to the scene
@@ -80,7 +87,6 @@ bool myVolumeWidget::setVolumeData(const char *dirPath){
     updateRender();
 
     hasVolume=true;
-	ListenVTKInteractorEvent();
     return true;
 }
 
@@ -144,7 +150,7 @@ vtkVector<double, 6> myVolumeWidget::GetVolumeBounds() const{
 }
 
 void myVolumeWidget::ListenVTKInteractorEvent() {
-	vtkConnections->Connect(m_pRenderer->GetRenderWindow()->GetInteractor(), vtkCommand::AnyEvent, this, SLOT(vtkInteractorEventDispatch(vtkObject*, unsigned long, void*, void*)));
+	vtkConnections->Connect(this->GetRenderWindow()->GetInteractor(), vtkCommand::AnyEvent, this, SLOT(vtkInteractorEventDispatch(vtkObject*, unsigned long, void*, void*)));
 }
 
 void myVolumeWidget::Mark(vtkRenderWindowInteractor* iren) {

@@ -33,8 +33,6 @@ private:
 
     void setLayout();
 
-    void reset();
-
     void setConnection();
 
     void setDrawConnection();
