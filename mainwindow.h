@@ -13,6 +13,8 @@
 #include "actormanager.h"
 #include "customWidgets/mygridlayout.h"
 #include "customWidgets/mydialog.h"
+#include "customWidgets/threebackgroundbutton.h"
+#include "customWidgets/markbutton.h"
 
 /**
  * @brief The MainWindow class
@@ -27,8 +29,6 @@ public:
 private:
     bool m_embedded;
     QPixmap m_background;
-    // GreenButton greenButton1;
-    // GreenButton greenButton2;
 
     void init();
 
@@ -45,11 +45,13 @@ private:
     StlManager *stlManager;
     actorManager *actorM;
 
-    BackgroundButton *greenButton1;
-    BackgroundButton *greenButton2;
-    BackgroundButton *navigationButton;
-    BackgroundButton *exitButton;
-    BackgroundButton *translateButton;
+    MarkButton *markbutton1;
+    ThreeBackgroundButton *exitButton;
+    BackgroundButton *volumeLoadButton;
+    BackgroundButton *stlLoadButton;
+    BackgroundButton *stlSelectButton;
+    BackgroundButton *stlDeleteButton;//按下弹出删除哪个.stl模型的对话框
+    BackgroundButton *volumeMagnifyButton;
     BackgroundButton *magnifyButton;
     BackgroundButton *shrinkButton;
     myVolumeWidget *volumeWidget;
@@ -66,7 +68,6 @@ private:
     MyDialog *stlLoadDialog;//选择加载哪个.stl模型
     MyDialog *stlSelectDialog;//选择操作哪个.stl模型
     MyDialog *stlDeleteDialog;//选择删除哪个.stl模型
-    BackgroundButton *stlDeleteButton;//按下弹出删除哪个.stl模型的对话框
     bool isOpenDir=false;
     int lastposition;
     //能否做标记
@@ -84,28 +85,28 @@ private:
     double proportionX;
 
 signals:
-	void Mark(vtkVector3d ModelPosition);
+    void Mark(vtkVector3d ModelPosition);
 
 public slots:
 
-	void navigationClicked();
-	void exitClicked();
-	void translateClicked();
-	void magnifyClicked();
-	void shrinkCliked();
+    void volumeLoadClicked();
+    void exitClicked();
+    void volumeMagnifyClicked();
+    void magnifyClicked();
+    void shrinkCliked();
     void focusButtonClicked();
 
-	void vSlicerValueChange(int v);
-	void sSlicerValueChange(int v);
-	void aSlicerValueChange(int v);
-	void cSlicerValueChange(int v);
+    void vSlicerValueChange(int v);
+    void sSlicerValueChange(int v);
+    void aSlicerValueChange(int v);
+    void cSlicerValueChange(int v);
 
-	void greenButton1Clicked();
-	void greenButton2Clicked();
-	void deleteButtonClicked();
-	void deleteStl(QString name, int index);
-	void loadStl(QString name, int index);
-	void selectStl(QString name, int index);
+    void stlLoadButtonClicked();
+    void stlSelectButtonClicked();
+    void stlDeleteButtonClicked();
+    void deleteStl(QString name, int index);
+    void loadStl(QString name, int index);
+    void selectStl(QString name, int index);
 protected:
 
     void update_background();
