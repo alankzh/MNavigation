@@ -23,5 +23,8 @@
         <file>resources/power_hover.png</file>
         <file>resources/shrink2.png</file>
         <file>resources/translation.png</file>
+        <file>resources/max_click.png</file>
+        <file>resources/min_click.png</file>
+        <file>resources/Min_normal.png</file>
     </qresource>
 </RCC>

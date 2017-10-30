@@ -6,22 +6,102 @@ MainWindow::MainWindow(QWidget *parent)
 {
     Q_UNUSED(parent);
 
-    update_background();
-    init();
-
+    //Old UI
+    {
+        //update_background();
+        //init();
+        //setLayout();
+        //setConnection();
+    }
     this->setFocus();
-    setLayout();
-    setConnection();
-
-    BackgroundButton *titleButton=new BackgroundButton(this);
-    titleButton->setBackground(":/resources/title2.png","png");
-    titleButton->setGeometry(3,3,334,32);
-    titleButton->setPos(3,3);
-    titleButton->needClickEffect(false);
+    //new UI
+    setLayout2();
 }
 
 MainWindow::~MainWindow()
 {
+}
+
+void MainWindow::setLayout2(){
+    resize(QSize( Constant::NORMAL_WIDTH,Constant::NORMAL_HEIGHT));
+    setFixedSize( Constant::NORMAL_WIDTH, Constant::NORMAL_HEIGHT);
+
+    QVBoxLayout *mainLayout=new QVBoxLayout(this);
+    QHBoxLayout *titleLayout=new QHBoxLayout();
+    titleButton=new BackgroundButton(this);
+    titleButton->setBackground(":/resources/title2.png","png");
+    titleButton->needClickEffect(false);
+    titleButton->setPos(3,3);
+
+    minimizeButton=new ThreeBackgroundButton(this);
+    minimizeButton->setBackgroundFront(":/resources/Min_normal.png","png");
+    minimizeButton->setBackgroundReverse(":/resources/min_click.png","png");
+
+    maxmizeButton=new ThreeBackgroundButton(this);
+    maxmizeButton->setBackgroundFront(":/resources/max_normal.png","png");
+    maxmizeButton->setBackgroundReverse(":/resources/max_click.png","png");
+
+    exitButton=new ThreeBackgroundButton(this);
+    exitButton->setBackgroundFront(":/resources/power_normal.png","png");
+    exitButton->setBackgroundReverse(":/resources/power_click.png","png");
+    exitButton->setBackgroundHover(":/resources/power_hover.png","png");
+
+    titleLayout->addWidget(titleButton,0,Qt::AlignLeft|Qt::AlignTop);
+    titleLayout->addWidget(minimizeButton,0,Qt::AlignRight);
+    titleLayout->addWidget(maxmizeButton);
+    titleLayout->addWidget(exitButton);
+    titleLayout->setAlignment(Qt::AlignTop);
+    mainLayout->addLayout(titleLayout,1);
+
+
+    QHBoxLayout *funcLayout=new QHBoxLayout();
+    markbutton1=new MarkButton(this);
+    markbutton1->setBackgroundNormal(":/resources/translation.png","png");
+    markbutton1->setBackgroundMarked(":/resources/shrink2.png","png");
+    funcLayout->addWidget(markbutton1,Qt::AlignHCenter);
+    funcLayout->setAlignment(mainLayout,Qt::AlignTop);
+    funcLayout->setMargin(0);
+    mainLayout->addLayout(funcLayout,1);
+
+    QHBoxLayout *logicLayout=new QHBoxLayout();
+
+    QGridLayout *vLayout=new QGridLayout();
+    volumeWidget=new myVolumeWidget(this);
+    sagitalWidget=new mySlicerWidget(this);
+    coronalWidget=new mySlicerWidget(this);
+    axialWidget=new mySlicerWidget(this);
+    vLayout->addWidget(volumeWidget,0,0);
+    vLayout->addWidget(sagitalWidget,0,1);
+    vLayout->addWidget(coronalWidget,1,0);
+    vLayout->addWidget(axialWidget,1,1);
+    QVBoxLayout *oLayout=new QVBoxLayout();
+    volumeLoadButton=new BackgroundButton(this);
+    volumeLoadButton->setBackground(":/resources/loadVolume.png","png");
+    stlLoadButton=new BackgroundButton(this);
+    stlLoadButton->setBackground(":/resources/loadStl.png","png");
+    stlSelectButton=new BackgroundButton(this);
+    stlSelectButton->setBackground(":/resources/selectStl.png","png");
+    stlDeleteButton=new BackgroundButton(this);
+    stlDeleteButton->setBackground(":/resources/deleteStl.png","png");
+    volumeMagnifyButton=new BackgroundButton(this);
+    volumeMagnifyButton->setBackground(":/resources/volumeMagnify.png","png");
+    volumeMagnifyButton->setClickedColor(QColor(185,188,193,150));
+    oLayout->addWidget(volumeLoadButton,0,Qt::AlignTop);
+    oLayout->addWidget(stlLoadButton);
+    oLayout->addWidget(stlSelectButton);
+    oLayout->addWidget(stlDeleteButton);
+    oLayout->addWidget(volumeMagnifyButton);
+    BackgroundButton *placeHolder=new BackgroundButton(this);
+    placeHolder->needClickEffect(false);
+    oLayout->addWidget(placeHolder,1,Qt::AlignBottom);
+    oLayout->setSpacing(5);
+    oLayout->setAlignment(Qt::AlignRight);
+    logicLayout->addLayout(vLayout,20);
+    logicLayout->addLayout(oLayout,1);
+    mainLayout->addLayout(logicLayout,20);
+
+    connect(maxmizeButton,SIGNAL(clicked()),this,SLOT(maxmizeClicked()));
+    connect(minimizeButton,SIGNAL(clicked()),this,SLOT(minimizeClicked()));
 }
 
 //主窗口更新背景
@@ -35,13 +115,28 @@ void MainWindow::update_background(){
 
 //初始化
 void MainWindow::init(){
+    titleButton=new BackgroundButton(this);
+
+    minimizeButton=new ThreeBackgroundButton(this);
+
+    maxmizeButton=new ThreeBackgroundButton(this);
+
     markbutton1=new MarkButton(this);
-    stlLoadButton=new BackgroundButton(this);
-    stlSelectButton=new BackgroundButton(this);
-    volumeLoadButton=new BackgroundButton(this);
+
     exitButton=new ThreeBackgroundButton(this);
+
+    volumeLoadButton=new BackgroundButton(this);
+
+    stlLoadButton=new BackgroundButton(this);
+
+    stlSelectButton=new BackgroundButton(this);
+
+    stlDeleteButton=new BackgroundButton(this);
+
     volumeMagnifyButton=new BackgroundButton(this);
+
     magnifyButton=new BackgroundButton(this);
+
     shrinkButton=new BackgroundButton(this);
 
     volumeWidget=new myVolumeWidget(this);
@@ -50,13 +145,17 @@ void MainWindow::init(){
     coronalWidget=new mySlicerWidget(this);
 
     stlLoadDialog=new MyDialog();
+
     stlSelectDialog=new MyDialog();
+
     stlDeleteDialog=new MyDialog();
-    stlDeleteButton=new BackgroundButton(this);
 
     sagitalLabel=new QLabel(this);
+
     coronalLabel=new QLabel(this);
+
     axialLabel=new QLabel(this);
+
     volumeSlider=new QSlider(this);
     sagitalSlider=new QSlider(this);
     axialSlider=new QSlider(this);
@@ -71,6 +170,10 @@ void MainWindow::init(){
 
 //布局
 void MainWindow::setLayout(){
+    titleButton->setBackground(":/resources/title2.png","png");
+    titleButton->needClickEffect(false);
+    titleButton->setPos(3,3);
+
     markbutton1->setPos(1000,3);
     markbutton1->setBackgroundNormal(":/resources/translation.png","png");
     markbutton1->setBackgroundMarked(":/resources/shrink2.png","png");
@@ -109,7 +212,7 @@ void MainWindow::setLayout(){
     focusButton->setPos(1541,576);
     focusButton->setBackground(":/resources/max_normal.png","png");
     connect(focusButton,SIGNAL(clicked()),this,SLOT(focusButtonClicked()));
-  //  focusButton->setGeometry(1531,556,66,67);
+    //  focusButton->setGeometry(1531,556,66,67);
 
     stlLoadDialog->setGeometry(stlLoadButton->getXpos()-100,stlLoadButton->getYpos()+100,200,200);
     /**
@@ -158,6 +261,7 @@ void MainWindow::setLayout(){
     coronalLabel->setText(QString::fromLocal8Bit("0"));
     coronalLabel->setAlignment(Qt::AlignCenter);
     coronalSlider->setOrientation(Qt::Horizontal);
+
 }
 
 //按钮信号连接
@@ -172,6 +276,9 @@ void MainWindow::setConnection(){
     connect(magnifyButton,SIGNAL(clicked()),this,SLOT(magnifyClicked()));
     //缩小按钮点击的信号绑定
     connect(shrinkButton,SIGNAL(clicked()),this,SLOT(shrinkCliked()));
+
+    connect(maxmizeButton,SIGNAL(clicked()),this,SLOT(maxmizeClicked()));
+    connect(minimizeButton,SIGNAL(clicked()),this,SLOT(minimizeClicked()));
 }
 
 //有体绘制数据时需要连接的信号
@@ -265,6 +372,21 @@ void MainWindow::volumeMagnifyClicked(){
     obtainFocus();
 }
 
+void MainWindow::maxmizeClicked(){
+    obtainFocus();
+    if(max){
+        this->showNormal();
+    }else{
+        this->showMaximized();
+    }
+    max=!max;
+}
+
+void MainWindow::minimizeClicked(){
+    obtainFocus();
+    this->showMinimized();
+}
+
 //放大按钮点击
 void MainWindow::magnifyClicked(){
     qDebug()<<"MainWindow::magnifyClicked";
@@ -276,14 +398,6 @@ void MainWindow::magnifyClicked(){
 void MainWindow::shrinkCliked(){
     qDebug()<<"MainWindow::shrinkCliked";
     //TODO 我tm还是不知道这个按钮设计来干啥的
-    obtainFocus();
-}
-
-//主窗口重绘制触发事件，一般发生在窗口切换
-void MainWindow::paintEvent(QPaintEvent* e)
-{
-    QPainter painter(this);
-    painter.drawPixmap(e->rect(), m_background, e->rect());
     obtainFocus();
 }
 
@@ -334,7 +448,14 @@ void MainWindow::onOpenVolumeDir(){
     }else{
         //TODO  这里提示路径错误
     }
+}
 
+//主窗口重绘制触发事件，一般发生在窗口切换
+void MainWindow::paintEvent(QPaintEvent* e)
+{
+    QPainter painter(this);
+    //   painter.drawPixmap(e->rect(), m_background, e->rect());
+    obtainFocus();
 }
 
 //主窗口键盘事件
@@ -434,6 +555,17 @@ void MainWindow::keyPressEvent(QKeyEvent *event){
         canTarger=!canTarger;
     }
     volumeWidget->updateRender();
+}
+
+void MainWindow::mousePressEvent(QMouseEvent *event){
+    mouseClickPoint=event->pos();
+}
+
+void MainWindow::mouseMoveEvent(QMouseEvent *event){
+    if(event->buttons()&Qt::LeftButton){
+        //拖动
+        move(event->globalPos()-mouseClickPoint);
+    }
 }
 
 void MainWindow::stlDeleteButtonClicked(){

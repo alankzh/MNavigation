@@ -15,6 +15,8 @@
 #include "customWidgets/mydialog.h"
 #include "customWidgets/threebackgroundbutton.h"
 #include "customWidgets/markbutton.h"
+#include "tools/constant.h"
+#include "tools/screentools.h"
 
 /**
  * @brief The MainWindow class
@@ -34,6 +36,8 @@ private:
 
     void setLayout();
 
+    void setLayout2();
+
     void setConnection();
 
     void setDrawConnection();
@@ -45,8 +49,11 @@ private:
     StlManager *stlManager;
     actorManager *actorM;
 
-    MarkButton *markbutton1;
+    BackgroundButton *titleButton;
+    ThreeBackgroundButton *minimizeButton;//最小化主窗口
+    ThreeBackgroundButton *maxmizeButton;//最大化
     ThreeBackgroundButton *exitButton;
+    MarkButton *markbutton1;
     BackgroundButton *volumeLoadButton;
     BackgroundButton *stlLoadButton;
     BackgroundButton *stlSelectButton;
@@ -79,11 +86,9 @@ private:
     //当前操作的stl名
     QString operationStlName;
 
-    //比例
-    double proportionZ;
-    double proportionY;
-    double proportionX;
+    bool max=false;
 
+    QPoint mouseClickPoint;
 signals:
     void Mark(vtkVector3d ModelPosition);
 
@@ -95,6 +100,8 @@ public slots:
     void magnifyClicked();
     void shrinkCliked();
     void focusButtonClicked();
+    void maxmizeClicked();
+    void minimizeClicked();
 
     void vSlicerValueChange(int v);
     void sSlicerValueChange(int v);
@@ -114,6 +121,10 @@ protected:
     virtual void paintEvent(QPaintEvent* event);
 
     virtual void keyPressEvent(QKeyEvent *event);
+
+    virtual void mousePressEvent(QMouseEvent *event);
+
+    virtual void mouseMoveEvent(QMouseEvent *event);
 
     QList<QString> stlList={};
 };

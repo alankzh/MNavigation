@@ -148,7 +148,9 @@ SOURCES += main.cpp\
     customAnimator/motion.cpp \
     customAnimator/myvtkcustomanimationcue.cpp \
     customWidgets/markbutton.cpp \
-    customWidgets/threebackgroundbutton.cpp
+    customWidgets/threebackgroundbutton.cpp \
+    tools/screentools.cpp \
+    tools/constant.cpp
 
 HEADERS  += widget.h \
     rendersetting.h \
@@ -173,7 +175,9 @@ HEADERS  += widget.h \
     customAnimator/motion.h \
     customAnimator/myvtkcustomanimationcue.h \
     customWidgets/markbutton.h \
-    customWidgets/threebackgroundbutton.h
+    customWidgets/threebackgroundbutton.h \
+    tools/screentools.h \
+    tools/constant.h
 
 FORMS    += widget.ui
 
