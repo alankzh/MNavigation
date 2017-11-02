@@ -6,7 +6,6 @@
 #include "customWidgets/greenbutton.h"
 #include "myvolumewidget.h"
 #include "customWidgets/backgroundbutton.h"
-#include "rendersetting.h"
 #include "myslicerwidget.h"
 #include "vtkcustomtransformanimationcue.h"
 #include "stlmanager.h"
