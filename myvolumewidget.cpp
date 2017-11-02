@@ -53,13 +53,6 @@ bool myVolumeWidget::setVolumeData(const char *dirPath){
     volume =  vtkSmartPointer<vtkVolume>::New();
     vtkSmartPointer<vtkSmartVolumeMapper> mapper = vtkSmartPointer<vtkSmartVolumeMapper>::New();
     mapper->SetInputConnection( reader->GetOutputPort() );
-    // Create the property and attach the transfer functions
-    settingDefault->args->property->SetIndependentComponents(true);
-    settingDefault->args->property->SetColor( settingDefault->args->colorFun );
-    settingDefault->args->property->SetScalarOpacity( settingDefault->args->opacityFun );
-    settingDefault->args->property->SetInterpolationTypeToLinear();
-    // connect up the volume to the property and the mapper
-    volume->SetProperty( settingDefault->args->property );
     volume->SetMapper( mapper );
 
     mapper->SetBlendModeToComposite();
@@ -77,7 +70,7 @@ bool myVolumeWidget::setVolumeData(const char *dirPath){
     volume->RotateX(30);
     //    ui->volumeSlider->setRange(0,255);
     //    ui->volumeSlider->setValue(120);
-    settingDefault->SetRenderType(RenderSetting::RenderType::CT_Bone);//默认的渲染
+	SetRenderPropertyType("CT_Bone");
     m_pRenderer->ResetCamera();
     //   m_pRenderer->GetActiveCamera()->Zoom(1.5);
     m_pRenderer->DrawOn();

@@ -7,7 +7,6 @@ VTK_MODULE_INIT(vtkRenderingVolumeOpenGL)
 #endif
 
 #include <QApplication>
-#include "widget.h"
 #include "mainwindow.h"
 #include <QFile>
 

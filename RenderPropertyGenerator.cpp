@@ -308,6 +308,7 @@ std::vector<std::string> RenderPropertyGenerator::GetAllAvaiblePresetsName() {
 	for (auto i = volume_property_library_.begin(); i != volume_property_library_.end(); i++) {
 		names.push_back(i->first);
 	}
+	return names;
 }
 
 void RenderPropertyGenerator::InitFilePath() {
