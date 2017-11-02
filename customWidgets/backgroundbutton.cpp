@@ -2,14 +2,9 @@
 
 BackgroundButton::BackgroundButton(QWidget *parent):QWidget(parent)
 {
-   // clickColor=QColor(170,128,38,150);
     clickColor=QColor(195,195,195,150);
     xPos=this->x();
     yPos=this->y();
-    width=60;
-    height=60;
-    resize(QSize( width,height));
-    setFixedSize( width, height);
 }
 
 /**
@@ -81,6 +76,7 @@ void BackgroundButton::mouseReleaseEvent(QMouseEvent *event){
 void BackgroundButton::mouseMoveEvent(QMouseEvent *event){
     Q_UNUSED(event);
 }
+
 /**
  * @brief BackgroundButton::setPos
  * 设置几何位置，坐标原点在父控件的左上角

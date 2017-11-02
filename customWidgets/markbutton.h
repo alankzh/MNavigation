@@ -1,22 +1,22 @@
-﻿#ifndef BACKGROUNDBUTTON_H
-#define BACKGROUNDBUTTON_H
-#include <QtWidgets>
+#ifndef MARKBUTTON_H
+#define MARKBUTTON_H
+#include "QtWidgets"
 
 
-class BackgroundButton: public QWidget
+class MarkButton:public QWidget
 {
     Q_OBJECT
 public:
-    BackgroundButton(QWidget *parent);
-
+    MarkButton(QWidget *parent=Q_NULLPTR);
+    bool getMarkStatus();
     bool setPos(int x,int y);
     int getXpos();
     int getYpos();
-
-    void setBackground(const char* fileName,const char* flag);
-    void setClickedColor(QColor color);
-    void needClickEffect(bool b);
-
+    void setBackgroundNormal(const char* fileName,const char* flag);
+    void setBackgroundMarked(const char* fileName,const char* flag);
+signals:
+    void marked(bool isMarked);
+    void clicked();
 protected :
     virtual void paintEvent(QPaintEvent *event);
 
@@ -26,13 +26,10 @@ protected :
 
     virtual void mouseMoveEvent(QMouseEvent *event);
 
-signals:
-    void clicked();
-
 private:
-    bool clickEffect=true;
-    bool isClicked=false;
-    bool hasBackground=false;
+    bool isMarked;
+    bool isClicked;
+
     //Constructs a rectangle with (x, y) as its top-left corner.
     int xPos;
     //Constructs a rectangle with (x, y) as its top-left corner.
@@ -42,10 +39,8 @@ private:
 
     int height;
 
-    QPixmap backgroundPix;
-
-    QColor clickColor;
-
+    QPixmap backgroundNormalPix;
+    QPixmap backgroundMarkedPix;
 };
 
-#endif // BACKGROUNDBUTTON_H
+#endif // MARKBUTTON_H
