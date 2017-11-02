@@ -1,6 +1,8 @@
 #ifndef CONSTANT_H
 #define CONSTANT_H
 
+// never use it
+//#define PROPERTY_PATH (((QDir::currentPath())+("/myPath")))
 
 class Constant
 {

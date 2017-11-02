@@ -17,6 +17,7 @@
 #include "customWidgets/markbutton.h"
 #include "tools/constant.h"
 #include "tools/screentools.h"
+#include "tools/myfakeprogressqthread.h"
 
 /**
  * @brief The MainWindow class
@@ -89,6 +90,7 @@ private:
     bool max=false;
 
     QPoint mouseClickPoint;
+    ProgressBarWidget *progressBar;
 signals:
     void Mark(vtkVector3d ModelPosition);
 

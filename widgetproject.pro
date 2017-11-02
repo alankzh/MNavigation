@@ -1,4 +1,4 @@
-#-------------------------------------------------
+ #-------------------------------------------------
 #
 # Project created by QtCreator 2017-09-26T10:02:50
 #
@@ -128,7 +128,6 @@ TEMPLATE = app
 
 
 SOURCES += main.cpp\
-        widget.cpp \
     rendersetting.cpp \
     mainwindow.cpp \
     myvolumewidget.cpp \
@@ -150,9 +149,12 @@ SOURCES += main.cpp\
     customWidgets/markbutton.cpp \
     customWidgets/threebackgroundbutton.cpp \
     tools/screentools.cpp \
-    tools/constant.cpp
+    tools/constant.cpp \
+    customWidgets/progressbarwidget.cpp \
+    tools/myfakeprogressqthread.cpp \
 
-HEADERS  += widget.h \
+
+HEADERS  += \
     rendersetting.h \
     mainwindow.h \
     vtks.h \
@@ -177,7 +179,10 @@ HEADERS  += widget.h \
     customWidgets/markbutton.h \
     customWidgets/threebackgroundbutton.h \
     tools/screentools.h \
-    tools/constant.h
+    tools/constant.h \
+    customWidgets/progressbarwidget.h \
+    tools/myfakeprogressqthread.h \
+
 
 FORMS    += widget.ui
 

@@ -7,15 +7,14 @@ MainWindow::MainWindow(QWidget *parent)
     Q_UNUSED(parent);
 
     //Old UI
-    {
-        //update_background();
-        //init();
-        //setLayout();
-        //setConnection();
-    }
+    update_background();
+    init();
+    setLayout();
+    setConnection();
+    progressBar=new ProgressBarWidget(ScreenTools::getComputerScreenWidth()/2,ScreenTools::getComputerScreenHeight()/2,this);
     this->setFocus();
     //new UI
-    setLayout2();
+    // setLayout2();
 }
 
 MainWindow::~MainWindow()
@@ -116,46 +115,27 @@ void MainWindow::update_background(){
 //初始化
 void MainWindow::init(){
     titleButton=new BackgroundButton(this);
-
     minimizeButton=new ThreeBackgroundButton(this);
-
     maxmizeButton=new ThreeBackgroundButton(this);
-
     markbutton1=new MarkButton(this);
-
     exitButton=new ThreeBackgroundButton(this);
-
     volumeLoadButton=new BackgroundButton(this);
-
     stlLoadButton=new BackgroundButton(this);
-
     stlSelectButton=new BackgroundButton(this);
-
     stlDeleteButton=new BackgroundButton(this);
-
     volumeMagnifyButton=new BackgroundButton(this);
-
     magnifyButton=new BackgroundButton(this);
-
     shrinkButton=new BackgroundButton(this);
-
     volumeWidget=new myVolumeWidget(this);
     sagitalWidget=new mySlicerWidget(this);
     axialWidget=new mySlicerWidget(this);
     coronalWidget=new mySlicerWidget(this);
-
     stlLoadDialog=new MyDialog();
-
     stlSelectDialog=new MyDialog();
-
     stlDeleteDialog=new MyDialog();
-
     sagitalLabel=new QLabel(this);
-
     coronalLabel=new QLabel(this);
-
     axialLabel=new QLabel(this);
-
     volumeSlider=new QSlider(this);
     sagitalSlider=new QSlider(this);
     axialSlider=new QSlider(this);
@@ -192,9 +172,7 @@ void MainWindow::setLayout(){
     stlSelectButton->setPos(1531,216);
     stlSelectButton->setBackground(":/resources/selectStl.png","png");
 
-    // stlDeleteButton->setGeometry(730,3,80,43);
     stlDeleteButton->setPos(1531,285);
-    //  stlDeleteButton->setText(QString::fromLocal8Bit("删除.stl"));
     stlDeleteButton->setBackground(":/resources/deleteStl.png","png");
 
     volumeMagnifyButton->setPos(1531,372);
@@ -212,7 +190,6 @@ void MainWindow::setLayout(){
     focusButton->setPos(1541,576);
     focusButton->setBackground(":/resources/max_normal.png","png");
     connect(focusButton,SIGNAL(clicked()),this,SLOT(focusButtonClicked()));
-    //  focusButton->setGeometry(1531,556,66,67);
 
     stlLoadDialog->setGeometry(stlLoadButton->getXpos()-100,stlLoadButton->getYpos()+100,200,200);
     /**
@@ -309,9 +286,7 @@ void MainWindow::setDrawConnection(){
 void MainWindow::vSlicerValueChange(int v){
     double shiftValue=double(v-lastposition)/255.0;
     lastposition=v;
-    volumeWidget->settingDefault->ShiftRenderFunction(shiftValue,1);
-    volumeWidget->settingDefault->ShiftRenderFunction(shiftValue,2);
-    volumeWidget->updateRender();
+	volumeWidget->ShiftRenderFunction(shiftValue);
     obtainFocus();
 }
 
@@ -416,11 +391,21 @@ void MainWindow::onOpenVolumeDir(){
     QByteArray ba=dirPath.toLocal8Bit();
     const char *dirPath_str=ba.data();
 
+//    MyFakeProgressQThread *fakeThread=new MyFakeProgressQThread(this);
+//    fakeThread->startFake();
+//        fakeThread->stopFake();
+
+//    QDialog *dialog=new QDialog(this);
+//    QProgressBar *bar=new QProgressBar(this);;
+//    bar->setOrientation(Qt::Horizontal);
+//    bar->setMaximum(0);
+//    bar->setMinimum(0);
+//    bar->show();
+//    dialog->show();
     volumeWidget->setVolumeData(dirPath_str);
     if(volumeWidget->hasVolumeData()){
         volumeSlider->setValue(120);
         lastposition=120;
-        //TODO弹出进度条
 
         //sagittal为xy方向截面
         sagitalWidget->setSlicerData(volumeWidget->dicomReader,mySlicerWidget::ORIENTATION::XY);
@@ -465,49 +450,7 @@ void MainWindow::keyPressEvent(QKeyEvent *event){
         qDebug()<<"noVolumeData";
         return;
     }
-    qDebug()<<"keyPressEvent:"<<event->key();
-    if(event->key()==Qt::Key_0){
-        volumeWidget->settingDefault->SetRenderType(RenderSetting::RenderType::CT_Normal);
-        this->setWindowTitle("CT_Normal");
-        lastposition=120;
-        volumeSlider->setValue(120);
-    }
-    if(event->key()==Qt::Key_1){
-        volumeWidget->settingDefault->SetRenderType(RenderSetting::RenderType::CT_Bone);
-        this->setWindowTitle("CT_Bone");
-        lastposition=120;
-        volumeSlider->setValue(120);
-    }
-    if(event->key()==Qt::Key_2){
-        volumeWidget->settingDefault->SetRenderType(RenderSetting::RenderType::CT_AAA);
-        this->setWindowTitle("CT_AAA");
-        lastposition=120;
-        volumeSlider->setValue(120);
-    }
-    if(event->key()==Qt::Key_3){
-        volumeWidget->settingDefault->SetRenderType(RenderSetting::RenderType::CT_Liver_Vasculature);
-        this->setWindowTitle("CT_Liver_Vasculature");
-        lastposition=120;
-        volumeSlider->setValue(120);
-    }
-    if(event->key()==Qt::Key_4){
-        volumeWidget->settingDefault->SetRenderType(RenderSetting::RenderType::CT_Lung);
-        this->setWindowTitle("CT_Lung");
-        lastposition=120;
-        volumeSlider->setValue(120);
-    }
-    if(event->key()==Qt::Key_5){
-        volumeWidget->settingDefault->SetRenderType(RenderSetting::RenderType::MR_Default);
-        this->setWindowTitle("MR_Default");
-        lastposition=120;
-        volumeSlider->setValue(120);
-    }
-    if(event->key()==Qt::Key_6){
-        volumeWidget->settingDefault->SetRenderType(RenderSetting::RenderType::MR_Brain);
-        this->setWindowTitle("MR_Brain");
-        lastposition=120;
-        volumeSlider->setValue(120);
-    }
+    qDebug()<<"keyPressEvent:"<<event->key();	
     /*变换操作开始*/
     if(event->key()==Qt::Key_Q){
         stlManager->translate(operationStlName,10,0,0);

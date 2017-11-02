@@ -11,6 +11,9 @@ RenderSetting::RenderSetting()
         args->colorFun = vtkSmartPointer<vtkColorTransferFunction>::New();
         args->opacityFun = vtkSmartPointer<vtkPiecewiseFunction>::New();
         args->gradientOpacityFun = vtkSmartPointer<vtkPiecewiseFunction>::New();
+		args->property->SetColor(args->colorFun);
+		args->property->SetScalarOpacity(args->opacityFun);
+		args->property->SetGradientOpacity(args->gradientOpacityFun);
         isMax=false;
         isMin=false;
         qDebug()<<"RenderSetting end";

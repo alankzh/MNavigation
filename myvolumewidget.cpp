@@ -2,10 +2,10 @@
 #include "CoordinateConverter.h"
 #include "actormanager.h"
 #include "vtkVolumePicker.h"
+#include "RenderPropertyGenerator.h"
 
 myVolumeWidget::myVolumeWidget(QWidget *parent):QVTKWidget(parent)
 {	
-    settingDefault=new RenderSetting();//构造函数初始化
     setLocation(20,55,735,365);//默认的几何位置
     //设置默认背景为黑色
     m_pRenderer=vtkSmartPointer<vtkRenderer>::New();
@@ -20,9 +20,6 @@ myVolumeWidget::myVolumeWidget(QWidget *parent):QVTKWidget(parent)
     hasVolume=false;
 }
 
-/**
- * 体绘制，传入的路径为文件夹地址
- */
 bool myVolumeWidget::setVolumeData(const char *dirPath){
 
     vtkAlgorithm *reader=0;
@@ -90,43 +87,18 @@ bool myVolumeWidget::setVolumeData(const char *dirPath){
     return true;
 }
 
-/**
- * 设置几何位置
-*/
 void myVolumeWidget::setLocation(int x,int y,int width,int height){
     this->setGeometry(x,y,width,height);
 }
 
-/**
- *设置rendersettiing类中的渲染数值
-*/
-void myVolumeWidget::renderValueChange(double shiftValue){
-    settingDefault->ShiftRenderFunction(shiftValue,settingDefault->args->colorFun);
-    settingDefault->ShiftRenderFunction(shiftValue,settingDefault->args->opacityFun);
-    this->GetRenderWindow()->Render();
-}
-
-/**
- * 更新绘制
- */
 void myVolumeWidget::updateRender(){
     this->GetRenderWindow()->Render();
-    //   qvtkwidget->GetRenderWindow()->GetInteractor()->Start();
 }
 
-/**
- * 获取此窗口内的核心控件vtkImageViewer2
- * 慎用
- */
 vtkSmartPointer<vtkRenderer> myVolumeWidget::getRenderer(){
     return m_pRenderer;
 }
 
-/**
- * @brief myVolumeWidget::getVolume
- * 返回渲染的体绘制数据
- * @return
- */
 vtkSmartPointer<vtkVolume> myVolumeWidget::getVolume(){
     if(hasVolume){
         return volume;
@@ -136,17 +108,25 @@ vtkSmartPointer<vtkVolume> myVolumeWidget::getVolume(){
     }
 }
 
-/**
- * @brief myVolumeWidget::hasVolumeData
- * 是否有体绘制数据
- * @return
- */
 bool myVolumeWidget::hasVolumeData(){
     return hasVolume;
 }
 
 vtkVector<double, 6> myVolumeWidget::GetVolumeBounds() const{
     return VolumeBounds;
+}
+
+void myVolumeWidget::ShiftRenderFunction(double shift) {
+	if (hasVolume) {
+		RenderPropertyGenerator::ShiftRenderFunction(shift,getVolume()->GetProperty());
+		updateRender();
+	}
+}
+
+void myVolumeWidget::SetRenderPropertyType(std::string property_name) {
+	if (hasVolume) {
+		RenderPropertyGenerator::ApplyVolumeProperty(property_name, getVolume()->GetProperty());
+	}
 }
 
 void myVolumeWidget::ListenVTKInteractorEvent() {
