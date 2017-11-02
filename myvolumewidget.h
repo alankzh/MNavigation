@@ -62,8 +62,10 @@ private:
 
 signals:
 	void OnMarkClick(vtkVector3d ModelPosition);
-
+    void propertyChanged();
 public slots:
+
+    void SetRenderPropertySlot(std::string property_name);
 
 	void MarkReact(vtkVector3d ModelPosition);
 

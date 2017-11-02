@@ -6,7 +6,6 @@ MyGridLayout::MyGridLayout(QWidget *parent):QGridLayout(parent)
     setHorizontalSpacing(0);
     setVerticalSpacing(0);
     setMargin(0);
-
 }
 
 MyGridLayout::~MyGridLayout(){

@@ -317,9 +317,9 @@ std::vector<std::string> RenderPropertyGenerator::GetAllAvaiblePresetsName() {
 }
 
 void RenderPropertyGenerator::InitFilePath() {
-	presets_file_path_ = QDir::currentPath().toStdString() + "\\Presets\\presets.txt";
+    presets_file_path_ = QDir::currentPath().toStdString() + "/Presets/presets.txt";
 	//user_presets_path_ = QStandardPaths::writableLocation(QStandardPaths::AppDataLocation).toStdString() + "\\userpresets.txt";
-	user_presets_path_ = QDir::currentPath().toStdString() + "\\Presets\\userpresets.txt";
+    user_presets_path_ = QDir::currentPath().toStdString() + "/Presets/userpresets.txt";
 	std::cout << "presets path: " << presets_file_path_ << std::endl;
 	std::cout << "user_presets_path_: " << user_presets_path_ << std::endl;
 }

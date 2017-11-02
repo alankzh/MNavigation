@@ -15,6 +15,7 @@ MainWindow::MainWindow(QWidget *parent)
     this->setFocus();
     //new UI
     // setLayout2();
+    //selectProWidget->disPlay();
 }
 
 MainWindow::~MainWindow()
@@ -105,7 +106,7 @@ void MainWindow::setLayout2(){
 
 //主窗口更新背景
 void MainWindow::update_background(){
-    m_background=QPixmap(":/resources/background2.png", "png");
+    m_background=QPixmap(":/resources/background.jpg", "jpg");
     QBitmap bitmap = m_background.createHeuristicMask();
     setFixedSize(m_background.size());
     setMask(bitmap);
@@ -114,6 +115,8 @@ void MainWindow::update_background(){
 
 //初始化
 void MainWindow::init(){
+    proSelectButton=new QPushButton(QString::fromLocal8Bit("材质"),this);
+    selectProWidget=new SelectPropertyWidget(this);
     titleButton=new BackgroundButton(this);
     minimizeButton=new ThreeBackgroundButton(this);
     maxmizeButton=new ThreeBackgroundButton(this);
@@ -150,6 +153,8 @@ void MainWindow::init(){
 
 //布局
 void MainWindow::setLayout(){
+    proSelectButton->setGeometry(1200,3,60,40);
+
     titleButton->setBackground(":/resources/title2.png","png");
     titleButton->needClickEffect(false);
     titleButton->setPos(3,3);
@@ -256,6 +261,9 @@ void MainWindow::setConnection(){
 
     connect(maxmizeButton,SIGNAL(clicked()),this,SLOT(maxmizeClicked()));
     connect(minimizeButton,SIGNAL(clicked()),this,SLOT(minimizeClicked()));
+
+    //选择材质窗口的调出
+    connect(proSelectButton,SIGNAL(released()),selectProWidget,SLOT(disPlaySlot()));
 }
 
 //有体绘制数据时需要连接的信号
@@ -280,7 +288,15 @@ void MainWindow::setDrawConnection(){
     connect(stlSelectDialog, SIGNAL(onItemClicked(QString, int)), this, SLOT(selectStl(QString, int)));
     //选择删除哪一个.stl模型对话框的信号绑定
     connect(stlDeleteDialog, SIGNAL(onItemClicked(QString, int)), this, SLOT(deleteStl(QString, int)));
+    //加载新的材质时，让volumeSlicer归零
+    connect(volumeWidget,SIGNAL(propertyChanged()),this,SLOT(volumeSlicerRetunZero()));
+    //加载新的材质时，让选择材质窗口消失
+    connect(volumeWidget,SIGNAL(propertyChanged()),selectProWidget,SLOT(disAppear()));
+
+    //选择材质窗口发送材质给体绘制窗口
+    connect(selectProWidget,SIGNAL(sendProName(std::string)),volumeWidget,SLOT(SetRenderPropertySlot(std::string)));
 }
+
 
 //体绘制窗口下滑动条 拖动触发事件
 void MainWindow::vSlicerValueChange(int v){
@@ -609,4 +625,9 @@ void MainWindow::focusButtonClicked(){
 
 void MainWindow::obtainFocus(){
     this->setFocus();
+}
+
+void MainWindow::volumeSlicerRetunZero(){\
+    lastposition=120;
+    volumeSlider->setValue(120);
 }

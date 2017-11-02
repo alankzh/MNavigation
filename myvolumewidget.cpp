@@ -72,10 +72,10 @@ bool myVolumeWidget::setVolumeData(const char *dirPath){
     m_pRenderer->ResetCamera();
     //   m_pRenderer->GetActiveCamera()->Zoom(1.5);
     m_pRenderer->DrawOn();
-    updateRender();
 
     hasVolume=true;
 	SetRenderPropertyType("CT_Bone");
+    updateRender();
     return true;
 }
 
@@ -116,15 +116,12 @@ void myVolumeWidget::ShiftRenderFunction(double shift) {
 }
 
 void myVolumeWidget::SetRenderPropertyType(std::string property_name) {
-<<<<<<< HEAD
-	if (hasVolume) {
-		RenderPropertyGenerator::ApplyVolumeProperty(property_name, getVolume()->GetProperty());
-=======
+
 	std::cout << "set property type" << std::endl;
 	if (hasVolume) {
 		RenderPropertyGenerator::ApplyVolumeProperty(property_name, getVolume()->GetProperty());
+        emit propertyChanged();
 		updateRender();
->>>>>>> temp
 	}
 }
 
@@ -167,10 +164,13 @@ void myVolumeWidget::MarkReact(vtkVector3d ModelPosition) {
 
 void myVolumeWidget::DrawLine() {
 	mc.CreateLine(getRenderer());
-	updateRender();
+    updateRender();
 }
 
 void myVolumeWidget::vtkInteractorEventDispatch(vtkObject* obj, unsigned long eventID, void*, void*) {
+    if(!hasVolume){
+        return;
+    }
 	auto iren = vtkRenderWindowInteractor::SafeDownCast(obj);
 	switch (eventID)
 	{
@@ -188,4 +188,13 @@ void myVolumeWidget::vtkInteractorEventDispatch(vtkObject* obj, unsigned long ev
 	default:
 		break;
 	}
+}
+
+/**
+ * @brief myVolumeWidget::SetRenderPropertySlot
+ * see in SetRenderPropertyType
+ * @param property_name
+ */
+void myVolumeWidget::SetRenderPropertySlot(std::string property_name){
+    this->SetRenderPropertyType(property_name);
 }

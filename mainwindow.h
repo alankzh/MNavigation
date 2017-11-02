@@ -17,6 +17,8 @@
 #include "tools/constant.h"
 #include "tools/screentools.h"
 #include "tools/myfakeprogressqthread.h"
+#include "customWidgets/selectpropertywidget.h"
+#include <string>
 
 /**
  * @brief The MainWindow class
@@ -49,6 +51,8 @@ private:
     StlManager *stlManager;
     actorManager *actorM;
 
+    QPushButton *proSelectButton;
+    SelectPropertyWidget *selectProWidget;
     BackgroundButton *titleButton;
     ThreeBackgroundButton *minimizeButton;//最小化主窗口
     ThreeBackgroundButton *maxmizeButton;//最大化
@@ -94,7 +98,6 @@ signals:
     void Mark(vtkVector3d ModelPosition);
 
 public slots:
-
     void volumeLoadClicked();
     void exitClicked();
     void volumeMagnifyClicked();
@@ -115,6 +118,8 @@ public slots:
     void deleteStl(QString name, int index);
     void loadStl(QString name, int index);
     void selectStl(QString name, int index);
+
+    void volumeSlicerRetunZero();
 protected:
 
     void update_background();
