@@ -191,8 +191,11 @@ namespace {
 void RenderPropertyGenerator::ApplyVolumeProperty(std::string property_name, vtkVolumeProperty* const volume_property) {
 
 	if (volume_property_library_.find(property_name) == volume_property_library_.end()) {
+		std::cout << "no such " << property_name << "property" << std::endl;
 		return;
 	}
+	std::cout << "apply " << property_name << "property" << std::endl;
+
 	RenderPropertyGenerator::volumePropertyArgs args = volume_property_library_[property_name];
 
 	vtkColorTransferFunction* color_func = volume_property->GetRGBTransferFunction();
@@ -217,6 +220,7 @@ void RenderPropertyGenerator::ApplyVolumeProperty(std::string property_name, vtk
 	else {
 		volume_property->ShadeOff();
 	}
+
 	if (args.interpolationType == VTK_NEAREST_INTERPOLATION || args.interpolationType == VTK_LINEAR_INTERPOLATION) {
 		volume_property->SetInterpolationType(args.interpolationType);
 	}
@@ -283,6 +287,7 @@ ErrorCode RenderPropertyGenerator::LoadPresets() {
 
 void RenderPropertyGenerator::AddPropertyPreset(std::string property_name, vtkVolumeProperty* const volume_property) {
 	volume_property_library_.insert(std::pair<std::string, volumePropertyArgs>(property_name, GetPropertyArgs(volume_property)));
+	SavePresetsToLocal();
 }
 
 void RenderPropertyGenerator::SavePresetsToLocal() {

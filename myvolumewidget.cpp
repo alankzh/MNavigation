@@ -28,8 +28,6 @@ bool myVolumeWidget::setVolumeData(const char *dirPath){
     //读取.dcm
     dicomReader = vtkSmartPointer<vtkDICOMImageReader>::New();
 
-
-
     dicomReader->SetDirectoryName(dirPath);
     dicomReader->Update();//耗时操作
 
@@ -70,13 +68,14 @@ bool myVolumeWidget::setVolumeData(const char *dirPath){
     volume->RotateX(30);
     //    ui->volumeSlider->setRange(0,255);
     //    ui->volumeSlider->setValue(120);
-	SetRenderPropertyType("CT_Bone");
+
     m_pRenderer->ResetCamera();
     //   m_pRenderer->GetActiveCamera()->Zoom(1.5);
     m_pRenderer->DrawOn();
     updateRender();
 
     hasVolume=true;
+	SetRenderPropertyType("CT_Bone");
     return true;
 }
 
@@ -117,8 +116,10 @@ void myVolumeWidget::ShiftRenderFunction(double shift) {
 }
 
 void myVolumeWidget::SetRenderPropertyType(std::string property_name) {
+	std::cout << "set property type" << std::endl;
 	if (hasVolume) {
 		RenderPropertyGenerator::ApplyVolumeProperty(property_name, getVolume()->GetProperty());
+		updateRender();
 	}
 }
 
