@@ -1,9 +1,9 @@
 #pragma once
-#include "vtks.h"
 #include <set>
 #include <map>
-
-using namespace std;
+#include "vtkProp3D.h"
+#include "vtkRenderer.h"
+#include "vtkVector.h"
 
 class MarkerCreator
 {	
@@ -41,11 +41,11 @@ private:
 
 	vtkProp3D* CurrentMarker;
 
-	set<vtkProp3D*> MarkerSet;
+	std::set<vtkProp3D*> MarkerSet;
 
-	set<vtkProp3D*> SelectedMarkerSet;
+	std::set<vtkProp3D*> SelectedMarkerSet;
 
-	map<Line, LineInfo> LineMap;
+	std::map<Line, LineInfo> LineMap;
 
 };
 

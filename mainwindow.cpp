@@ -197,9 +197,7 @@ void MainWindow::setDrawConnection(){
 void MainWindow::vSlicerValueChange(int v){
     double shiftValue=double(v-lastposition)/255.0;
     lastposition=v;
-    volumeWidget->settingDefault->ShiftRenderFunction(shiftValue,1);
-    volumeWidget->settingDefault->ShiftRenderFunction(shiftValue,2);
-    volumeWidget->updateRender();
+	volumeWidget->ShiftRenderFunction(shiftValue);
     obtainFocus();
 }
 
@@ -339,49 +337,7 @@ void MainWindow::keyPressEvent(QKeyEvent *event){
         qDebug()<<"noVolumeData";
         return;
     }
-    qDebug()<<"keyPressEvent:"<<event->key();
-    if(event->key()==Qt::Key_0){
-        volumeWidget->settingDefault->SetRenderType(RenderSetting::RenderType::CT_Normal);
-        this->setWindowTitle("CT_Normal");
-        lastposition=120;
-        volumeSlider->setValue(120);
-    }
-    if(event->key()==Qt::Key_1){
-        volumeWidget->settingDefault->SetRenderType(RenderSetting::RenderType::CT_Bone);
-        this->setWindowTitle("CT_Bone");
-        lastposition=120;
-        volumeSlider->setValue(120);
-    }
-    if(event->key()==Qt::Key_2){
-        volumeWidget->settingDefault->SetRenderType(RenderSetting::RenderType::CT_AAA);
-        this->setWindowTitle("CT_AAA");
-        lastposition=120;
-        volumeSlider->setValue(120);
-    }
-    if(event->key()==Qt::Key_3){
-        volumeWidget->settingDefault->SetRenderType(RenderSetting::RenderType::CT_Liver_Vasculature);
-        this->setWindowTitle("CT_Liver_Vasculature");
-        lastposition=120;
-        volumeSlider->setValue(120);
-    }
-    if(event->key()==Qt::Key_4){
-        volumeWidget->settingDefault->SetRenderType(RenderSetting::RenderType::CT_Lung);
-        this->setWindowTitle("CT_Lung");
-        lastposition=120;
-        volumeSlider->setValue(120);
-    }
-    if(event->key()==Qt::Key_5){
-        volumeWidget->settingDefault->SetRenderType(RenderSetting::RenderType::MR_Default);
-        this->setWindowTitle("MR_Default");
-        lastposition=120;
-        volumeSlider->setValue(120);
-    }
-    if(event->key()==Qt::Key_6){
-        volumeWidget->settingDefault->SetRenderType(RenderSetting::RenderType::MR_Brain);
-        this->setWindowTitle("MR_Brain");
-        lastposition=120;
-        volumeSlider->setValue(120);
-    }
+    qDebug()<<"keyPressEvent:"<<event->key();	
     /*变换操作开始*/
     if(event->key()==Qt::Key_Q){
         stlManager->translate(operationStlName,10,0,0);

@@ -5,7 +5,6 @@
 #include <QWidget>
 #include <QVTKWidget.h>
 #include "vtks.h"
-#include "rendersetting.h"
 #include "MarkerCreator.h"
 /**
  * @brief The myQVTKWidget class
@@ -16,25 +15,20 @@ class myVolumeWidget : public QVTKWidget
 {	
 	Q_OBJECT
 public:
+
     myVolumeWidget(QWidget *parent);
 
     bool setVolumeData(const char *dirPath);
 
-    //设置几何位置
     void setLocation(int x,int y,int width,int height);
 
     vtkSmartPointer<vtkVolume> getVolume();
 
-    void renderValueChange(double shiftValue);
-
     void updateRender();
 
-    //读取到的体绘制数据
     vtkSmartPointer<vtkDICOMImageReader> dicomReader;
-    //绘制的体绘制数据
-    vtkSmartPointer<vtkVolume> volume;
 
-    RenderSetting *settingDefault;
+    vtkSmartPointer<vtkVolume> volume;
 
     bool hasVolumeData();
 
@@ -42,13 +36,16 @@ public:
 
 	vtkVector<double, 6> GetVolumeBounds() const;
 
+	void ShiftRenderFunction(double shift);
+
+	void SetRenderPropertyType(std::string property_name);
+
 private:
 
     vtkSmartPointer<vtkRenderer> m_pRenderer;
 
 	vtkVector<double, 6> VolumeBounds;
 
-    //是否有体绘制数据
     bool hasVolume=false;
 
 	vtkSmartPointer<vtkEventQtSlotConnect> vtkConnections;

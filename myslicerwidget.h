@@ -1,10 +1,16 @@
 ﻿#ifndef MYSLICERWIDGET_H
 #define MYSLICERWIDGET_H
 
-#include "vtks.h"
 #include "qts.h"
 #include <QWidget>
-
+#include "vtkSmartPointer.h"
+#include "vtkDICOMImageReader.h"
+#include "QVTKWidget.h"
+#include "vtkImageViewer2.h"
+#include "vtkEventQtSlotConnect.h"
+#include "vtkVector.h"
+#include "vtkObject.h"
+#include "vtkActor.h"
 
 class mySlicerWidget : public QVTKWidget
 {	
@@ -19,12 +25,10 @@ public:
         XZ=3
     };
 
-    //设置切片数据
     void setSlicerData(vtkSmartPointer<vtkDICOMImageReader> dicomReader,mySlicerWidget::ORIENTATION o);
 
 	ORIENTATION GetOrientation() const;
 
-    //设置几何位置
     void setLocation(int x,int y,int width,int height);
 
     void setSlicerValue(int shiftValue);

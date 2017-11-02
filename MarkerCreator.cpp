@@ -1,4 +1,9 @@
 #include "MarkerCreator.h"
+#include "vtkSphereSource.h"
+#include "vtkPolyDataMapper.h"
+#include "vtkActor.h"
+#include "vtkLineSource.h"
+#include "vtkProperty.h"
 
 MarkerCreator::MarkerCreator()
 {
