@@ -12,7 +12,6 @@ VTK_MODULE_INIT(vtkRenderingVolumeOpenGL)
 
 
 #include "tools/constant.h"
-#include "customWidgets/progressbarwidget.h"
 #include "tools/screentools.h"
 
 #include "RenderPropertyGenerator.h"

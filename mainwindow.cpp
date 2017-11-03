@@ -153,6 +153,8 @@ void MainWindow::init(){
 
 //布局
 void MainWindow::setLayout(){
+    progressBar=new ProgressBarWidget(ScreenTools::getComputerScreenWidth()/2,ScreenTools::getComputerScreenHeight()/2,this);
+
     proSelectButton->setGeometry(1200,3,60,40);
 
     titleButton->setBackground(":/resources/title2.png","png");
@@ -302,7 +304,7 @@ void MainWindow::setDrawConnection(){
 void MainWindow::vSlicerValueChange(int v){
     double shiftValue=double(v-lastposition)/255.0;
     lastposition=v;
-	volumeWidget->ShiftRenderFunction(shiftValue);
+    volumeWidget->ShiftRenderFunction(shiftValue);
     obtainFocus();
 }
 
@@ -402,22 +404,17 @@ void MainWindow::onOpenVolumeDir(){
         //        QApplication::exit();
         return;
     }
-
+/*start-change with lvyunxiao--------------------------------------------------------------*/
+    qDebug()<<"mainThreadID："<<QThread::currentThreadId();
+    volumeWidgetThreadHelper *threadHelper=new volumeWidgetThreadHelper((volumeWidget),(progressBar),0);
+    connect(threadHelper,SIGNAL(endThread()),this,SLOT(onDataLoadingDone()));
+    volumeWidget->setPath(dirPath);
+    threadHelper->startThread();
+    return;//将这一段代码删除后，将继续原来的实现
+/*end-change with lvyunxiao----------------------------------------------------------------*/
     //支持带中文路径的读取
     QByteArray ba=dirPath.toLocal8Bit();
     const char *dirPath_str=ba.data();
-
-//    MyFakeProgressQThread *fakeThread=new MyFakeProgressQThread(this);
-//    fakeThread->startFake();
-//        fakeThread->stopFake();
-
-//    QDialog *dialog=new QDialog(this);
-//    QProgressBar *bar=new QProgressBar(this);;
-//    bar->setOrientation(Qt::Horizontal);
-//    bar->setMaximum(0);
-//    bar->setMinimum(0);
-//    bar->show();
-//    dialog->show();
     volumeWidget->setVolumeData(dirPath_str);
     if(volumeWidget->hasVolumeData()){
         volumeSlider->setValue(120);
@@ -466,7 +463,7 @@ void MainWindow::keyPressEvent(QKeyEvent *event){
         qDebug()<<"noVolumeData";
         return;
     }
-    qDebug()<<"keyPressEvent:"<<event->key();	
+    qDebug()<<"keyPressEvent:"<<event->key();
     /*变换操作开始*/
     if(event->key()==Qt::Key_Q){
         stlManager->translate(operationStlName,10,0,0);
@@ -531,7 +528,6 @@ void MainWindow::stlDeleteButtonClicked(){
     if(!volumeWidget->hasVolumeData()){
         return ;
     }
-
     //每次弹出对话框之前更新当前场景中已经加载的.stl模型的标识符有哪些
     //stlDeleteDialog->setGridTexts(stlManager->getActorList());
     stlDeleteDialog->show();
@@ -627,7 +623,51 @@ void MainWindow::obtainFocus(){
     this->setFocus();
 }
 
-void MainWindow::volumeSlicerRetunZero(){\
+/*start-edit with lvyunxiao---------------------------------*/
+//体绘制窗口下滑动条归零
+void MainWindow::volumeSlicerRetunZero(){
+    qDebug()<<"MainWindow::volumeSlicerRetunZero";
+    qDebug()<<"ThreadID："<<QThread::currentThreadId();
     lastposition=120;
     volumeSlider->setValue(120);
 }
+//当体绘制数据加载完毕
+void MainWindow::onDataLoadingDone(){
+    if(volumeWidget->hasVolumeData()){
+        volumeSlider->setValue(120);
+        lastposition=120;
+
+        //sagittal为xy方向截面
+        sagitalWidget->setSlicerData(volumeWidget->dicomReader,mySlicerWidget::ORIENTATION::XY);
+        sagitalWidget->setSlicerValue(sagitalWidget->getSlicerMax()/2);
+        sagitalSlider->setRange(sagitalWidget->getSlicerMin(),sagitalWidget->getSlicerMax());
+        sagitalSlider->setValue(sagitalWidget->getSlicerMax()/2);
+        sagitalLabel->setText(QString::number(sagitalWidget->getSlicerMax()/2));
+
+        //axial为xz截面
+        axialWidget->setSlicerData(volumeWidget->dicomReader,mySlicerWidget::ORIENTATION::XZ);
+        axialWidget->setSlicerValue(axialWidget->getSlicerMax()/2);
+        axialSlider->setRange(axialWidget->getSlicerMin(),axialWidget->getSlicerMax());
+        axialSlider->setValue(axialWidget->getSlicerMax()/2);
+        axialLabel->setText(QString::number(axialWidget->getSlicerMax()/2));
+
+        //coronal为yz截面
+        coronalWidget->setSlicerData(volumeWidget->dicomReader,mySlicerWidget::ORIENTATION::YZ);
+        coronalWidget->setSlicerValue(coronalWidget->getSlicerMax()/2);
+        coronalSlider->setRange(coronalWidget->getSlicerMin(),coronalWidget->getSlicerMax());
+        coronalSlider->setValue(coronalWidget->getSlicerMax()/2);
+        coronalLabel->setText(QString::number(coronalWidget->getSlicerMax()/2));
+
+        setDrawConnection();
+
+    }else{
+        //TODO  这里提示路径错误
+    }
+}
+
+//得到子控件退回的焦点
+void MainWindow::receiveFocus(){
+    obtainFocus();
+}
+
+/*end-edit with lvyunxiao-----------------------------------*/

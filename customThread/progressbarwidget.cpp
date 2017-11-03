@@ -1,5 +1,7 @@
 #include "progressbarwidget.h"
+
 ProgressBarWidget::ProgressBarWidget(int xPos,int yPos,QWidget *parent):QWidget(parent)
+  //,ThreadProgressListener(parent)
 {
     //窗口样式，没有标题栏，最小化，最大化和关闭按钮，纯粹的一个控件
     this->setWindowFlags(Qt::SplashScreen);
