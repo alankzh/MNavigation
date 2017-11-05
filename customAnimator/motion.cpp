@@ -43,7 +43,7 @@ void Motion::onAnimationUpdate(double currenttime, double deltatime, double cloc
     //这样做的错误是   用上一帧的时间替代了当前帧
     //导致 1.  提前结束，但他还有下一帧
     //    2.  没有判断到结束，他已经没有下一帧了，但是currenttime+deltatime是小于1的
-    //这里加了一个校准值0.02，先保证不出画面上的大纰漏
+    //这里加了一个校准值0.02，屏蔽了错误1，归并了错误2，先保证不出画面上的大纰漏
     //后面重写动画系统时，这里需要注意
     if(currenttime+deltatime>1-0.02){
         switch(flag){

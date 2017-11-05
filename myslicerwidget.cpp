@@ -1,6 +1,8 @@
 ﻿#include "myslicerwidget.h"
 #include "CoordinateConverter.h"
 #include "actormanager.h"
+#include "TextAnnotation.h"
+#include <sstream>
 
 mySlicerWidget::mySlicerWidget(QWidget *parent): QVTKWidget(parent)
 {
@@ -28,14 +30,22 @@ void mySlicerWidget::setLocation(int x,int y,int width,int height){
 */
 void mySlicerWidget::setSlicerValue(int shiftValue){
     imageViewer2->SetSlice(shiftValue);
-   // imageViewer2->GetRenderer()->ResetCamera();
+	int min = imageViewer2->GetSliceMin();
+	int max = imageViewer2->GetSliceMax();
+	float ratio = (float)(shiftValue - min) / (max - min);
+	std::string value;
+	std::stringstream ss;
+	ss << ratio;
+	ss >> value;
+	std::cout << "value: " << value << std::endl;
+	depth_info->SetInput(((std::string)"Slice Depth: " + value).c_str());
     updateRender();
 }
 
 /**
 *设置imageViewer2中截图截取位置,根据比例
 */
-void mySlicerWidget::setSlicerValue(double ratio) {
+void mySlicerWidget::setSlicerValueByRatio(double ratio) {
 	int min = imageViewer2->GetSliceMin();
 	int max = imageViewer2->GetSliceMax();
 	int target = (int)ratio * (max - min) + min;
@@ -56,10 +66,17 @@ void mySlicerWidget::setSlicerData(vtkSmartPointer<vtkDICOMImageReader> dicomRea
     imageViewer2->SetInputConnection(dicomReader->GetOutputPort());
     imageViewer2->SetRenderWindow(this->GetRenderWindow());
     imageViewer2->SetupInteractor(this->GetRenderWindow()->GetInteractor());
+	direction_info = Text::CreateAnnotation("Slice Direction:", vtkVector3d(1, 1, 1));
+	direction_info->SetPosition(5, 340);
+	imageViewer2->GetRenderer()->AddViewProp(direction_info);
+	depth_info = Text::CreateAnnotation("Slice Depth:", vtkVector3d(0.3, 0.3, 1));
+	depth_info->SetPosition(5, 0);
+	imageViewer2->GetRenderer()->AddViewProp(depth_info);
 	ListenMarkClick();
     if(o!=0){
         setOrientation(o);
     }
+
     updateRender();
 }
 
@@ -70,12 +87,15 @@ void mySlicerWidget::setOrientation(mySlicerWidget::ORIENTATION o){
     switch(o){
     case XY:
         imageViewer2->SetSliceOrientationToXY();
+		direction_info->SetInput(((std::string)"Slice Direction: " + (std::string)"sagital").c_str());
         break;
     case YZ:
         imageViewer2->SetSliceOrientationToYZ();
+		direction_info->SetInput(((std::string)"Slice Direction: " + (std::string)"coronal").c_str());
         break;
     case XZ:
         imageViewer2->SetSliceOrientationToXZ();
+		direction_info->SetInput(((std::string)"Slice Direction: " + (std::string)"axial").c_str());
         break;
     }
 }
