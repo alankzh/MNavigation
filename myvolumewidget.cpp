@@ -3,6 +3,13 @@
 #include "actormanager.h"
 #include "vtkVolumePicker.h"
 #include "RenderPropertyGenerator.h"
+#include "vtkVector.h"
+#include "vtkAutoInit.h"
+#include "TextAnnotation.h"
+#include <sstream>
+
+VTK_MODULE_INIT(vtkRenderingFreeType);
+
 
 myVolumeWidget::myVolumeWidget(QWidget *parent):QVTKWidget(parent)
 {	
@@ -18,6 +25,16 @@ myVolumeWidget::myVolumeWidget(QWidget *parent):QVTKWidget(parent)
     connect(parent, SIGNAL(Mark(vtkVector3d)), this, SLOT(MarkReact(vtkVector3d)));
 	ListenVTKInteractorEvent();
     hasVolume=false;
+
+	volume_info = Text::CreateAnnotation("Hello", vtkVector3d(1, 1, 1));
+	volume_info->SetDisplayPosition(5, 325);
+
+	property_info = Text::CreateAnnotation("property names", vtkVector3d(0, 1, 0));
+	property_info->SetDisplayPosition(5, 300);
+
+	mouse_info = Text::CreateAnnotation("mouse", vtkVector3d(1,0,1));
+	mouse_info->SetDisplayPosition(5, 0);
+
 }
 
 bool myVolumeWidget::setVolumeData(const char *dirPath){
@@ -64,6 +81,14 @@ bool myVolumeWidget::setVolumeData(const char *dirPath){
     this->GetRenderWindow()->GetInteractor()->GetInteractorStyle()->SetDefaultRenderer(m_pRenderer);
     // Add the volume to the scene
     m_pRenderer->AddVolume( volume );
+	m_pRenderer->AddViewProp(volume_info);
+	m_pRenderer->AddViewProp(property_info);
+	m_pRenderer->AddViewProp(mouse_info);
+
+	std::string input_text = "PatientName: " + (std::string)dicomReader->GetPatientName() + "\n" + "StudyID: " + (std::string)dicomReader->GetStudyUID();
+	volume_info->SetInput(input_text.c_str());
+	
+
 
     volume->RotateX(30);
     //    ui->volumeSlider->setRange(0,255);
@@ -121,6 +146,7 @@ void myVolumeWidget::SetRenderPropertyType(std::string property_name) {
 	if (hasVolume) {
 		RenderPropertyGenerator::ApplyVolumeProperty(property_name, getVolume()->GetProperty());
         emit propertyChanged();
+		property_info->SetInput(((std::string)("Rendering Property: ") + property_name).c_str());
 		updateRender();
 	}
 }
@@ -171,11 +197,21 @@ void myVolumeWidget::vtkInteractorEventDispatch(vtkObject* obj, unsigned long ev
     if(!hasVolume){
         return;
     }
+
 	auto iren = vtkRenderWindowInteractor::SafeDownCast(obj);
+	int EventPointX = iren->GetEventPosition()[0];
+	int EventPointY = iren->GetEventPosition()[1];
 	switch (eventID)
 	{
 	case vtkCommand::RightButtonPressEvent:
-		Mark(iren);
+		if (mc.TestMark(EventPointX,EventPointY,getRenderer())) {
+			auto picker = vtkSmartPointer<vtkVolumePicker>::New();
+			picker->SetVolumeOpacityIsovalue(0.5);
+			picker->Pick(EventPointX, EventPointY, 0, getRenderer());
+			vtkVector3d WorldPosition = vtkVector3d(picker->GetPickPosition());
+			vtkVector3d ModelPosition = CoordinateConverter::WorldToModel(volume, WorldPosition);
+			emit OnMarkClick(ModelPosition);
+		}
 		break;
 	case vtkCommand::LeftButtonPressEvent:
 		SelectMark(iren);
@@ -185,8 +221,39 @@ void myVolumeWidget::vtkInteractorEventDispatch(vtkObject* obj, unsigned long ev
 			DrawLine();
 		}
 		break;
+	case vtkCommand::MouseMoveEvent:
+		{	
+			std::string x;
+			std::string y;
+			std::stringstream ss;
+			ss << EventPointX;
+			ss >> x;
+			ss.clear();
+			ss << EventPointY;
+			ss >> y;
+			std::string input = (std::string)"Horizontal: " + x + "  Vertical: " + y;
+			mouse_info->SetInput(input.c_str());
+		}
+
+		break;
 	default:
 		break;
+	}
+}
+
+void myVolumeWidget::TextUIAdapt() {
+
+	int* size = m_pRenderer->GetSize();
+
+	if (size[0] > 1000) {
+		volume_info->SetDisplayPosition(5, size[1] - 80);
+		property_info->SetDisplayPosition(5, size[1] - 120);
+		mouse_info->SetDisplayPosition(5, 0);
+	}
+	else {
+		volume_info->SetDisplayPosition(5, 325);
+		property_info->SetDisplayPosition(5, 300);
+		mouse_info->SetDisplayPosition(5, 0);
 	}
 }
 

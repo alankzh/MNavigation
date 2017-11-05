@@ -6,6 +6,7 @@
 #include <QVTKWidget.h>
 #include "vtks.h"
 #include "MarkerCreator.h"
+
 /**
  * @brief The myQVTKWidget class
  * 这个类封装了QVTKWidget控件，让vtk风格代码能专一的存在于这个类中
@@ -40,6 +41,8 @@ public:
 
 	void SetRenderPropertyType(std::string property_name);
 
+	void TextUIAdapt();
+
 private:
 
     vtkSmartPointer<vtkRenderer> m_pRenderer;
@@ -59,6 +62,12 @@ private:
 	void SelectMark(vtkRenderWindowInteractor* iren);
 
 	void DrawLine();
+
+	vtkSmartPointer<vtkTextActor> volume_info;
+
+	vtkSmartPointer<vtkTextActor> property_info;
+
+	vtkSmartPointer<vtkTextActor> mouse_info;
 
 signals:
 	void OnMarkClick(vtkVector3d ModelPosition);
