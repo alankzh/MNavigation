@@ -358,6 +358,7 @@ void MainWindow::volumeMagnifyClicked(){
         coronalSlider->show();
         axialSlider->show();
     }
+	volumeWidget->TextUIAdapt();
     volumeWidget->raise();
     update();
     obtainFocus();

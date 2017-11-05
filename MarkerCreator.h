@@ -20,6 +20,8 @@ class MarkerCreator
 public:
 
 	MarkerCreator();
+
+	bool TestMark(int x, int y, vtkRenderer* renderer);
 	
 	vtkProp3D* CreateMarker(vtkRenderer* renderer,vtkVector3d worldPosition);
 

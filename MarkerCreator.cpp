@@ -4,6 +4,10 @@
 #include "vtkActor.h"
 #include "vtkLineSource.h"
 #include "vtkProperty.h"
+#include "vtkVolumePicker.h"
+#include "vtkPicker.h"
+#include "vtkPropPicker.h"
+#include "vtkPropPicker3D.h"
 
 MarkerCreator::MarkerCreator()
 {
@@ -13,6 +17,21 @@ MarkerCreator::MarkerCreator()
 
 MarkerCreator::~MarkerCreator()
 {
+}
+
+
+bool MarkerCreator::TestMark(int x, int y, vtkRenderer* renderer) {
+	auto picker = vtkVolumePicker::New();
+	picker->Pick(x, y, 0, renderer);
+	auto marker = picker->GetActor();
+	picker->Delete();
+	if (isMarker(marker)) {
+		RemoveMarker(marker);
+		renderer->RemoveActor(marker);
+		marker->Delete();
+		return false;
+	}
+	return true;
 }
 
 vtkProp3D* MarkerCreator::CreateMarker(vtkRenderer* renderer, vtkVector3d worldPosition) {

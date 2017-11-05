@@ -11,6 +11,7 @@
 #include "vtkVector.h"
 #include "vtkObject.h"
 #include "vtkActor.h"
+#include "vtkTextActor.h"
 
 class mySlicerWidget : public QVTKWidget
 {	
@@ -33,7 +34,7 @@ public:
 
     void setSlicerValue(int shiftValue);
 
-	void setSlicerValue(double ratio);
+	void setSlicerValueByRatio(double ratio);
 
     void updateRender();
 
@@ -51,6 +52,10 @@ protected:
 private:
     //截面窗口,封装了自己的vtk管线
     vtkSmartPointer<vtkImageViewer2> imageViewer2;
+
+	vtkSmartPointer<vtkTextActor> direction_info;
+
+	vtkSmartPointer<vtkTextActor> depth_info;
 
 	vtkSmartPointer<vtkEventQtSlotConnect> vtkConnections;
 
