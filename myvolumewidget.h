@@ -7,12 +7,18 @@
 #include "vtks.h"
 #include "MarkerCreator.h"
 
+/*start-edit with lvyunxiao----------------------------------------------*/
+#include <QString>
+/*end-edit with lvyunxiao------------------------------------------------*/
+
 /**
  * @brief The myQVTKWidget class
  * 这个类封装了QVTKWidget控件，让vtk风格代码能专一的存在于这个类中
  * 构造方法传递进来的QWidget是QVTKWdiget控件的包含类(父)
  */
-class myVolumeWidget : public QVTKWidget
+/*start-change with lvyunxiao----------------------------------------------*/
+class myVolumeWidget : public QVTKWidget,public vtkCommand
+/*end-change with lvyunxiao------------------------------------------------*/
 {	
 	Q_OBJECT
 public:
@@ -79,6 +85,22 @@ public slots:
 	void MarkReact(vtkVector3d ModelPosition);
 
 	void vtkInteractorEventDispatch(vtkObject* obj, unsigned long, void*, void*);
+
+    /*start-edit with lvyunxiao-----------------------------------*/
+public slots:
+    void doInThread();//override ThreadRunner
+    void onThreadDone();//override  ThreadRuner
+signals:
+    void setProgress(int v);
+    void done();
+    void interrupt();
+    void payBackFocus();
+private:
+    QString dirPath;
+public:
+    void setPath(QString dirPath);
+    void Execute(vtkObject *caller, unsigned long eventId, void *callData);
+    /*end-edit with lvyunxiao-------------------------------------*/
 };
 
 #endif // MYQVTKWIDGET_H

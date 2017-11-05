@@ -150,11 +150,11 @@ SOURCES += main.cpp\
     customWidgets/threebackgroundbutton.cpp \
     tools/screentools.cpp \
     tools/constant.cpp \
-    customWidgets/progressbarwidget.cpp \
-    tools/myfakeprogressqthread.cpp \
     RenderPropertyGenerator.cpp \
     customWidgets/selectpropertywidget.cpp\
-    customWidgets/emitbutton.cpp
+    customWidgets/emitbutton.cpp \
+    customThread/progressbarwidget.cpp \
+    customThread/volumewidgetthreadhelper.cpp
 
 HEADERS  +=     mainwindow.h \
     vtks.h \
@@ -180,11 +180,11 @@ HEADERS  +=     mainwindow.h \
     customWidgets/threebackgroundbutton.h \
     tools/screentools.h \
     tools/constant.h \
-    customWidgets/progressbarwidget.h \
-    tools/myfakeprogressqthread.h \
     RenderPropertyGenerator.h \
     customWidgets/selectpropertywidget.h \
-    customWidgets/emitbutton.h
+    customWidgets/emitbutton.h \
+    customThread/progressbarwidget.h \
+    customThread/volumewidgetthreadhelper.h
 
 
 FORMS    += widget.ui

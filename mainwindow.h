@@ -16,9 +16,10 @@
 #include "customWidgets/markbutton.h"
 #include "tools/constant.h"
 #include "tools/screentools.h"
-#include "tools/myfakeprogressqthread.h"
 #include "customWidgets/selectpropertywidget.h"
 #include <string>
+#include "customThread/progressbarwidget.h"
+#include "customThread/volumewidgetthreadhelper.h"
 
 /**
  * @brief The MainWindow class
@@ -57,7 +58,9 @@ private:
     ThreeBackgroundButton *minimizeButton;//最小化主窗口
     ThreeBackgroundButton *maxmizeButton;//最大化
     ThreeBackgroundButton *exitButton;
+/*start-edit   with lvyunxiao         -----------------------------------------------------*/
     MarkButton *markbutton1;
+/*end-edit with lvyunxiao------------------------------------------------------------*/
     BackgroundButton *volumeLoadButton;
     BackgroundButton *stlLoadButton;
     BackgroundButton *stlSelectButton;
@@ -119,7 +122,11 @@ public slots:
     void loadStl(QString name, int index);
     void selectStl(QString name, int index);
 
+/*start-edit with lvyunxiao--------------------------------------------*/
     void volumeSlicerRetunZero();
+    void onDataLoadingDone();
+    void receiveFocus();
+/*end-edit with lvyunxiao-----------------------------------------------*/
 protected:
 
     void update_background();
