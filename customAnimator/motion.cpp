@@ -38,7 +38,14 @@ void Motion::setEndPosition(double x, double y, double z){
 
 void Motion::onAnimationUpdate(double currenttime, double deltatime, double clocktime){
     // onTranformArithmetic();
-    if(currenttime+deltatime>1){
+    //TODO
+    //检验结束的方法是 当前时间+上一帧的时间大于1的话说明不会有下一帧，判断结束
+    //这样做的错误是   用上一帧的时间替代了当前帧
+    //导致 1.  提前结束，但他还有下一帧
+    //    2.  没有判断到结束，他已经没有下一帧了，但是currenttime+deltatime是小于1的
+    //这里加了一个校准值0.02，先保证不出画面上的大纰漏
+    //后面重写动画系统时，这里需要注意
+    if(currenttime+deltatime>1-0.02){
         switch(flag){
         case translate:
             linearMotion(x,y,z);
@@ -71,17 +78,17 @@ void Motion::onAnimationUpdate(double currenttime, double deltatime, double cloc
     }else{
         switch(flag){
         case translate:
-            linearMotion(beginPosition[0]+(this->x-beginPosition[0])*currenttime,
-                    beginPosition[1]+(this->y-beginPosition[1])*currenttime,
-                    beginPosition[2]+(this->z-beginPosition[2])*currenttime);
+            linearMotion(beginPosition[0]+(x-beginPosition[0])*currenttime,
+                    beginPosition[1]+(y-beginPosition[1])*currenttime,
+                    beginPosition[2]+(z-beginPosition[2])*currenttime);
             break;
         case scale:
-            scaleMotion(beginScale[0]+(this->x-beginScale[0])*currenttime,
-                    beginScale[1]+(this->y-beginScale[1])*currenttime,
-                    beginScale[2]+(this->z-beginScale[2])*currenttime);
+            scaleMotion(beginScale[0]+(x-beginScale[0])*currenttime,
+                    beginScale[1]+(y-beginScale[1])*currenttime,
+                    beginScale[2]+(z-beginScale[2])*currenttime);
             break;
         case rotate:
-            rotateMotion((this->angle)*currenttime-lastA,this->x,this->y,this->z);
+            rotateMotion((this->angle)*currenttime-lastA,axis[0],axis[1],axis[2]);
             lastA=(this->angle)*currenttime;
             break;
         case rotateX:
@@ -99,7 +106,6 @@ void Motion::onAnimationUpdate(double currenttime, double deltatime, double cloc
         }
     }
 }
-
 
 void Motion::onTranformArithmetic(){
     //    qDebug()<<"currenttime"<<currenttime;
@@ -228,17 +234,7 @@ void Motion::rotateMotion(double angle,double x,double y,double z){
 }
 
 void Motion::rotateXMotion(double angle){
-    qDebug()<<"rotateXMotion,angle:"<<angle;
     actor->RotateX(angle);
-
-    vtkSmartPointer<vtkMatrix4x4> m=actor->GetMatrix();
-    for(int i=0;i<4;i++){
-        double d[4]={};
-        for(int j=0;j<4;j++){
-            d[j]=m->GetElement(i,j);
-        }
-        qDebug()<<"{"<<d[0]<<","<<d[1]<<","<<d[2]<<","<<d[3]<<"}";
-    }
     // transform->RotateX(angle);
 }
 void Motion::rotateYMotion(double angle){

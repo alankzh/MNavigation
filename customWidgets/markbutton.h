@@ -9,6 +9,7 @@ class MarkButton:public QWidget
 public:
     MarkButton(QWidget *parent=Q_NULLPTR);
     bool getMarkStatus();
+    void setMarkStatus(bool isMarked);
     bool setPos(int x,int y);
     int getXpos();
     int getYpos();
