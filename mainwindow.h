@@ -20,7 +20,6 @@
 #include <string>
 #include "customThread/progressbarwidget.h"
 #include "customThread/volumewidgetthreadhelper.h"
-
 /**
  * @brief The MainWindow class
  * 这是主窗口

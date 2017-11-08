@@ -75,6 +75,10 @@ private:
 
 	vtkSmartPointer<vtkTextActor> mouse_info;
 
+	std::string property_name_;
+
+	void SetPropertyName(std::string name);
+
 signals:
 	void OnMarkClick(vtkVector3d ModelPosition);
     void propertyChanged();

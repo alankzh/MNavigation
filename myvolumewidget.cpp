@@ -135,7 +135,7 @@ vtkVector<double, 6> myVolumeWidget::GetVolumeBounds() const{
 
 void myVolumeWidget::ShiftRenderFunction(double shift) {
     if (hasVolume) {
-        RenderPropertyGenerator::ShiftRenderFunction(shift,getVolume()->GetProperty());
+        RenderPropertyGenerator::ShiftRenderFunction(shift,getVolume()->GetProperty(), property_name_);
         updateRender();
     }
 }
@@ -145,10 +145,15 @@ void myVolumeWidget::SetRenderPropertyType(std::string property_name) {
     std::cout << "set property type" << std::endl;
     if (hasVolume) {
         RenderPropertyGenerator::ApplyVolumeProperty(property_name, getVolume()->GetProperty());
+		SetPropertyName(property_name);
         emit propertyChanged();
 		property_info->SetInput(((std::string)("Rendering Property: ") + property_name).c_str());
 		updateRender();
 	}
+}
+
+void myVolumeWidget::SetPropertyName(std::string name) {
+	property_name_ = name;
 }
 
 void myVolumeWidget::ListenVTKInteractorEvent() {

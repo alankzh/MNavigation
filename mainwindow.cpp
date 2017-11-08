@@ -302,8 +302,7 @@ void MainWindow::setDrawConnection(){
 
 //体绘制窗口下滑动条 拖动触发事件
 void MainWindow::vSlicerValueChange(int v){
-    double shiftValue=double(v-lastposition)/255.0;
-    lastposition=v;
+    double shiftValue= 2 * v / 255.0 - 1;
     volumeWidget->ShiftRenderFunction(shiftValue);
     obtainFocus();
 }

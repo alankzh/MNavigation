@@ -138,54 +138,53 @@ namespace {
 		}
 	}
 
-	void ShiftColorFunction(vtkColorTransferFunction* color_fun, double shift) {
-		int n = color_fun->GetSize();
-		if (n <= 2) {
-			return;
-		}
-		double* data = color_fun->GetDataPointer();
-		double min = data[0];
-		double max = data[4 * (n - 1)];
-		double Range = max - min;
-		double minShift = min + shiftGap - data[4];
-		double maxShift = max - shiftGap - data[4 * (n - 2)];
-		double offset = Range * shift;
-		if (offset < minShift) {
-			offset = minShift;
-		}
-		if (offset > maxShift) {
-			offset = maxShift;
-		}
-		for (int i = 1; i < n - 1; i++) {
-			data[4 * i] += offset;
-		}
-		color_fun->FillFromDataPointer(n, data);
+	std::vector<double> GetColorPoints(vtkColorTransferFunction* color_func) {
+		std::vector<double> ret(color_func->GetDataPointer(), color_func->GetDataPointer() + color_func->GetSize() * 4);
+		return ret;
 	}
 
-	void ShiftPieceWiseFunction(vtkPiecewiseFunction* opacity_func, double shift) {
-		int n = opacity_func->GetSize();
-		if (n <= 2) {
-			return;
-		}
-		double* data = opacity_func->GetDataPointer();
-		double min = data[0];
-		double max = data[2 * (n - 1)];
-		double Range = max - min;
-		double minShift = min + shiftGap - data[2];
-		double maxShift = max - shiftGap - data[2 * (n - 2)];
-		double offset = Range * shift;
-		if (offset < minShift) {
-			offset = minShift;
-		}
-		if (offset > maxShift) {
-			offset = maxShift;
-		}
-		for (int i = 1; i < n - 1; i++) {
-			data[2 * i] += offset;
-		}
-		opacity_func->FillFromDataPointer(n, data);
+	std::vector<double> GetPiecewisePoints(vtkPiecewiseFunction* opacity_func) {
+		std::vector<double> ret(opacity_func->GetDataPointer(), opacity_func->GetDataPointer() + opacity_func->GetSize() * 2);
+		return ret;
 	}
 
+	struct ShiftRange {
+		double min;
+		double max;
+		double full_range;
+		bool shiftable;
+		ShiftRange(double min = 0, double max = 0, double range = 0, bool shiftable = false) : min(min), max(max), full_range(range),shiftable(shiftable) {
+		}
+	};
+
+	ShiftRange GetFunctionShiftRange(std::vector<double> func_points, bool is_color_points) {
+		ShiftRange ret;
+		int dimension = 2;
+		if (is_color_points) {
+			dimension = 4;
+		}
+		int point_number = func_points.size() / dimension;
+		if (point_number <= 2) {
+			ret.shiftable = false;
+			return ret;
+		}
+		ret.full_range = func_points.back() - func_points.front();
+		ret.min = (func_points.front() + shiftGap - func_points[1 * dimension]);
+		ret.max = (func_points.back() - shiftGap - func_points[(point_number - 2) * dimension]);
+		ret.shiftable = true;
+		return ret;
+	}
+
+	void ShiftFunctionPoints(std::vector<double> &points, double shift, bool is_color_points) {
+		int dimension = is_color_points ? 4 : 2;
+		int number = points.size() / dimension;
+		if (number <= 2) {
+			return;
+		}
+		for (int i = 1; i < number - 1; i++) {
+			points[i * dimension] += shift;
+		}
+	}
 }
 
 void RenderPropertyGenerator::ApplyVolumeProperty(std::string property_name, vtkVolumeProperty* const volume_property) {
@@ -233,15 +232,9 @@ RenderPropertyGenerator::volumePropertyArgs RenderPropertyGenerator::GetProperty
 	auto scalar_opacity_func = volume_property->GetScalarOpacity();
 	auto gradient_opacity_func = volume_property->GetGradientOpacity();
 
-	std::vector<double> scalar_opacity_points(scalar_opacity_func->GetDataPointer(), scalar_opacity_func->GetDataPointer() + scalar_opacity_func->GetSize() * 2);
-	args.scalar_opacity_points = scalar_opacity_points;
-
-	std::vector<double> color_points(color_func->GetDataPointer(), color_func->GetDataPointer() + color_func->GetSize() * 4);
-	args.color_points = color_points;
-
-	std::vector<double> gradient_opacity_points(gradient_opacity_func->GetDataPointer(), gradient_opacity_func->GetDataPointer() + gradient_opacity_func->GetSize() * 2);
-	args.gradient_opacity_points = gradient_opacity_points;
-
+	args.scalar_opacity_points = GetPiecewisePoints(scalar_opacity_func);
+	args.color_points = GetColorPoints(color_func);
+	args.gradient_opacity_points = GetPiecewisePoints(gradient_opacity_func);
 	args.is_shade_on = (bool)volume_property->GetShade();
 	args.ambient = volume_property->GetAmbient();
 	args.diffuse = volume_property->GetDiffuse();
@@ -302,10 +295,40 @@ void RenderPropertyGenerator::SavePresetsToLocal() {
 	JsonUtils::WriteStringToFile(user_presets_path_, content);
 }
 
-void RenderPropertyGenerator::ShiftRenderFunction(double shift, vtkVolumeProperty* const volume_property) {
-	ShiftColorFunction(volume_property->GetRGBTransferFunction(), shift);
-	ShiftPieceWiseFunction(volume_property->GetScalarOpacity(), shift);
-	ShiftPieceWiseFunction(volume_property->GetGradientOpacity(), shift);
+void RenderPropertyGenerator::ShiftRenderFunction(double shift, vtkVolumeProperty* const volume_property, std::string property_name) {
+	if (volume_property_library_.find(property_name) == volume_property_library_.end()) {
+		return;
+	}
+	if (shift > 1) {
+		shift = 1;
+	}
+	if (shift < -1) {
+		shift = -1;
+	}
+	volumePropertyArgs args = volume_property_library_[property_name];
+	ShiftRange color_range = GetFunctionShiftRange(args.color_points, true);
+	ShiftRange scalar_range = GetFunctionShiftRange(args.scalar_opacity_points, false);
+	ShiftRange gradient_range = GetFunctionShiftRange(args.gradient_opacity_points, false);
+	double color_offset = 0;
+	double scalar_offset = 0;
+	double gradient_offset = 0;
+	if (shift > 0) {
+		color_offset = color_range.max * shift;
+		scalar_offset = scalar_range.max * shift;
+		gradient_offset = gradient_range.max * shift;
+	}
+	else {
+		color_offset = color_range.min * shift;
+		scalar_offset = scalar_range.min * shift;
+		gradient_offset = gradient_range.min * shift;
+	}
+	ShiftFunctionPoints(args.color_points, color_offset, true);
+	ShiftFunctionPoints(args.scalar_opacity_points, scalar_offset, false);
+	ShiftFunctionPoints(args.gradient_opacity_points, gradient_offset, false);
+	volume_property->GetGradientOpacity()->FillFromDataPointer(args.gradient_opacity_points.size() / 2, args.gradient_opacity_points.data());
+	volume_property->GetRGBTransferFunction()->FillFromDataPointer(args.color_points.size() / 4, args.color_points.data());
+	volume_property->GetScalarOpacity()->FillFromDataPointer(args.scalar_opacity_points.size() / 2, args.scalar_opacity_points.data());
+
 }
 
 std::vector<std::string> RenderPropertyGenerator::GetAllAvaiblePresetsName() {
