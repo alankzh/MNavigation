@@ -38,5 +38,6 @@
 #include <vtkImageSliceMapper.h>
 #include <vtkTextActor.h>
 #include <vtkTextProperty.h>
+#include <vtkDataSetMapper.h>
 
 #endif

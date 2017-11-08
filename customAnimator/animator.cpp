@@ -3,6 +3,7 @@
 
 Animator::Animator(vtkSmartPointer<vtkRenderWindow> r,vtkSmartPointer<vtkActor> actor_p,Motion::MOTIONS f,double angle_p,double x,double y,double z){
     actor=actor_p;
+    this->renWin=r;
     beginMatrix4x4=actor_p->GetMatrix();
     init();
     motion=new Motion(actor_p,f);
@@ -10,29 +11,28 @@ Animator::Animator(vtkSmartPointer<vtkRenderWindow> r,vtkSmartPointer<vtkActor> 
     motion->setEndAngle(angle_p);
     motion->setRotationAxis(x,y,z);
     animationCue->addMotion(motion);
-    this->renWin=r;
 }
 
-Animator::Animator(vtkSmartPointer<vtkRenderWindow> r,vtkSmartPointer<vtkActor> actor_p,Motion::MOTIONS f,double x=0,double y=0,double z=0){
+Animator::Animator(vtkSmartPointer<vtkRenderWindow> r,vtkSmartPointer<vtkActor> actor_p,Motion::MOTIONS f,double x,double y,double z){
     actor=actor_p;
+    this->renWin=r;
     beginMatrix4x4=actor_p->GetMatrix();
     init();
     motion=new Motion(actor_p,f);
     motion->setOnAnimationFinishListener(this);
     motion->setEndPosition(x,y,z);
     animationCue->addMotion(motion);
-    this->renWin=r;
 }
 
 Animator::Animator(vtkSmartPointer<vtkRenderWindow> r,vtkSmartPointer<vtkActor> actor_p,Motion::MOTIONS f,double angle){
     actor=actor_p;
+    this->renWin=r;
     beginMatrix4x4=actor_p->GetMatrix();
     init();
     motion=new Motion(actor_p,f);
     motion->setOnAnimationFinishListener(this);
     motion->setEndAngle(angle);
     animationCue->addMotion(motion);
-    this->renWin=r;
 }
 
 void Animator::init(){

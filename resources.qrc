@@ -26,5 +26,8 @@
         <file>resources/max_click.png</file>
         <file>resources/min_click.png</file>
         <file>resources/Min_normal.png</file>
+        <file>resources/magnify.png</file>
+        <file>resources/magnify2.png</file>
+        <file>resources/shrink.png</file>
     </qresource>
 </RCC>

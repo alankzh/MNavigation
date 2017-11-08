@@ -7,7 +7,6 @@
 #include "vtkVolumePicker.h"
 #include "vtkPicker.h"
 #include "vtkPropPicker.h"
-#include "vtkPropPicker3D.h"
 
 MarkerCreator::MarkerCreator()
 {
@@ -18,7 +17,6 @@ MarkerCreator::MarkerCreator()
 MarkerCreator::~MarkerCreator()
 {
 }
-
 
 bool MarkerCreator::TestMark(int x, int y, vtkRenderer* renderer) {
 	auto picker = vtkVolumePicker::New();

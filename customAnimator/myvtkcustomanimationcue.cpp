@@ -19,6 +19,7 @@ void MyVtkCustomAnimationCue::removeMotion(Motion *motion){
     }
 }
 
+//动画的结束消息由最后一个元操作发出信号表达
 void MyVtkCustomAnimationCue::setOnAnimationFinishListener(AnimatorFinishListener *listener){
     if(motionList.size()>0){
         motionList.at(motionList.size()-1)->setOnAnimationFinishListener(listener);

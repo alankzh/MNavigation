@@ -20,6 +20,12 @@
 #include <string>
 #include "customThread/progressbarwidget.h"
 #include "customThread/volumewidgetthreadhelper.h"
+
+#include <math.h>
+#include "customAnimator/animator.h"
+#include "customAnimator/motion.h"
+
+
 /**
  * @brief The MainWindow class
  * 这是主窗口
@@ -58,7 +64,8 @@ private:
     ThreeBackgroundButton *maxmizeButton;//最大化
     ThreeBackgroundButton *exitButton;
 /*start-edit   with lvyunxiao         -----------------------------------------------------*/
-    MarkButton *markbutton1;
+    MarkButton *pEndMarkButton;
+    MarkButton *pStartMarkButton;
 /*end-edit with lvyunxiao------------------------------------------------------------*/
     BackgroundButton *volumeLoadButton;
     BackgroundButton *stlLoadButton;
@@ -125,6 +132,8 @@ public slots:
     void volumeSlicerRetunZero();
     void onDataLoadingDone();
     void receiveFocus();
+    void markedAnimator(bool marked);
+    void startSurgeryAnimator(double startPosition[3],double endPosition[3]);
 /*end-edit with lvyunxiao-----------------------------------------------*/
 protected:
 

@@ -51,18 +51,24 @@ void MarkButton::mouseReleaseEvent(QMouseEvent *event){
             isMarked=true;
         }
         emit this->clicked();
+        //发射信号，通知状态改变
         emit this->marked(isMarked);
     }
     update();
-    Q_UNUSED(event);
 }
 
 void MarkButton::mouseMoveEvent(QMouseEvent *event){
     Q_UNUSED(event);
 }
 
+//返回当前是否被选中
 bool MarkButton::getMarkStatus(){
     return isMarked;
+}
+//设定当前是否被选中，状态改变并不发射信号
+void MarkButton::setMarkStatus(bool marked){
+    isMarked=marked;
+    update();
 }
 
 bool MarkButton::setPos(int x,int y){

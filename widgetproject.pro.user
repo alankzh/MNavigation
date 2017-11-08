@@ -1,6 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE QtCreatorProject>
+<<<<<<< HEAD
 <!-- Written by QtCreator 4.0.3, 2017-11-07T10:55:52. -->
+=======
+<<<<<<< HEAD
+<!-- Written by QtCreator 4.0.3, 2017-11-05T14:53:32. -->
+=======
+<!-- Written by QtCreator 4.0.3, 2017-11-05T22:46:44. -->
+>>>>>>> temp
+>>>>>>> temp
 <qtcreator>
  <data>
   <variable>EnvironmentId</variable>
@@ -292,7 +300,11 @@
     <value type="QString" key="Qt4ProjectManager.Qt4RunConfiguration.ProFile">widgetproject.pro</value>
     <value type="bool" key="Qt4ProjectManager.Qt4RunConfiguration.UseDyldImageSuffix">false</value>
     <value type="QString" key="Qt4ProjectManager.Qt4RunConfiguration.UserWorkingDirectory"></value>
+<<<<<<< HEAD
+    <value type="QString" key="Qt4ProjectManager.Qt4RunConfiguration.UserWorkingDirectory.default"></value>
+=======
     <value type="QString" key="Qt4ProjectManager.Qt4RunConfiguration.UserWorkingDirectory.default">D:/qtSpace/build-widgetproject-Desktop_Qt_5_6_3_MSVC2015_32bit-Debug</value>
+>>>>>>> temp
     <value type="uint" key="RunConfiguration.QmlDebugServerPort">3768</value>
     <value type="bool" key="RunConfiguration.UseCppDebugger">false</value>
     <value type="bool" key="RunConfiguration.UseCppDebuggerAuto">true</value>

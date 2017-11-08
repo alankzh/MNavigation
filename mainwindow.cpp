@@ -55,10 +55,14 @@ void MainWindow::setLayout2(){
 
 
     QHBoxLayout *funcLayout=new QHBoxLayout();
-    markbutton1=new MarkButton(this);
-    markbutton1->setBackgroundNormal(":/resources/translation.png","png");
-    markbutton1->setBackgroundMarked(":/resources/shrink2.png","png");
-    funcLayout->addWidget(markbutton1,Qt::AlignHCenter);
+    pEndMarkButton=new MarkButton(this);
+    pEndMarkButton->setBackgroundNormal(":/resources/magnify2.png","png");
+    pEndMarkButton->setBackgroundMarked(":/resources/magnify.png","png");
+    pStartMarkButton=new MarkButton(this);
+    pStartMarkButton->setBackgroundNormal(":/resources/shrink2.png","png");
+    pStartMarkButton->setBackgroundMarked(":/resources/shrink.png","png");
+    funcLayout->addWidget(pEndMarkButton,Qt::AlignHCenter);
+    funcLayout->addWidget(pStartMarkButton,Qt::AlignHCenter);
     funcLayout->setAlignment(mainLayout,Qt::AlignTop);
     funcLayout->setMargin(0);
     mainLayout->addLayout(funcLayout,1);
@@ -120,7 +124,8 @@ void MainWindow::init(){
     titleButton=new BackgroundButton(this);
     minimizeButton=new ThreeBackgroundButton(this);
     maxmizeButton=new ThreeBackgroundButton(this);
-    markbutton1=new MarkButton(this);
+    pEndMarkButton=new MarkButton(this);
+    pStartMarkButton=new MarkButton(this);
     exitButton=new ThreeBackgroundButton(this);
     volumeLoadButton=new BackgroundButton(this);
     stlLoadButton=new BackgroundButton(this);
@@ -161,9 +166,12 @@ void MainWindow::setLayout(){
     titleButton->needClickEffect(false);
     titleButton->setPos(3,3);
 
-    markbutton1->setPos(1000,3);
-    markbutton1->setBackgroundNormal(":/resources/translation.png","png");
-    markbutton1->setBackgroundMarked(":/resources/shrink2.png","png");
+    pEndMarkButton->setPos(1000,3);
+    pEndMarkButton->setBackgroundNormal(":/resources/magnify2.png","png");
+    pEndMarkButton->setBackgroundMarked(":/resources/magnify.png","png");
+    pStartMarkButton->setPos(1050,3);
+    pStartMarkButton->setBackgroundNormal(":/resources/shrink2.png","png");
+    pStartMarkButton->setBackgroundMarked(":/resources/shrink.png","png");
 
     exitButton->setPos(1531,3);
     exitButton->setBackgroundFront(":/resources/power_normal.png","png");
@@ -266,6 +274,9 @@ void MainWindow::setConnection(){
 
     //选择材质窗口的调出
     connect(proSelectButton,SIGNAL(released()),selectProWidget,SLOT(disPlaySlot()));
+
+    //交还焦点给主窗口
+    connect(volumeWidget,SIGNAL(payBackFocus()),this,SLOT(receiveFocus()));
 }
 
 //有体绘制数据时需要连接的信号
@@ -297,6 +308,9 @@ void MainWindow::setDrawConnection(){
 
     //选择材质窗口发送材质给体绘制窗口
     connect(selectProWidget,SIGNAL(sendProName(std::string)),volumeWidget,SLOT(SetRenderPropertySlot(std::string)));
+
+    //发送标记信号，播放标记动画
+    connect(pEndMarkButton,SIGNAL(marked(bool)),this,SLOT(markedAnimator(bool)));
 }
 
 
@@ -352,12 +366,16 @@ void MainWindow::volumeMagnifyClicked(){
         volumeWidget->setLocation(20,55,1490,765);
         volumeSlider->setGeometry(20,830,1490,20);
         coronalSlider->hide();
+        coronalLabel->hide();
         axialSlider->hide();
+        axialLabel->hide();
     }else{
         volumeWidget->setLocation(20,55,735,365);
         volumeSlider->setGeometry(20,425,735,20);
         coronalSlider->show();
+        coronalLabel->show();
         axialSlider->show();
+        axialLabel->show();
     }
 	volumeWidget->TextUIAdapt();
     volumeWidget->raise();
@@ -404,14 +422,14 @@ void MainWindow::onOpenVolumeDir(){
         //        QApplication::exit();
         return;
     }
-/*start-change with lvyunxiao--------------------------------------------------------------*/
+    /*start-change with lvyunxiao--------------------------------------------------------------*/
     qDebug()<<"mainThreadID："<<QThread::currentThreadId();
     volumeWidgetThreadHelper *threadHelper=new volumeWidgetThreadHelper((volumeWidget),(progressBar),0);
     connect(threadHelper,SIGNAL(endThread()),this,SLOT(onDataLoadingDone()));
     volumeWidget->setPath(dirPath);
     threadHelper->startThread();
     return;//将这一段代码删除后，将继续原来的实现
-/*end-change with lvyunxiao----------------------------------------------------------------*/
+    /*end-change with lvyunxiao----------------------------------------------------------------*/
     //支持带中文路径的读取
     QByteArray ba=dirPath.toLocal8Bit();
     const char *dirPath_str=ba.data();
@@ -463,7 +481,6 @@ void MainWindow::keyPressEvent(QKeyEvent *event){
         qDebug()<<"noVolumeData";
         return;
     }
-    qDebug()<<"keyPressEvent:"<<event->key();
     /*变换操作开始*/
     if(event->key()==Qt::Key_Q){
         stlManager->translate(operationStlName,10,0,0);
@@ -668,6 +685,58 @@ void MainWindow::onDataLoadingDone(){
 //得到子控件退回的焦点
 void MainWindow::receiveFocus(){
     obtainFocus();
+}
+
+//显示细针、细导丝、双通道导管先后沿着一条线段进入的动画
+//目前这条线段的position由设置的固定位置来给出
+void MainWindow::markedAnimator(bool marked){
+    qDebug()<<"MainWindow::markedAnimator";
+    if(!marked){
+        return;
+    }else{
+        stlManager->deleteActor(QString::fromLocal8Bit("step1"),volumeWidget->getRenderer());
+        stlManager->deleteActor(QString::fromLocal8Bit("step2"),volumeWidget->getRenderer());
+        stlManager->deleteActor(QString::fromLocal8Bit("step3"),volumeWidget->getRenderer());
+    }
+    double ps[3]={200,200,50};//起点
+    double pe[3]={0,0,400};//终点
+    vtkSmartPointer<vtkLineSource> lineSource=vtkSmartPointer<vtkLineSource>::New();
+    vtkSmartPointer<vtkPoints> points =vtkSmartPointer<vtkPoints>::New();
+    points->InsertNextPoint(ps);
+    points->InsertNextPoint(pe);
+    lineSource->SetPoints(points);
+    lineSource->Update();
+    vtkSmartPointer<vtkDataSetMapper> line_mapper = vtkSmartPointer<vtkDataSetMapper>::New();
+    line_mapper->SetInputConnection(lineSource->GetOutputPort());
+    vtkSmartPointer<vtkActor> lineActor=vtkSmartPointer<vtkActor>::New();
+    lineActor->SetMapper(line_mapper);
+    lineActor->GetProperty()->SetColor(0,1,0);
+    volumeWidget->getRenderer()->AddActor(lineActor);
+
+    startSurgeryAnimator(ps,pe);
+}
+
+void MainWindow::startSurgeryAnimator(double ps[], double pe[]){
+    double line[3]={pe[0]-ps[0],pe[1]-ps[1],pe[2]-ps[2]};
+    QString dirUPPath = QDir::currentPath() + "/externalResources/";
+    vtkSmartPointer<vtkActor> step3=stlManager->LoadStl(dirUPPath+"qx_1.stl",QString::fromLocal8Bit("step3"));
+
+    //y方向单位向量与直线的夹角
+    double angle=acos(sqrt(line[1]*line[1])/sqrt(line[0]*line[0]+line[1]*line[1]+line[2]*line[2]))*180/3.1415926;
+    //y方向单位向量与直线line所合成平面的法线向量
+    double normal[3]={line[1]*0-line[2]*1,
+                      line[2]*0-line[0]*0,
+                      line[0]*1-line[1]*0,
+                     };
+    volumeWidget->getRenderer()->AddActor(step3);
+    step3->SetPosition(ps);
+    step3->RotateWXYZ(angle,normal[0],normal[1],normal[2]);
+    volumeWidget->GetRenderWindow()->Render();
+    Animator *animator3=new Animator(volumeWidget->GetRenderWindow(),step3,Motion::translate,pe[0],pe[1],pe[2]);
+    animator3->setDuration(1000);
+    animator3->start();
+
+    qDebug()<<"animator end";
 }
 
 /*end-edit with lvyunxiao-----------------------------------*/
