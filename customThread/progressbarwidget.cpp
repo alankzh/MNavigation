@@ -41,6 +41,7 @@ void ProgressBarWidget::setProgressValue(int value){
 
 void ProgressBarWidget::display(){
     qDebug()<<"ProgressBarWidget::display()";
+    proBar->setValue(0);
     this->show();
     proBar->show();
 }

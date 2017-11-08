@@ -20,6 +20,14 @@ MainWindow::MainWindow(QWidget *parent)
 
 MainWindow::~MainWindow()
 {
+    if(stlManager!=NULL){
+        delete stlManager;
+        stlManager=NULL;
+    }
+    if(actorM!=NULL){
+        delete actorM;
+        actorM=NULL;
+    }
 }
 
 void MainWindow::setLayout2(){
@@ -378,7 +386,7 @@ void MainWindow::volumeMagnifyClicked(){
         axialSlider->show();
         axialLabel->show();
     }
-	volumeWidget->TextUIAdapt();
+    volumeWidget->TextUIAdapt();
     volumeWidget->raise();
     update();
     obtainFocus();
@@ -532,13 +540,24 @@ void MainWindow::keyPressEvent(QKeyEvent *event){
 }
 
 void MainWindow::mousePressEvent(QMouseEvent *event){
-    mouseClickPoint=event->pos();
+    if(this->rect().contains(event->pos())){
+        mouseClickPoint=event->pos();
+        isMouseHover=true;
+    }
+}
+
+void MainWindow::mouseReleaseEvent(QMouseEvent *event){
+    if(isMouseHover){
+        isMouseHover=false;
+    }
 }
 
 void MainWindow::mouseMoveEvent(QMouseEvent *event){
-    if(event->buttons()&Qt::LeftButton){
+    if((event->buttons()&Qt::LeftButton)&&isMouseHover){
         //拖动
         move(event->globalPos()-mouseClickPoint);
+    }else{
+        qDebug()<<"i catch u,little boy";
     }
 }
 

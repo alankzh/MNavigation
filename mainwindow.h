@@ -100,6 +100,7 @@ private:
     bool max=false;
 
     QPoint mouseClickPoint;
+    bool isMouseHover=false;
     ProgressBarWidget *progressBar;
 signals:
     void Mark(vtkVector3d ModelPosition);
@@ -142,6 +143,8 @@ protected:
     virtual void keyPressEvent(QKeyEvent *event);
 
     virtual void mousePressEvent(QMouseEvent *event);
+
+    virtual void mouseReleaseEvent(QMouseEvent *event);
 
     virtual void mouseMoveEvent(QMouseEvent *event);
 
