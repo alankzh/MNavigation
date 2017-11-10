@@ -1,5 +1,6 @@
-#ifndef VOLUMEWIDGETTHREADHELPER_H
-#define VOLUMEWIDGETTHREADHELPER_H
+#ifndef VOLUMEWIDGETTHREADHELPER2222_H
+#define VOLUMEWIDGETTHREADHELPER2222_H
+
 #include <QObject>
 #include <QMutex>
 #include <vtkSmartPointer.h>
@@ -7,17 +8,16 @@
 #include <vtkCommand.h>
 #include <QDebug>
 #include <QThread>
-#include "mainwindow.h"
 #include "progressbarwidget.h"
 #include <typeinfo>
 #include "myvolumewidget.h"
 
-class volumeWidgetThreadHelper:public QObject
+class VolumeWidgetThreadHelper:public QObject
 {
     Q_OBJECT
 public:
-    volumeWidgetThreadHelper(QObject *r,QObject *p,QObject *obj=0);
-    ~volumeWidgetThreadHelper();
+    VolumeWidgetThreadHelper(QObject *r,QObject *p,QObject *renderWidget,QObject *obj=0);
+    ~VolumeWidgetThreadHelper();
     //Ïß³ÌÆô¶¯
     void startThread();
 public slots:
@@ -32,6 +32,7 @@ private:
     QThread *thread;
     QObject *progressListener;
     QObject *runner;
+    QObject *renderWidget;
 };
 
 #endif // VOLUMEWIDGETTHREADHELPER_H

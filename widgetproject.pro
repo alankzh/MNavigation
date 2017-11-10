@@ -152,7 +152,8 @@ SOURCES += main.cpp\
     customWidgets/selectpropertywidget.cpp\
     customWidgets/emitbutton.cpp \
     customThread/progressbarwidget.cpp \
-    customThread/volumewidgetthreadhelper.cpp
+    customThread/volumewidgetthreadhelper.cpp \
+    customThread/progressobserver.cpp
 
 HEADERS  +=     mainwindow.h \
     vtks.h \
@@ -182,7 +183,9 @@ HEADERS  +=     mainwindow.h \
     customWidgets/selectpropertywidget.h \
     customWidgets/emitbutton.h \
     customThread/progressbarwidget.h \
-    customThread/volumewidgetthreadhelper.h
+    customThread/volumewidgetthreadhelper.h \
+    customThread/progressobserver.h \
+    customThread/progressemiter.h
 
 
 FORMS    += widget.ui

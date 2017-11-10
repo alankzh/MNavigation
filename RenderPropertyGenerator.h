@@ -38,7 +38,8 @@ public:
 
 	static void SavePresetsToLocal();
 
-	static void ShiftRenderFunction(double shift, vtkVolumeProperty* const volume_property);
+	//shift range -1 to 1
+	static void ShiftRenderFunction(double shift, vtkVolumeProperty* const volume_property, std::string property_name);
 
 	static std::vector<std::string> GetAllAvaiblePresetsName();
 
