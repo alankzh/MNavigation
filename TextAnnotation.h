@@ -9,8 +9,8 @@
 #include "vtkVector.h"
 namespace Text {
 
-	static vtkSmartPointer<vtkTextActor> CreateAnnotation(std::string input, vtkVector3d color) {
-		auto text = vtkSmartPointer<vtkTextActor>::New();
+	static vtkTextActor* CreateAnnotation(std::string input, vtkVector3d color) {
+		auto text = vtkTextActor::New();
 		text->SetInput(input.c_str());
 		text->SetTextScaleModeToViewport();
 		text->GetTextProperty()->SetColor(color.GetData());
