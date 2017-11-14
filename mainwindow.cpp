@@ -453,6 +453,7 @@ void MainWindow::onOpenVolumeDir(){
         return;
     }
     /*start-change with lvyunxiao--------------------------------------------------------------*/
+
     qDebug()<<"mainThreadID："<<QThread::currentThreadId();
     if(threadHelper!=NULL){
         qDebug()<<"not null";
@@ -467,6 +468,7 @@ void MainWindow::onOpenVolumeDir(){
     volumeWidget->setPath(dirPath);
     threadHelper->startThread();
     return;//将这一段代码删除后，将继续原来的实现
+
     /*end-change with lvyunxiao----------------------------------------------------------------*/
     //支持带中文路径的读取
     QByteArray ba=dirPath.toLocal8Bit();

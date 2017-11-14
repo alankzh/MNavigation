@@ -61,18 +61,19 @@ namespace JsonUtils {
 		return v;
 	}
 
-	static bool ValueToDoubleVector(const rapidjson::Value& value, std::vector<double>& vector) {
+	template<typename T>
+	static bool ValueToVector(const rapidjson::Value& value, std::vector<T>& vector) {
 		vector.clear();
 		if (!value.IsArray()) {
 			return false;
 		}
 		for (rapidjson::SizeType i = 0; i < value.Size(); i++) {
-			if (!value[i].IsDouble()) {
+			if (!value[i].Is<T>()) {
 				return false;
 			}
 		}
 		for (rapidjson::SizeType i = 0; i < value.Size(); i++) {
-			vector.push_back(value[i].GetDouble());
+			vector.push_back(value[i].Get<T>());
 		}
 		return true;
 	}

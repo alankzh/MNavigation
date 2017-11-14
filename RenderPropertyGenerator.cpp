@@ -71,9 +71,9 @@ namespace {
 			v.HasMember("interpolation") &&
 			v.HasMember("isShadeOn")) {
 			
-			if (!JsonUtils::ValueToDoubleVector(v["color"], args.color_points)||
-				!JsonUtils::ValueToDoubleVector(v["scalar"],args.scalar_opacity_points)||
-				!JsonUtils::ValueToDoubleVector(v["gradient"],args.gradient_opacity_points)) {
+			if (!JsonUtils::ValueToVector<double>(v["color"], args.color_points)||
+				!JsonUtils::ValueToVector<double>(v["scalar"],args.scalar_opacity_points)||
+				!JsonUtils::ValueToVector<double>(v["gradient"],args.gradient_opacity_points)) {
 				return false;
 			}
 			if (!v["ambient"].IsDouble() ||
@@ -190,10 +190,10 @@ namespace {
 void RenderPropertyGenerator::ApplyVolumeProperty(std::string property_name, vtkVolumeProperty* const volume_property) {
 
 	if (volume_property_library_.find(property_name) == volume_property_library_.end()) {
-		std::cout << "no such " << property_name << "property" << std::endl;
+		std::cout << "no such " << property_name << " property" << std::endl;
 		return;
 	}
-	std::cout << "apply " << property_name << "property" << std::endl;
+	std::cout << "apply " << property_name << " property" << std::endl;
 
 	RenderPropertyGenerator::volumePropertyArgs args = volume_property_library_[property_name];
 

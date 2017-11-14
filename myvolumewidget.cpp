@@ -38,35 +38,16 @@ myVolumeWidget::myVolumeWidget(QWidget *parent):QVTKWidget(parent)
 
 bool myVolumeWidget::setVolumeData(const char *dirPath){
 
-    vtkAlgorithm *reader=0;
-    vtkImageData *input=0;
-
     //读取.dcm
     dicomReader = vtkSmartPointer<vtkDICOMImageReader>::New();
 
     dicomReader->SetDirectoryName(dirPath);
     dicomReader->Update();//耗时操作
 
-    input=dicomReader->GetOutput();
-    reader=dicomReader;
-    // Verify that we actually have a volume
-    int dim[3];
-    input->GetDimensions(dim);
-    if ( dim[0] < 2 ||
-         dim[1] < 2 ||
-         dim[2] < 2 )
-    {
-        cout << "Error loading data!" << endl;
-        // exit(EXIT_FAILURE);
-        return false;
-    }else{
-
-    }
-
     // Create our volume and mapper
     volume =  vtkSmartPointer<vtkVolume>::New();
     vtkSmartPointer<vtkSmartVolumeMapper> mapper = vtkSmartPointer<vtkSmartVolumeMapper>::New();
-    mapper->SetInputConnection( reader->GetOutputPort() );
+    mapper->SetInputConnection( dicomReader->GetOutputPort() );
     volume->SetMapper( mapper );
 
     mapper->SetBlendModeToComposite();
@@ -296,6 +277,12 @@ void myVolumeWidget::doInThread(){
     //继承了vtkCommand的进度监听者
     dicomReader->Update();
     emit done();
+<<<<<<< HEAD
+=======
+
+    qDebug()<<"777777777777777";
+
+>>>>>>> temp
 }
 //当子线程结束后会自动调用这里
 void myVolumeWidget::onThreadDone(){

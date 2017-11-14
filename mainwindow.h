@@ -153,6 +153,7 @@ protected:
     virtual void mouseMoveEvent(QMouseEvent *event);
 
     QList<QString> stlList={};
+
 };
 
 #endif // MAINWINDOW_H
