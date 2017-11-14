@@ -432,9 +432,19 @@ void MainWindow::shrinkCliked(){
     obtainFocus();
 }
 
+void MainWindow::onRestart(QString dirPath){
+    qDebug()<<"MainWindow::onRestart";
+    threadHelper=new VolumeWidgetThreadHelper(volumeWidget,progressBar,this);
+    volumeWidget->setPath(dirPath);
+    threadHelper->startThread();
+}
+
 //打开体绘制文件夹
 void MainWindow::onOpenVolumeDir(){
     qDebug()<<"MainWindow::onOpenVolumeDir";
+    if(volumeWidget->hasVolumeData()){
+
+    }
     QString dirPath=QFileDialog::getExistingDirectory(this,QString::fromLocal8Bit("打开体绘制数据存储文件夹"),"/",QFileDialog::ShowDirsOnly | QFileDialog::DontResolveSymlinks);
     qDebug()<<dirPath;
     if(dirPath.isEmpty()==true) {
@@ -446,11 +456,13 @@ void MainWindow::onOpenVolumeDir(){
     qDebug()<<"mainThreadID："<<QThread::currentThreadId();
     if(threadHelper!=NULL){
         qDebug()<<"not null";
-//        delete threadHelper;
-//         threadHelper=NULL;
+        //重启
+        qApp->quit();
+        QProcess::startDetached(qApp->applicationFilePath(), QStringList(dirPath));
     }else{
          qDebug()<<"is null";
     }
+
     threadHelper=new VolumeWidgetThreadHelper(volumeWidget,progressBar,this);
     volumeWidget->setPath(dirPath);
     threadHelper->startThread();
@@ -688,6 +700,7 @@ void MainWindow::volumeSlicerRetunZero(){
 //当体绘制数据加载完毕
 void MainWindow::onDataLoadingDone(){
       qDebug()<<"MainWindow::onDataLoadingDone";
+
     if(volumeWidget->hasVolumeData()){
         volumeSlider->setValue(120);
         lastposition=120;

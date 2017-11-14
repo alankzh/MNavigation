@@ -23,6 +23,8 @@ class myVolumeWidget : public QVTKWidget,public ProgressEmiter
 public:
     myVolumeWidget(QWidget *parent);
 
+
+
     bool setVolumeData(const char *dirPath);
 
     void setLocation(int x,int y,int width,int height);

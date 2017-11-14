@@ -1,0 +1,348 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>Widget</class>
+ <widget class="QWidget" name="Widget">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>1600</width>
+    <height>880</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>按下键盘0~6旋转体绘制材质</string>
+  </property>
+  <widget class="QVTKWidget" name="volumeWidget">
+   <property name="geometry">
+    <rect>
+     <x>20</x>
+     <y>55</y>
+     <width>735</width>
+     <height>365</height>
+    </rect>
+   </property>
+  </widget>
+  <widget class="QVTKWidget" name="sagitalWidget">
+   <property name="geometry">
+    <rect>
+     <x>775</x>
+     <y>55</y>
+     <width>735</width>
+     <height>365</height>
+    </rect>
+   </property>
+  </widget>
+  <widget class="QVTKWidget" name="coronalWidget">
+   <property name="geometry">
+    <rect>
+     <x>20</x>
+     <y>455</y>
+     <width>735</width>
+     <height>365</height>
+    </rect>
+   </property>
+  </widget>
+  <widget class="QVTKWidget" name="axialWidget">
+   <property name="geometry">
+    <rect>
+     <x>775</x>
+     <y>455</y>
+     <width>735</width>
+     <height>365</height>
+    </rect>
+   </property>
+  </widget>
+  <widget class="QLabel" name="logoLabel">
+   <property name="geometry">
+    <rect>
+     <x>40</x>
+     <y>10</y>
+     <width>131</width>
+     <height>16</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>医疗规划系统</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="navigationButton">
+   <property name="geometry">
+    <rect>
+     <x>480</x>
+     <y>10</y>
+     <width>120</width>
+     <height>45</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+  </widget>
+  <widget class="QLabel" name="hintLabel">
+   <property name="geometry">
+    <rect>
+     <x>760</x>
+     <y>5</y>
+     <width>750</width>
+     <height>40</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="exitButton">
+   <property name="geometry">
+    <rect>
+     <x>1530</x>
+     <y>3</y>
+     <width>60</width>
+     <height>45</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="greenButton1">
+   <property name="geometry">
+    <rect>
+     <x>1531</x>
+     <y>55</y>
+     <width>60</width>
+     <height>60</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="greenButton2">
+   <property name="geometry">
+    <rect>
+     <x>1531</x>
+     <y>115</y>
+     <width>60</width>
+     <height>60</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="shrinkButton">
+   <property name="geometry">
+    <rect>
+     <x>1531</x>
+     <y>325</y>
+     <width>60</width>
+     <height>60</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="magnifyButton">
+   <property name="geometry">
+    <rect>
+     <x>1531</x>
+     <y>265</y>
+     <width>60</width>
+     <height>60</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="translateButton">
+   <property name="geometry">
+    <rect>
+     <x>1531</x>
+     <y>175</y>
+     <width>60</width>
+     <height>60</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+  </widget>
+  <widget class="QSlider" name="volumeSlider">
+   <property name="geometry">
+    <rect>
+     <x>20</x>
+     <y>425</y>
+     <width>735</width>
+     <height>20</height>
+    </rect>
+   </property>
+   <property name="orientation">
+    <enum>Qt::Horizontal</enum>
+   </property>
+  </widget>
+  <widget class="QLabel" name="coronalLabel">
+   <property name="geometry">
+    <rect>
+     <x>80</x>
+     <y>850</y>
+     <width>421</width>
+     <height>16</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>TextLabel</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="axialLabel">
+   <property name="geometry">
+    <rect>
+     <x>890</x>
+     <y>850</y>
+     <width>391</width>
+     <height>16</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>TextLabel</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="sagitalLabel">
+   <property name="geometry">
+    <rect>
+     <x>910</x>
+     <y>30</y>
+     <width>421</width>
+     <height>20</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>TextLabel</string>
+   </property>
+  </widget>
+  <widget class="QWidget" name="layoutWidget">
+   <property name="geometry">
+    <rect>
+     <x>20</x>
+     <y>830</y>
+     <width>741</width>
+     <height>24</height>
+    </rect>
+   </property>
+   <layout class="QHBoxLayout" name="horizontalLayout">
+    <item>
+     <widget class="QSlider" name="coronalSlider">
+      <property name="orientation">
+       <enum>Qt::Horizontal</enum>
+      </property>
+     </widget>
+    </item>
+    <item>
+     <widget class="QLabel" name="coronalSliderNum">
+      <property name="text">
+       <string>TextLabel</string>
+      </property>
+     </widget>
+    </item>
+   </layout>
+  </widget>
+  <widget class="QWidget" name="layoutWidget">
+   <property name="geometry">
+    <rect>
+     <x>775</x>
+     <y>830</y>
+     <width>761</width>
+     <height>24</height>
+    </rect>
+   </property>
+   <layout class="QHBoxLayout" name="horizontalLayout_2">
+    <item>
+     <widget class="QSlider" name="axialSlider">
+      <property name="orientation">
+       <enum>Qt::Horizontal</enum>
+      </property>
+     </widget>
+    </item>
+    <item>
+     <widget class="QLabel" name="axialSliderNum">
+      <property name="text">
+       <string>TextLabel</string>
+      </property>
+     </widget>
+    </item>
+   </layout>
+  </widget>
+  <widget class="QWidget" name="layoutWidget">
+   <property name="geometry">
+    <rect>
+     <x>775</x>
+     <y>425</y>
+     <width>741</width>
+     <height>24</height>
+    </rect>
+   </property>
+   <layout class="QHBoxLayout" name="horizontalLayout_3">
+    <item>
+     <widget class="QSlider" name="sagitalSlider">
+      <property name="orientation">
+       <enum>Qt::Horizontal</enum>
+      </property>
+     </widget>
+    </item>
+    <item>
+     <widget class="QLabel" name="sagitalSliderNum">
+      <property name="text">
+       <string>TextLabel</string>
+      </property>
+     </widget>
+    </item>
+   </layout>
+  </widget>
+  <widget class="QRadioButton" name="radioButton">
+   <property name="geometry">
+    <rect>
+     <x>290</x>
+     <y>30</y>
+     <width>89</width>
+     <height>16</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>RadioButton</string>
+   </property>
+  </widget>
+  <zorder>layoutWidget</zorder>
+  <zorder>layoutWidget</zorder>
+  <zorder>layoutWidget</zorder>
+  <zorder>greenButton1</zorder>
+  <zorder>volumeWidget</zorder>
+  <zorder>sagitalWidget</zorder>
+  <zorder>coronalWidget</zorder>
+  <zorder>axialWidget</zorder>
+  <zorder>logoLabel</zorder>
+  <zorder>navigationButton</zorder>
+  <zorder>hintLabel</zorder>
+  <zorder>exitButton</zorder>
+  <zorder>greenButton2</zorder>
+  <zorder>shrinkButton</zorder>
+  <zorder>magnifyButton</zorder>
+  <zorder>translateButton</zorder>
+  <zorder>volumeSlider</zorder>
+  <zorder>coronalLabel</zorder>
+  <zorder>axialLabel</zorder>
+  <zorder>sagitalLabel</zorder>
+  <zorder>radioButton</zorder>
+ </widget>
+ <layoutdefault spacing="6" margin="11"/>
+ <customwidgets>
+  <customwidget>
+   <class>QVTKWidget</class>
+   <extends>QWidget</extends>
+   <header>QVTKWidget.h</header>
+  </customwidget>
+ </customwidgets>
+ <resources/>
+ <connections/>
+</ui>

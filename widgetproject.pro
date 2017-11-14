@@ -153,7 +153,8 @@ SOURCES += main.cpp\
     customWidgets/emitbutton.cpp \
     customThread/progressbarwidget.cpp \
     customThread/volumewidgetthreadhelper.cpp \
-    customThread/progressobserver.cpp
+    customThread/progressobserver.cpp \
+    customWidgets/dirpathwidget.cpp
 
 HEADERS  +=     mainwindow.h \
     vtks.h \
@@ -185,7 +186,8 @@ HEADERS  +=     mainwindow.h \
     customThread/progressbarwidget.h \
     customThread/volumewidgetthreadhelper.h \
     customThread/progressobserver.h \
-    customThread/progressemiter.h
+    customThread/progressemiter.h \
+    customWidgets/dirpathwidget.h
 
 
 FORMS    += widget.ui

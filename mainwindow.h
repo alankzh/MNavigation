@@ -35,7 +35,7 @@ class MainWindow : public QWidget
 public:
     MainWindow(QWidget *parent = 0);
     ~MainWindow();
-
+    void onRestart(QString dirPath);
 private:
     bool m_embedded;
     QPixmap m_background;

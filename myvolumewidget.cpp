@@ -283,25 +283,19 @@ void myVolumeWidget::doInThread(){
     }
     if(dicomReader!=NULL){
         qDebug()<<"dicomReader not null";
-      //  dicomReader->Delete();
+    //    dicomReader->Delete();
         dicomReader=NULL;
     }else{
         qDebug()<<"dicomReader is NULL";
     }
-    qDebug()<<"1111111111";
     dicomReader = vtkSmartPointer<vtkDICOMImageReader>::New();
     dicomReader->AddObserver(vtkCommand::ProgressEvent,observer);
-    qDebug()<<"2222222";
     QByteArray ba=dirPath.toLocal8Bit();
     const char *dirPath_str=ba.data();
-    qDebug()<<"444444444444";
     dicomReader->SetDirectoryName(dirPath_str);
     //继承了vtkCommand的进度监听者
-    qDebug()<<"55555555555555555";
     dicomReader->Update();
-    qDebug()<<"666666666666666666666";
     emit done();
-    qDebug()<<"777777777777777";
 }
 //当子线程结束后会自动调用这里
 void myVolumeWidget::onThreadDone(){
@@ -309,6 +303,7 @@ void myVolumeWidget::onThreadDone(){
     qDebug()<<"ThreadID："<<QThread::currentThreadId();
     vtkAlgorithm *reader=0;
     vtkImageData *input=0;
+    //change
     input=dicomReader->GetOutput();
     reader=dicomReader;
     // Verify that we actually have a volume

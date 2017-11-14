@@ -8,7 +8,7 @@ VolumeWidgetThreadHelper::VolumeWidgetThreadHelper(QObject *r,QObject *p,QObject
 }
 
 VolumeWidgetThreadHelper::~VolumeWidgetThreadHelper(){
-
+    qDebug()<<"VolumeWidgetThreadHelper::~VolumeWidgetThreadHelper";
 }
 
 void VolumeWidgetThreadHelper::startThread(){

@@ -67,10 +67,12 @@ bool ThreeBackgroundButton::eventFilter(QObject *watched, QEvent *event){
     //鼠标移入事件
     if(event->type()==QEvent::Enter){
         isHover=true;
+        this->setCursor(Qt::PointingHandCursor);
         update();
     //鼠标离开事件
     }else if( event->type()==QEvent::Leave){
         isHover=false;
+        this->setCursor(Qt::ArrowCursor);
         update();
     }
     return false;
