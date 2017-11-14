@@ -1,28 +1,26 @@
-﻿#ifndef MYQVTKWIDGET_H
-#define MYQVTKWIDGET_H
+﻿#ifndef MYVOLUMEWIDGET_H
+#define MYVOLUMEWIDGET_H
 
+#include "customThread/progressobserver.h"
+#include "customThread/progressemiter.h"
 #include <QtWidgets>
 #include <QWidget>
 #include <QVTKWidget.h>
 #include "vtks.h"
 #include "MarkerCreator.h"
-
-/*start-edit with lvyunxiao----------------------------------------------*/
 #include <QString>
-/*end-edit with lvyunxiao------------------------------------------------*/
+
+
 
 /**
  * @brief The myQVTKWidget class
  * 这个类封装了QVTKWidget控件，让vtk风格代码能专一的存在于这个类中
  * 构造方法传递进来的QWidget是QVTKWdiget控件的包含类(父)
  */
-/*start-change with lvyunxiao----------------------------------------------*/
-class myVolumeWidget : public QVTKWidget,public vtkCommand
-/*end-change with lvyunxiao------------------------------------------------*/
+class myVolumeWidget : public QVTKWidget,public ProgressEmiter
 {	
 	Q_OBJECT
 public:
-
     myVolumeWidget(QWidget *parent);
 
     bool setVolumeData(const char *dirPath);
@@ -48,6 +46,9 @@ public:
 	void SetRenderPropertyType(std::string property_name);
 
 	void TextUIAdapt();
+
+    void setPath(QString dirPath);
+    void emitProgress(int progress);
 
 private:
 
@@ -79,9 +80,17 @@ private:
 
 	void SetPropertyName(std::string name);
 
+    QString dirPath;
+
+    ProgressObserver *observer;
 signals:
 	void OnMarkClick(vtkVector3d ModelPosition);
     void propertyChanged();
+
+    void setProgress(int v);
+    void done();
+    void interrupt();
+    void payBackFocus();
 public slots:
 
     void SetRenderPropertySlot(std::string property_name);
@@ -90,21 +99,8 @@ public slots:
 
 	void vtkInteractorEventDispatch(vtkObject* obj, unsigned long, void*, void*);
 
-    /*start-edit with lvyunxiao-----------------------------------*/
-public slots:
-    void doInThread();//override ThreadRunner
-    void onThreadDone();//override  ThreadRuner
-signals:
-    void setProgress(int v);
-    void done();
-    void interrupt();
-    void payBackFocus();
-private:
-    QString dirPath;
-public:
-    void setPath(QString dirPath);
-    void Execute(vtkObject *caller, unsigned long eventId, void *callData);
-    /*end-edit with lvyunxiao-------------------------------------*/
+    void doInThread();
+    void onThreadDone();
 };
 
-#endif // MYQVTKWIDGET_H
+#endif // MYVOLUMEWIDGET_H

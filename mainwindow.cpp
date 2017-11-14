@@ -20,6 +20,26 @@ MainWindow::MainWindow(QWidget *parent)
 
 MainWindow::~MainWindow()
 {
+    if(stlManager!=NULL){
+        delete stlManager;
+        stlManager=NULL;
+    }
+    if(actorM!=NULL){
+        delete actorM;
+        actorM=NULL;
+    }
+    if(stlLoadDialog!=NULL){
+        delete stlLoadDialog;
+        stlLoadDialog=NULL;
+    }
+    if(stlSelectDialog!=NULL){
+        delete stlSelectDialog;
+        stlSelectDialog=NULL;
+    }
+    if(stlDeleteDialog!=NULL){
+        delete stlDeleteDialog;
+        stlDeleteDialog=NULL;
+    }
 }
 
 void MainWindow::setLayout2(){
@@ -231,7 +251,7 @@ void MainWindow::setLayout(){
 
     volumeSlider->setGeometry(20,425,735,20);
     volumeSlider->setOrientation(Qt::Horizontal);
-    volumeSlider->setRange(0,255);
+    volumeSlider->setRange(0,240);
 
     sagitalWidget->setLocation(775,55,735,365);
     sagitalSlider->setGeometry(775,425,713,20);
@@ -316,7 +336,7 @@ void MainWindow::setDrawConnection(){
 
 //体绘制窗口下滑动条 拖动触发事件
 void MainWindow::vSlicerValueChange(int v){
-    double shiftValue= 2 * v / 255.0 - 1;
+    double shiftValue= 2 * v / 240.0 - 1;
     volumeWidget->ShiftRenderFunction(shiftValue);
     obtainFocus();
 }
@@ -377,7 +397,7 @@ void MainWindow::volumeMagnifyClicked(){
         axialSlider->show();
         axialLabel->show();
     }
-	volumeWidget->TextUIAdapt();
+    volumeWidget->TextUIAdapt();
     volumeWidget->raise();
     update();
     obtainFocus();
@@ -423,12 +443,14 @@ void MainWindow::onOpenVolumeDir(){
         return;
     }
     /*start-change with lvyunxiao--------------------------------------------------------------*/
-    //qDebug()<<"mainThreadID："<<QThread::currentThreadId();
-    //volumeWidgetThreadHelper *threadHelper=new volumeWidgetThreadHelper((volumeWidget),(progressBar),0);
-    //connect(threadHelper,SIGNAL(endThread()),this,SLOT(onDataLoadingDone()));
-    //volumeWidget->setPath(dirPath);
-    //threadHelper->startThread();
-    //return;//将这一段代码删除后，将继续原来的实现
+
+    qDebug()<<"mainThreadID："<<QThread::currentThreadId();
+
+    threadHelper=new VolumeWidgetThreadHelper(volumeWidget,progressBar,this);
+    volumeWidget->setPath(dirPath);
+    threadHelper->startThread();
+    return;//将这一段代码删除后，将继续原来的实现
+
     /*end-change with lvyunxiao----------------------------------------------------------------*/
     //支持带中文路径的读取
     QByteArray ba=dirPath.toLocal8Bit();
@@ -531,13 +553,24 @@ void MainWindow::keyPressEvent(QKeyEvent *event){
 }
 
 void MainWindow::mousePressEvent(QMouseEvent *event){
-    mouseClickPoint=event->pos();
+    if(this->rect().contains(event->pos())){
+        mouseClickPoint=event->pos();
+        isMouseHover=true;
+    }
+}
+
+void MainWindow::mouseReleaseEvent(QMouseEvent *event){
+    if(isMouseHover){
+        isMouseHover=false;
+    }
 }
 
 void MainWindow::mouseMoveEvent(QMouseEvent *event){
-    if(event->buttons()&Qt::LeftButton){
+    if((event->buttons()&Qt::LeftButton)&&isMouseHover){
         //拖动
         move(event->globalPos()-mouseClickPoint);
+    }else{
+        qDebug()<<"i catch u,little bug";
     }
 }
 
@@ -650,6 +683,7 @@ void MainWindow::volumeSlicerRetunZero(){
 }
 //当体绘制数据加载完毕
 void MainWindow::onDataLoadingDone(){
+      qDebug()<<"MainWindow::onDataLoadingDone";
     if(volumeWidget->hasVolumeData()){
         volumeSlider->setValue(120);
         lastposition=120;

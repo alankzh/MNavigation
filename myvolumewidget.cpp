@@ -8,8 +8,6 @@
 #include "TextAnnotation.h"
 #include <sstream>
 
-VTK_MODULE_INIT(vtkRenderingFreeType);
-
 
 myVolumeWidget::myVolumeWidget(QWidget *parent):QVTKWidget(parent)
 {	
@@ -26,15 +24,16 @@ myVolumeWidget::myVolumeWidget(QWidget *parent):QVTKWidget(parent)
     ListenVTKInteractorEvent();
     hasVolume=false;
 
-	volume_info = Text::CreateAnnotation("Hello", vtkVector3d(1, 1, 1));
-	volume_info->SetDisplayPosition(5, 325);
+    volume_info = Text::CreateAnnotation("Hello", vtkVector3d(1, 1, 1));
+    volume_info->SetDisplayPosition(5, 325);
 
-	property_info = Text::CreateAnnotation("property names", vtkVector3d(0, 1, 0));
-	property_info->SetDisplayPosition(5, 300);
+    property_info = Text::CreateAnnotation("property names", vtkVector3d(0, 1, 0));
+    property_info->SetDisplayPosition(5, 300);
 
-	mouse_info = Text::CreateAnnotation("mouse", vtkVector3d(1,0,1));
-	mouse_info->SetDisplayPosition(5, 0);
+    mouse_info = Text::CreateAnnotation("mouse", vtkVector3d(1,0,1));
+    mouse_info->SetDisplayPosition(5, 0);
 
+    observer=new ProgressObserver(this);
 }
 
 bool myVolumeWidget::setVolumeData(const char *dirPath){
@@ -62,13 +61,13 @@ bool myVolumeWidget::setVolumeData(const char *dirPath){
     this->GetRenderWindow()->GetInteractor()->GetInteractorStyle()->SetDefaultRenderer(m_pRenderer);
     // Add the volume to the scene
     m_pRenderer->AddVolume( volume );
-	m_pRenderer->AddViewProp(volume_info);
-	m_pRenderer->AddViewProp(property_info);
-	m_pRenderer->AddViewProp(mouse_info);
+    m_pRenderer->AddViewProp(volume_info);
+    m_pRenderer->AddViewProp(property_info);
+    m_pRenderer->AddViewProp(mouse_info);
 
-	std::string input_text = "PatientName: " + (std::string)dicomReader->GetPatientName() + "\n" + "StudyID: " + (std::string)dicomReader->GetStudyUID();
-	volume_info->SetInput(input_text.c_str());
-	
+    std::string input_text = "PatientName: " + (std::string)dicomReader->GetPatientName() + "\n" + "StudyID: " + (std::string)dicomReader->GetStudyUID();
+    volume_info->SetInput(input_text.c_str());
+
 
 
     volume->RotateX(30);
@@ -126,15 +125,15 @@ void myVolumeWidget::SetRenderPropertyType(std::string property_name) {
     std::cout << "set property type" << std::endl;
     if (hasVolume) {
         RenderPropertyGenerator::ApplyVolumeProperty(property_name, getVolume()->GetProperty());
-		SetPropertyName(property_name);
+        SetPropertyName(property_name);
         emit propertyChanged();
-		property_info->SetInput(((std::string)("Rendering Property: ") + property_name).c_str());
-		updateRender();
-	}
+        property_info->SetInput(((std::string)("Rendering Property: ") + property_name).c_str());
+        updateRender();
+    }
 }
 
 void myVolumeWidget::SetPropertyName(std::string name) {
-	property_name_ = name;
+    property_name_ = name;
 }
 
 void myVolumeWidget::ListenVTKInteractorEvent() {
@@ -184,65 +183,65 @@ void myVolumeWidget::vtkInteractorEventDispatch(vtkObject* obj, unsigned long ev
         emit payBackFocus();
         return;
     }
-	auto iren = vtkRenderWindowInteractor::SafeDownCast(obj);
-	int EventPointX = iren->GetEventPosition()[0];
-	int EventPointY = iren->GetEventPosition()[1];
-	switch (eventID)
-	{
-	case vtkCommand::RightButtonPressEvent:
-		if (mc.TestMark(EventPointX,EventPointY,getRenderer())) {
-			auto picker = vtkSmartPointer<vtkVolumePicker>::New();
-			picker->SetVolumeOpacityIsovalue(0.5);
-			picker->Pick(EventPointX, EventPointY, 0, getRenderer());
-			vtkVector3d WorldPosition = vtkVector3d(picker->GetPickPosition());
-			vtkVector3d ModelPosition = CoordinateConverter::WorldToModel(volume, WorldPosition);
-			emit OnMarkClick(ModelPosition);
-		}
-		break;
-	case vtkCommand::LeftButtonPressEvent:
-		SelectMark(iren);
-		break;
-	case vtkCommand::KeyPressEvent:
-		if (*(iren->GetKeySym()) = 'B') {
-			DrawLine();
-		}
-		break;
-	case vtkCommand::MouseMoveEvent:
-		{	
-			std::string x;
-			std::string y;
-			std::stringstream ss;
-			ss << EventPointX;
-			ss >> x;
-			ss.clear();
-			ss << EventPointY;
-			ss >> y;
-			std::string input = (std::string)"Horizontal: " + x + "  Vertical: " + y;
-			mouse_info->SetInput(input.c_str());
-		}
+    auto iren = vtkRenderWindowInteractor::SafeDownCast(obj);
+    int EventPointX = iren->GetEventPosition()[0];
+    int EventPointY = iren->GetEventPosition()[1];
+    switch (eventID)
+    {
+    case vtkCommand::RightButtonPressEvent:
+        if (mc.TestMark(EventPointX,EventPointY,getRenderer())) {
+            auto picker = vtkSmartPointer<vtkVolumePicker>::New();
+            picker->SetVolumeOpacityIsovalue(0.5);
+            picker->Pick(EventPointX, EventPointY, 0, getRenderer());
+            vtkVector3d WorldPosition = vtkVector3d(picker->GetPickPosition());
+            vtkVector3d ModelPosition = CoordinateConverter::WorldToModel(volume, WorldPosition);
+            emit OnMarkClick(ModelPosition);
+        }
+        break;
+    case vtkCommand::LeftButtonPressEvent:
+        SelectMark(iren);
+        break;
+    case vtkCommand::KeyPressEvent:
+        if (*(iren->GetKeySym()) = 'B') {
+            DrawLine();
+        }
+        break;
+    case vtkCommand::MouseMoveEvent:
+    {
+        std::string x;
+        std::string y;
+        std::stringstream ss;
+        ss << EventPointX;
+        ss >> x;
+        ss.clear();
+        ss << EventPointY;
+        ss >> y;
+        std::string input = (std::string)"Horizontal: " + x + "  Vertical: " + y;
+        mouse_info->SetInput(input.c_str());
+    }
 
-		break;
-	default:
-		break;
-	}
+        break;
+    default:
+        break;
+    }
     emit payBackFocus();
 
 }
 
 void myVolumeWidget::TextUIAdapt() {
 
-	int* size = m_pRenderer->GetSize();
+    int* size = m_pRenderer->GetSize();
 
-	if (size[0] > 1000) {
-		volume_info->SetDisplayPosition(5, size[1] - 80);
-		property_info->SetDisplayPosition(5, size[1] - 120);
-		mouse_info->SetDisplayPosition(5, 0);
-	}
-	else {
-		volume_info->SetDisplayPosition(5, 325);
-		property_info->SetDisplayPosition(5, 300);
-		mouse_info->SetDisplayPosition(5, 0);
-	}
+    if (size[0] > 1000) {
+        volume_info->SetDisplayPosition(5, size[1] - 80);
+        property_info->SetDisplayPosition(5, size[1] - 120);
+        mouse_info->SetDisplayPosition(5, 0);
+    }
+    else {
+        volume_info->SetDisplayPosition(5, 325);
+        property_info->SetDisplayPosition(5, 300);
+        mouse_info->SetDisplayPosition(5, 0);
+    }
 }
 
 /**
@@ -263,21 +262,32 @@ void myVolumeWidget::doInThread(){
     if(dirPath.isEmpty()){
         emit interrupt();
     }
+    if(dicomReader!=NULL){
+        qDebug()<<"dicomReader not null";
+      //  dicomReader->Delete();
+        dicomReader=NULL;
+    }else{
+        qDebug()<<"dicomReader is NULL";
+    }
+    qDebug()<<"1111111111";
     dicomReader = vtkSmartPointer<vtkDICOMImageReader>::New();
+    dicomReader->AddObserver(vtkCommand::ProgressEvent,observer);
+    qDebug()<<"2222222";
     QByteArray ba=dirPath.toLocal8Bit();
     const char *dirPath_str=ba.data();
+    qDebug()<<"444444444444";
     dicomReader->SetDirectoryName(dirPath_str);
-    dicomReader->AddObserver(vtkCommand::ProgressEvent,this);
+    //继承了vtkCommand的进度监听者
+    qDebug()<<"55555555555555555";
     dicomReader->Update();
-    hasVolume=true;
+    qDebug()<<"666666666666666666666";
     emit done();
+
+    qDebug()<<"777777777777777";
 
 }
 //当子线程结束后会自动调用这里
 void myVolumeWidget::onThreadDone(){
-    if(!hasVolume){
-        return;
-    }
     qDebug()<<"myVolumeWidget::onThreadDone";
     qDebug()<<"ThreadID："<<QThread::currentThreadId();
     vtkAlgorithm *reader=0;
@@ -299,16 +309,27 @@ void myVolumeWidget::onThreadDone(){
 
     }
     // Create our volume and mapper
+
+
+    if(hasVolume){
+        qDebug()<<"clear";
+        m_pRenderer->RemoveAllViewProps();
+        m_pRenderer->RemoveVolume(volume);
+    }else{
+        this->GetRenderWindow()->RemoveRenderer(m_pRenderer);
+        m_pRenderer=vtkSmartPointer<vtkRenderer>::New();
+        this->GetRenderWindow()->AddRenderer(m_pRenderer);
+        this->GetRenderWindow()->GetInteractor()->GetInteractorStyle()->SetDefaultRenderer(m_pRenderer);
+    }
+    hasVolume=true;
+
     volume =  vtkSmartPointer<vtkVolume>::New();
     vtkSmartPointer<vtkSmartVolumeMapper> mapper = vtkSmartPointer<vtkSmartVolumeMapper>::New();
     mapper->SetInputConnection( reader->GetOutputPort() );
     volume->SetMapper( mapper );
     mapper->SetBlendModeToComposite();
     VolumeBounds = vtkVector<double,6>(volume->GetBounds());
-    this->GetRenderWindow()->RemoveRenderer(m_pRenderer);
-    m_pRenderer=vtkSmartPointer<vtkRenderer>::New();
-    this->GetRenderWindow()->AddRenderer(m_pRenderer);
-    this->GetRenderWindow()->GetInteractor()->GetInteractorStyle()->SetDefaultRenderer(m_pRenderer);
+
     // Add the volume to the scene
     m_pRenderer->AddVolume( volume );
     volume->RotateX(30);
@@ -333,9 +354,8 @@ void myVolumeWidget::setPath(QString str){
     dirPath=str;
 }
 
-void myVolumeWidget::Execute(vtkObject *caller, unsigned long eventId, void *callData){
-    vtkSmartPointer<vtkDICOMImageReader> reader =   reinterpret_cast<vtkDICOMImageReader*>(caller);
-    emit setProgress(reader->GetProgress()*100);
+void myVolumeWidget::emitProgress(int progress){
+    emit setProgress(progress);
 }
 
 /*end-edit with lvyunxiao-------------------------------------------------------------------------------------------*/

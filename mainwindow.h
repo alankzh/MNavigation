@@ -1,29 +1,28 @@
 ﻿#ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
+#include "customThread/progressbarwidget.h"
+#include "customThread/volumewidgetthreadhelper.h"
+#include <string>
+#include <math.h>
+#include "customAnimator/animator.h"
+#include "customAnimator/motion.h"
 #include "qts.h"
 #include "vtks.h"
-#include "customWidgets/greenbutton.h"
 #include "myvolumewidget.h"
-#include "customWidgets/backgroundbutton.h"
 #include "myslicerwidget.h"
 #include "vtkcustomtransformanimationcue.h"
 #include "stlmanager.h"
 #include "actormanager.h"
+#include "customWidgets/greenbutton.h"
+#include "customWidgets/backgroundbutton.h"
 #include "customWidgets/mygridlayout.h"
 #include "customWidgets/mydialog.h"
 #include "customWidgets/threebackgroundbutton.h"
 #include "customWidgets/markbutton.h"
+#include "customWidgets/selectpropertywidget.h"
 #include "tools/constant.h"
 #include "tools/screentools.h"
-#include "customWidgets/selectpropertywidget.h"
-#include <string>
-#include "customThread/progressbarwidget.h"
-#include "customThread/volumewidgetthreadhelper.h"
-
-#include <math.h>
-#include "customAnimator/animator.h"
-#include "customAnimator/motion.h"
 
 
 /**
@@ -36,6 +35,7 @@ class MainWindow : public QWidget
 public:
     MainWindow(QWidget *parent = 0);
     ~MainWindow();
+
 private:
     bool m_embedded;
     QPixmap m_background;
@@ -63,10 +63,10 @@ private:
     ThreeBackgroundButton *minimizeButton;//最小化主窗口
     ThreeBackgroundButton *maxmizeButton;//最大化
     ThreeBackgroundButton *exitButton;
-/*start-edit   with lvyunxiao         -----------------------------------------------------*/
+    /*start-edit   with lvyunxiao         -----------------------------------------------------*/
     MarkButton *pEndMarkButton;
     MarkButton *pStartMarkButton;
-/*end-edit with lvyunxiao------------------------------------------------------------*/
+    /*end-edit with lvyunxiao------------------------------------------------------------*/
     BackgroundButton *volumeLoadButton;
     BackgroundButton *stlLoadButton;
     BackgroundButton *stlSelectButton;
@@ -102,7 +102,10 @@ private:
     bool max=false;
 
     QPoint mouseClickPoint;
+    bool isMouseHover=false;
     ProgressBarWidget *progressBar;
+    VolumeWidgetThreadHelper *threadHelper=NULL;
+
 signals:
     void Mark(vtkVector3d ModelPosition);
 
@@ -128,13 +131,13 @@ public slots:
     void loadStl(QString name, int index);
     void selectStl(QString name, int index);
 
-/*start-edit with lvyunxiao--------------------------------------------*/
+    /*start-edit with lvyunxiao--------------------------------------------*/
     void volumeSlicerRetunZero();
     void onDataLoadingDone();
     void receiveFocus();
     void markedAnimator(bool marked);
     void startSurgeryAnimator(double startPosition[3],double endPosition[3]);
-/*end-edit with lvyunxiao-----------------------------------------------*/
+    /*end-edit with lvyunxiao-----------------------------------------------*/
 protected:
 
     void update_background();
@@ -144,6 +147,8 @@ protected:
     virtual void keyPressEvent(QKeyEvent *event);
 
     virtual void mousePressEvent(QMouseEvent *event);
+
+    virtual void mouseReleaseEvent(QMouseEvent *event);
 
     virtual void mouseMoveEvent(QMouseEvent *event);
 
