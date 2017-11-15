@@ -17,8 +17,9 @@ void DirPathWidget::mouseMoveEvent(QMouseEvent *event){
     Q_UNUSED(event);
 }
 
-void DirPathWidget::eventFilter(QObject *watched, QEvent *event){
+bool DirPathWidget::eventFilter(QObject *watched, QEvent *event){
     Q_UNUSED(event);
     Q_UNUSED(watched);
+    return false;
 }
 

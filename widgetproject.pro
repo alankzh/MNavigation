@@ -8,7 +8,9 @@ QT       += core gui
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
-
+include(windowsKits.pri)
+include(vtk.pri)
+include(itk.pri)
 
 TARGET = widgetproject
 TEMPLATE = app
@@ -40,9 +42,11 @@ SOURCES += main.cpp\
     customWidgets/selectpropertywidget.cpp\
     customWidgets/emitbutton.cpp \
     customThread/progressbarwidget.cpp \
-    customThread/volumewidgetthreadhelper.cpp \
     customThread/progressobserver.cpp \
-    customWidgets/dirpathwidget.cpp
+    customWidgets/dirpathwidget.cpp \
+    DicomLoader.cpp \
+    Scene.cpp \
+    customThread/loadthreadhelper.cpp
 
 HEADERS  +=     mainwindow.h \
     vtks.h \
@@ -72,10 +76,13 @@ HEADERS  +=     mainwindow.h \
     customWidgets/selectpropertywidget.h \
     customWidgets/emitbutton.h \
     customThread/progressbarwidget.h \
-    customThread/volumewidgetthreadhelper.h \
     customThread/progressobserver.h \
-    customThread/progressemiter.h \
-    customWidgets/dirpathwidget.h
+    customWidgets/dirpathwidget.h \
+    Creator.h \
+    DicomLoader.h \
+    Scene.h \
+    customThread/progressreceive.h \
+    customThread/loadthreadhelper.h
 
 
 FORMS    += widget.ui

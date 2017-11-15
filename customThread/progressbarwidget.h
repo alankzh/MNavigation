@@ -7,6 +7,7 @@
 #include <QLabel>
 #include <QVBoxLayout>
 #include <QDebug>
+#include "progressreceive.h"
 
 class ProgressBarWidget:public QWidget
 {

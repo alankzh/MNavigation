@@ -53,34 +53,6 @@ void mySlicerWidget::setSlicerValueByRatio(double ratio) {
 }
 
 /**
- * @brief mySlicerWidget::setSlicerData
- * 设置imageViewer2中截面的数据源
- * @param dicomReader
- * 读取体绘制文件夹的数据源
- * @param o
- * 设置截面截取的坐标平面
- * 坐标平面有XY平面、YZ平面、XZ平面
- */
-void mySlicerWidget::setSlicerData(vtkSmartPointer<vtkDICOMImageReader> dicomReader,mySlicerWidget::ORIENTATION o=mySlicerWidget::ORIENTATION::defalut){
-    imageViewer2=vtkSmartPointer<vtkImageViewer2>::New();
-    imageViewer2->SetInputConnection(dicomReader->GetOutputPort());
-    imageViewer2->SetRenderWindow(this->GetRenderWindow());
-    imageViewer2->SetupInteractor(this->GetRenderWindow()->GetInteractor());
-	direction_info = Text::CreateAnnotation("Slice Direction:", vtkVector3d(1, 1, 1));
-	direction_info->SetPosition(5, 340);
-	imageViewer2->GetRenderer()->AddViewProp(direction_info);
-	depth_info = Text::CreateAnnotation("Slice Depth:", vtkVector3d(0.3, 0.3, 1));
-	depth_info->SetPosition(5, 0);
-	imageViewer2->GetRenderer()->AddViewProp(depth_info);
-	ListenMarkClick();
-    if(o!=0){
-        setOrientation(o);
-    }
-
-    updateRender();
-}
-
-/**
  * 设置截面截取的坐标平面
  */
 void mySlicerWidget::setOrientation(mySlicerWidget::ORIENTATION o){
@@ -174,4 +146,29 @@ void mySlicerWidget::MarkReact(vtkVector3d ModelPosition) {
 	auto sphere = manager->getSphereActor(worldPostion[0], worldPostion[1], worldPostion[2]);
 	imageViewer2->GetRenderer()->AddActor(sphere);
 	updateRender();
+}
+
+/**
+ * @brief mySlicerWidget::loadSlicerData
+ * 读取体绘制数据，得到截面
+ * @param o
+ * 截面方向
+ */
+void mySlicerWidget::loadSlicerData(vtkImageData *data,mySlicerWidget::ORIENTATION o=mySlicerWidget::ORIENTATION::defalut){
+    imageViewer2=vtkSmartPointer<vtkImageViewer2>::New();
+    imageViewer2->SetInputData(data);
+    imageViewer2->SetRenderWindow(this->GetRenderWindow());
+    imageViewer2->SetupInteractor(this->GetRenderWindow()->GetInteractor());
+    direction_info = Text::CreateAnnotation("Slice Direction:", vtkVector3d(1, 1, 1));
+    direction_info->SetPosition(5, 340);
+    imageViewer2->GetRenderer()->AddViewProp(direction_info);
+    depth_info = Text::CreateAnnotation("Slice Depth:", vtkVector3d(0.3, 0.3, 1));
+    depth_info->SetPosition(5, 0);
+    imageViewer2->GetRenderer()->AddViewProp(depth_info);
+    ListenMarkClick();
+    if(o!=0){
+        setOrientation(o);
+    }
+
+    updateRender();
 }

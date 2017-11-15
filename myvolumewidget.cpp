@@ -10,7 +10,7 @@
 
 
 myVolumeWidget::myVolumeWidget(QWidget *parent):QVTKWidget(parent)
-{	
+{
     setLocation(20,55,735,365);//默认的几何位置
     //设置默认背景为黑色
     m_pRenderer=vtkSmartPointer<vtkRenderer>::New();
@@ -33,56 +33,8 @@ myVolumeWidget::myVolumeWidget(QWidget *parent):QVTKWidget(parent)
     mouse_info = Text::CreateAnnotation("mouse", vtkVector3d(1,0,1));
     mouse_info->SetDisplayPosition(5, 0);
 
-    observer=new ProgressObserver(this);
 }
 
-bool myVolumeWidget::setVolumeData(const char *dirPath){
-
-    //读取.dcm
-    dicomReader = vtkSmartPointer<vtkDICOMImageReader>::New();
-
-    dicomReader->SetDirectoryName(dirPath);
-    dicomReader->Update();//耗时操作
-
-    // Create our volume and mapper
-    volume =  vtkSmartPointer<vtkVolume>::New();
-    vtkSmartPointer<vtkSmartVolumeMapper> mapper = vtkSmartPointer<vtkSmartVolumeMapper>::New();
-    mapper->SetInputConnection( dicomReader->GetOutputPort() );
-    volume->SetMapper( mapper );
-
-    mapper->SetBlendModeToComposite();
-
-    VolumeBounds = vtkVector<double,6>(volume->GetBounds());
-
-    this->GetRenderWindow()->RemoveRenderer(m_pRenderer);
-    m_pRenderer=vtkSmartPointer<vtkRenderer>::New();
-
-    this->GetRenderWindow()->AddRenderer(m_pRenderer);
-    this->GetRenderWindow()->GetInteractor()->GetInteractorStyle()->SetDefaultRenderer(m_pRenderer);
-    // Add the volume to the scene
-    m_pRenderer->AddVolume( volume );
-    m_pRenderer->AddViewProp(volume_info);
-    m_pRenderer->AddViewProp(property_info);
-    m_pRenderer->AddViewProp(mouse_info);
-
-    std::string input_text = "PatientName: " + (std::string)dicomReader->GetPatientName() + "\n" + "StudyID: " + (std::string)dicomReader->GetStudyUID();
-    volume_info->SetInput(input_text.c_str());
-
-
-
-    volume->RotateX(30);
-    //    ui->volumeSlider->setRange(0,255);
-    //    ui->volumeSlider->setValue(120);
-
-    m_pRenderer->ResetCamera();
-    //   m_pRenderer->GetActiveCamera()->Zoom(1.5);
-    m_pRenderer->DrawOn();
-
-    hasVolume=true;
-    SetRenderPropertyType("CT_Bone");
-    updateRender();
-    return true;
-}
 
 void myVolumeWidget::setLocation(int x,int y,int width,int height){
     this->setGeometry(x,y,width,height);
@@ -121,7 +73,6 @@ void myVolumeWidget::ShiftRenderFunction(double shift) {
 }
 
 void myVolumeWidget::SetRenderPropertyType(std::string property_name) {
-
     std::cout << "set property type" << std::endl;
     if (hasVolume) {
         RenderPropertyGenerator::ApplyVolumeProperty(property_name, getVolume()->GetProperty());
@@ -253,108 +204,32 @@ void myVolumeWidget::SetRenderPropertySlot(std::string property_name){
     this->SetRenderPropertyType(property_name);
 }
 
-
-/*start-edit with lvyunxiao-------------------------------------------------------------------------------*/
-//这个函数运行在子线程中
-void myVolumeWidget::doInThread(){
-    qDebug()<<"myVolumeWidget::doInThread";
-    qDebug()<<"subThreadID："<<QThread::currentThreadId();
-    if(dirPath.isEmpty()){
-        emit interrupt();
-    }
-    if(dicomReader!=NULL){
-        qDebug()<<"dicomReader not null";
-    //    dicomReader->Delete();
-        dicomReader=NULL;
-    }else{
-        qDebug()<<"dicomReader is NULL";
-    }
-    dicomReader = vtkSmartPointer<vtkDICOMImageReader>::New();
-    dicomReader->AddObserver(vtkCommand::ProgressEvent,observer);
-    QByteArray ba=dirPath.toLocal8Bit();
-    const char *dirPath_str=ba.data();
-    dicomReader->SetDirectoryName(dirPath_str);
-    //继承了vtkCommand的进度监听者
-    dicomReader->Update();
-    emit done();
-<<<<<<< HEAD
-=======
-
-    qDebug()<<"777777777777777";
-
->>>>>>> temp
-}
-//当子线程结束后会自动调用这里
-void myVolumeWidget::onThreadDone(){
-    qDebug()<<"myVolumeWidget::onThreadDone";
-    qDebug()<<"ThreadID："<<QThread::currentThreadId();
-    vtkAlgorithm *reader=0;
-    vtkImageData *input=0;
-    //change
-    input=dicomReader->GetOutput();
-    reader=dicomReader;
-    // Verify that we actually have a volume
-    int dim[3];
-    input->GetDimensions(dim);
-    if ( dim[0] < 2 ||
-         dim[1] < 2 ||
-         dim[2] < 2 )
-    {
-        cout << "Error loading data!" << endl;
-        // exit(EXIT_FAILURE);
-        //TODO 弹出窗提示文件路径不对
-        return ;
-    }else{
-
-    }
-    // Create our volume and mapper
-
-
-    if(hasVolume){
-        qDebug()<<"clear";
-        m_pRenderer->RemoveAllViewProps();
-        m_pRenderer->RemoveVolume(volume);
-    }else{
-        this->GetRenderWindow()->RemoveRenderer(m_pRenderer);
-        m_pRenderer=vtkSmartPointer<vtkRenderer>::New();
-        this->GetRenderWindow()->AddRenderer(m_pRenderer);
-        this->GetRenderWindow()->GetInteractor()->GetInteractorStyle()->SetDefaultRenderer(m_pRenderer);
-    }
+/*new load-----------------------------------------------------------------------------------------------*/
+void myVolumeWidget::loadData(vtkImageData *data){
     hasVolume=true;
-
+    this->GetRenderWindow()->RemoveRenderer(m_pRenderer);
+    m_pRenderer=vtkSmartPointer<vtkRenderer>::New();
+    this->GetRenderWindow()->AddRenderer(m_pRenderer);
+    this->GetRenderWindow()->GetInteractor()->GetInteractorStyle()->SetDefaultRenderer(m_pRenderer);
     volume =  vtkSmartPointer<vtkVolume>::New();
     vtkSmartPointer<vtkSmartVolumeMapper> mapper = vtkSmartPointer<vtkSmartVolumeMapper>::New();
-    mapper->SetInputConnection( reader->GetOutputPort() );
+    mapper->SetInputData(data);
     volume->SetMapper( mapper );
     mapper->SetBlendModeToComposite();
-    VolumeBounds = vtkVector<double,6>(volume->GetBounds());
 
     // Add the volume to the scene
     m_pRenderer->AddVolume( volume );
-    volume->RotateX(30);
-
     m_pRenderer->AddViewProp(volume_info);
     m_pRenderer->AddViewProp(property_info);
     m_pRenderer->AddViewProp(mouse_info);
 
-    std::string input_text = "PatientName: " + (std::string)dicomReader->GetPatientName() + "\n" + "StudyID: " + (std::string)dicomReader->GetStudyUID();
+    std::string input_text = DicomLoader::GetDataInfo()->patient_name+"\n"+DicomLoader::GetDataInfo()->patient_age+"\n";
     volume_info->SetInput(input_text.c_str());
 
-    //    ui->volumeSlider->setRange(0,255);
-    //    ui->volumeSlider->setValue(120);
     m_pRenderer->ResetCamera();
-    //   m_pRenderer->GetActiveCamera()->Zoom(1.5);
     m_pRenderer->DrawOn();
     SetRenderPropertyType("CT_Bone");
     updateRender();
 }
 
-void myVolumeWidget::setPath(QString str){
-    dirPath=str;
-}
-
-void myVolumeWidget::emitProgress(int progress){
-    emit setProgress(progress);
-}
-
-/*end-edit with lvyunxiao-------------------------------------------------------------------------------------------*/
+/*new load----------------------------------------------------------------------------------------------*/

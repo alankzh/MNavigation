@@ -2,14 +2,14 @@
 #define MYVOLUMEWIDGET_H
 
 #include "customThread/progressobserver.h"
-#include "customThread/progressemiter.h"
+#include "customThread/progressreceive.h"
 #include <QtWidgets>
 #include <QWidget>
 #include <QVTKWidget.h>
 #include "vtks.h"
 #include "MarkerCreator.h"
 #include <QString>
-
+#include "DicomLoader.h"
 
 
 /**
@@ -17,15 +17,13 @@
  * 这个类封装了QVTKWidget控件，让vtk风格代码能专一的存在于这个类中
  * 构造方法传递进来的QWidget是QVTKWdiget控件的包含类(父)
  */
-class myVolumeWidget : public QVTKWidget,public ProgressEmiter
+class myVolumeWidget : public QVTKWidget
 {	
 	Q_OBJECT
 public:
     myVolumeWidget(QWidget *parent);
 
-
-
-    bool setVolumeData(const char *dirPath);
+    void loadData(vtkImageData *data);
 
     void setLocation(int x,int y,int width,int height);
 
@@ -49,8 +47,6 @@ public:
 
 	void TextUIAdapt();
 
-    void setPath(QString dirPath);
-    void emitProgress(int progress);
 
 private:
 
@@ -89,9 +85,6 @@ signals:
 	void OnMarkClick(vtkVector3d ModelPosition);
     void propertyChanged();
 
-    void setProgress(int v);
-    void done();
-    void interrupt();
     void payBackFocus();
 public slots:
 
@@ -101,8 +94,6 @@ public slots:
 
 	void vtkInteractorEventDispatch(vtkObject* obj, unsigned long, void*, void*);
 
-    void doInThread();
-    void onThreadDone();
 };
 
 #endif // MYVOLUMEWIDGET_H

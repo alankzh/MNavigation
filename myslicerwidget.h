@@ -26,7 +26,7 @@ public:
         XZ=3
     };
 
-    void setSlicerData(vtkSmartPointer<vtkDICOMImageReader> dicomReader,mySlicerWidget::ORIENTATION o);
+    void loadSlicerData(vtkImageData *data,mySlicerWidget::ORIENTATION o);
 
 	ORIENTATION GetOrientation() const;
 

@@ -1,3 +1,6 @@
 widgetproject.vcxproj
 widgetproject.vcxproj.filters
 widgetproject.vcxproj.user
+vtk.pri
+itk.pri
+windowsKits.pri

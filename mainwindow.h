@@ -2,7 +2,7 @@
 #define MAINWINDOW_H
 
 #include "customThread/progressbarwidget.h"
-#include "customThread/volumewidgetthreadhelper.h"
+#include "customThread/loadthreadhelper.h"
 #include <string>
 #include <math.h>
 #include "customAnimator/animator.h"
@@ -35,7 +35,6 @@ class MainWindow : public QWidget
 public:
     MainWindow(QWidget *parent = 0);
     ~MainWindow();
-    void onRestart(QString dirPath);
 private:
     bool m_embedded;
     QPixmap m_background;
@@ -104,7 +103,9 @@ private:
     QPoint mouseClickPoint;
     bool isMouseHover=false;
     ProgressBarWidget *progressBar;
-    VolumeWidgetThreadHelper *threadHelper=NULL;
+    ProgressObserver::Pointer observer;
+    ProgressReceive *receive;
+    LoadThreadHelper *threadHelper=NULL;
 
 signals:
     void Mark(vtkVector3d ModelPosition);

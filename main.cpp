@@ -27,9 +27,6 @@ int main(int argc, char *argv[])
 
     MainWindow w;
     w.show();
-    if(argv[1]!=NULL){
-        //重启后读取文件路径，加载dicom
-        w.onRestart(argv[1]);
-    }
+
     return a.exec();
 }

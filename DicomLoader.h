@@ -9,7 +9,8 @@
 #include "itkKernelImageFilter.h"
 #include "itkImageToVTKImageFilter.h"
 #include "vtkImageData.h"
-
+#include "JsonUtils.h"
+#include "customThread/progressobserver.h"
 
 class DicomLoader
 {
@@ -46,7 +47,7 @@ public:
 	};
 
 	// read data. overwrite the previous one
-	static ErrorCode ReadDicomData(std::string path);
+    static ErrorCode ReadDicomData(std::string path,ProgressObserver::Pointer observer=NULL);
 
 	//DO NOT call this if you are still using the data from it.
 	static void ReleaseData();
@@ -71,7 +72,6 @@ private:
 
 	static itk::GDCMSeriesFileNames::Pointer file_parser_;
 
-	
 	typedef itk::Image<signed short, 3> ImageType;
 	typedef itk::ImageSeriesReader<ImageType> ReaderType;
 

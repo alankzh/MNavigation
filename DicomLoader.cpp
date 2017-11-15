@@ -1,5 +1,5 @@
 #include "DicomLoader.h"
-#include "JsonUtils.h"
+
 
 #define TESTLOG(X) std::cout << #X  << ": " << X << std::endl
 
@@ -24,13 +24,18 @@ DicomLoader::~DicomLoader()
 	ReleaseData();
 }
 
-DicomLoader::ErrorCode DicomLoader::ReadDicomData(std::string path) {
+DicomLoader::ErrorCode DicomLoader::ReadDicomData(std::string path,ProgressObserver::Pointer observer) {
 
 	file_parser_->SetInputDirectory(path);
 	auto file_names = file_parser_->GetInputFileNames();
 	if (file_names.size() == 0) {
 		return kNoFilesFound;
 	}
+
+   // ProgressObserver::Pointer observer=ProgressObserver::New();
+
+    reader_->AddObserver(itk::ProgressEvent(),observer);
+
 	reader_->SetFileNames(file_names);
 	reader_->SetImageIO(medicalinfo_parser_);
 	reader_->Update();
@@ -52,22 +57,22 @@ DicomLoader::ErrorCode DicomLoader::ReadDicomData(std::string path) {
 	medicalinfo_parser_->GetValueFromTag("0018|0050", resource_.info.slice_thickness);
 	medicalinfo_parser_->GetValueFromTag("0018|0088", resource_.info.spacing_between_slices);
 
-	TESTLOG(resource_.info.patient_name);
-	TESTLOG(resource_.info.patient_ID);
-	TESTLOG(resource_.info.patient_DOB);
-	TESTLOG(resource_.info.patient_sex);
-	TESTLOG(resource_.info.patient_age);
-	TESTLOG(resource_.info.study_ID);
-	TESTLOG(resource_.info.study_date);
-	TESTLOG(resource_.info.study_description);
-	TESTLOG(resource_.info.modality);
-	TESTLOG(resource_.info.manufacturer);
-	TESTLOG(resource_.info.series_instance_UID);
-	TESTLOG(resource_.info.series_description);
-	TESTLOG(resource_.info.institution_name);
-	TESTLOG(resource_.info.image_position);
-	TESTLOG(resource_.info.slice_thickness);
-	TESTLOG(resource_.info.spacing_between_slices);
+//	TESTLOG(resource_.info.patient_name);
+//	TESTLOG(resource_.info.patient_ID);
+//	TESTLOG(resource_.info.patient_DOB);
+//	TESTLOG(resource_.info.patient_sex);
+//	TESTLOG(resource_.info.patient_age);
+//	TESTLOG(resource_.info.study_ID);
+//	TESTLOG(resource_.info.study_date);
+//	TESTLOG(resource_.info.study_description);
+//	TESTLOG(resource_.info.modality);
+//	TESTLOG(resource_.info.manufacturer);
+//	TESTLOG(resource_.info.series_instance_UID);
+//	TESTLOG(resource_.info.series_description);
+//	TESTLOG(resource_.info.institution_name);
+//	TESTLOG(resource_.info.image_position);
+//	TESTLOG(resource_.info.slice_thickness);
+//	TESTLOG(resource_.info.spacing_between_slices);
 
 	filter_->SetInput(reader_->GetOutput());
 	filter_->Update();

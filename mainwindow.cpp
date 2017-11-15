@@ -180,6 +180,10 @@ void MainWindow::init(){
 void MainWindow::setLayout(){
     progressBar=new ProgressBarWidget(ScreenTools::getComputerScreenWidth()/2,ScreenTools::getComputerScreenHeight()/2,this);
 
+    observer=ProgressObserver::New();
+    receive=new ProgressReceive();
+    observer->setProgressReceiver(receive);
+
     proSelectButton->setGeometry(1200,3,60,40);
 
     titleButton->setBackground(":/resources/title2.png","png");
@@ -367,21 +371,18 @@ void MainWindow::cSlicerValueChange(int v){
 
 //导航按钮点击
 void MainWindow::volumeLoadClicked(){
-    qDebug()<<"MainWindow::volumeLoadClicked";
     onOpenVolumeDir();
     obtainFocus();
 }
 
 //点击退出
 void MainWindow::exitClicked(){
-    qDebug()<<"MainWindow::exitClicked";
     //TODO 退出应该弹出窗口请求确认
     QCoreApplication::instance()->quit();
 }
 
 //十字交叉按钮
 void MainWindow::volumeMagnifyClicked(){
-    qDebug()<<"MainWindow::volumeMagnifyClicked";
     if(volumeWidget->width()<1000){
         volumeWidget->setLocation(20,55,1490,765);
         volumeSlider->setGeometry(20,830,1490,20);
@@ -420,97 +421,43 @@ void MainWindow::minimizeClicked(){
 
 //放大按钮点击
 void MainWindow::magnifyClicked(){
-    qDebug()<<"MainWindow::magnifyClicked";
     //TODO 我tm也不知道这个按钮设计来干啥的
     obtainFocus();
 }
 
 //缩小按钮
 void MainWindow::shrinkCliked(){
-    qDebug()<<"MainWindow::shrinkCliked";
     //TODO 我tm还是不知道这个按钮设计来干啥的
     obtainFocus();
 }
 
-void MainWindow::onRestart(QString dirPath){
-    qDebug()<<"MainWindow::onRestart";
-    threadHelper=new VolumeWidgetThreadHelper(volumeWidget,progressBar,this);
-    volumeWidget->setPath(dirPath);
-    threadHelper->startThread();
-}
-
 //打开体绘制文件夹
 void MainWindow::onOpenVolumeDir(){
-    qDebug()<<"MainWindow::onOpenVolumeDir";
     if(volumeWidget->hasVolumeData()){
 
     }
     QString dirPath=QFileDialog::getExistingDirectory(this,QString::fromLocal8Bit("打开体绘制数据存储文件夹"),"/",QFileDialog::ShowDirsOnly | QFileDialog::DontResolveSymlinks);
     qDebug()<<dirPath;
     if(dirPath.isEmpty()==true) {
-        qDebug()<<"exit";
-        //        QApplication::exit();
         return;
     }
-    /*start-change with lvyunxiao--------------------------------------------------------------*/
 
-    qDebug()<<"mainThreadID："<<QThread::currentThreadId();
-    if(threadHelper!=NULL){
-        qDebug()<<"not null";
-        //重启
-        qApp->quit();
-        QProcess::startDetached(qApp->applicationFilePath(), QStringList(dirPath));
-    }else{
-         qDebug()<<"is null";
-    }
-
-    threadHelper=new VolumeWidgetThreadHelper(volumeWidget,progressBar,this);
-    volumeWidget->setPath(dirPath);
-    threadHelper->startThread();
-    return;//将这一段代码删除后，将继续原来的实现
-
-    /*end-change with lvyunxiao----------------------------------------------------------------*/
-    //支持带中文路径的读取
-    QByteArray ba=dirPath.toLocal8Bit();
-    const char *dirPath_str=ba.data();
-    volumeWidget->setVolumeData(dirPath_str);
+    /*new thread load --------------------------------------*/
     if(volumeWidget->hasVolumeData()){
-        volumeSlider->setValue(120);
-        lastposition=120;
-
-        //sagittal为xy方向截面
-        sagitalWidget->setSlicerData(volumeWidget->dicomReader,mySlicerWidget::ORIENTATION::XY);
-        sagitalWidget->setSlicerValue(sagitalWidget->getSlicerMax()/2);
-        sagitalSlider->setRange(sagitalWidget->getSlicerMin(),sagitalWidget->getSlicerMax());
-        sagitalSlider->setValue(sagitalWidget->getSlicerMax()/2);
-        sagitalLabel->setText(QString::number(sagitalWidget->getSlicerMax()/2));
-
-        //axial为xz截面
-        axialWidget->setSlicerData(volumeWidget->dicomReader,mySlicerWidget::ORIENTATION::XZ);
-        axialWidget->setSlicerValue(axialWidget->getSlicerMax()/2);
-        axialSlider->setRange(axialWidget->getSlicerMin(),axialWidget->getSlicerMax());
-        axialSlider->setValue(axialWidget->getSlicerMax()/2);
-        axialLabel->setText(QString::number(axialWidget->getSlicerMax()/2));
-
-        //coronal为yz截面
-        coronalWidget->setSlicerData(volumeWidget->dicomReader,mySlicerWidget::ORIENTATION::YZ);
-        coronalWidget->setSlicerValue(coronalWidget->getSlicerMax()/2);
-        coronalSlider->setRange(coronalWidget->getSlicerMin(),coronalWidget->getSlicerMax());
-        coronalSlider->setValue(coronalWidget->getSlicerMax()/2);
-        coronalLabel->setText(QString::number(coronalWidget->getSlicerMax()/2));
-
-        setDrawConnection();
-
-    }else{
-        //TODO  这里提示路径错误
+        DicomLoader::ReleaseData();
     }
+    DicomLoader::ErrorCode (*readerFuncPointer)(std::string ,ProgressObserver::Pointer observer);
+    readerFuncPointer=DicomLoader::ReadDicomData;
+    threadHelper=new LoadThreadHelper(readerFuncPointer,dirPath,observer,progressBar,this,0);
+    threadHelper->startThread();
+    return;
+    /*new thread load ---------------------------------------*/
 }
 
 //主窗口重绘制触发事件，一般发生在窗口切换
 void MainWindow::paintEvent(QPaintEvent* e)
 {
     QPainter painter(this);
-    //   painter.drawPixmap(e->rect(), m_background, e->rect());
     obtainFocus();
 }
 
@@ -596,17 +543,11 @@ void MainWindow::stlDeleteButtonClicked(){
     if(!volumeWidget->hasVolumeData()){
         return ;
     }
-    //每次弹出对话框之前更新当前场景中已经加载的.stl模型的标识符有哪些
-    //stlDeleteDialog->setGridTexts(stlManager->getActorList());
     stlDeleteDialog->show();
     obtainFocus();
 }
 
 void MainWindow::deleteStl(QString name, int index){
-    //如果当期操作的.stl为要删除的，那么置空
-    //    if(operationStlName.compare(name)){
-    //         operationStlName=NULL;
-    //    }
     stlManager->deleteActor(name,volumeWidget->getRenderer());
 }
 
@@ -675,7 +616,6 @@ void MainWindow::selectStl(QString name, int index) {
 }
 
 void MainWindow::stlSelectButtonClicked(){
-    qDebug()<<"on_stlSelectButton_clicked";
     if(!volumeWidget->hasVolumeData()){
         return;
     }
@@ -691,38 +631,36 @@ void MainWindow::obtainFocus(){
     this->setFocus();
 }
 
-/*start-edit with lvyunxiao---------------------------------*/
 //体绘制窗口下滑动条归零
 void MainWindow::volumeSlicerRetunZero(){
-    qDebug()<<"MainWindow::volumeSlicerRetunZero";
     qDebug()<<"ThreadID："<<QThread::currentThreadId();
     lastposition=120;
     volumeSlider->setValue(120);
 }
 //当体绘制数据加载完毕
 void MainWindow::onDataLoadingDone(){
-      qDebug()<<"MainWindow::onDataLoadingDone";
-
+    qDebug()<<"MainWindow::onDataLoadingDone";
+    volumeWidget->loadData(DicomLoader::GetData());
     if(volumeWidget->hasVolumeData()){
         volumeSlider->setValue(120);
         lastposition=120;
 
         //sagittal为xy方向截面
-        sagitalWidget->setSlicerData(volumeWidget->dicomReader,mySlicerWidget::ORIENTATION::XY);
+        sagitalWidget->loadSlicerData(DicomLoader::GetData(),mySlicerWidget::ORIENTATION::XY);
         sagitalWidget->setSlicerValue(sagitalWidget->getSlicerMax()/2);
         sagitalSlider->setRange(sagitalWidget->getSlicerMin(),sagitalWidget->getSlicerMax());
         sagitalSlider->setValue(sagitalWidget->getSlicerMax()/2);
         sagitalLabel->setText(QString::number(sagitalWidget->getSlicerMax()/2));
 
         //axial为xz截面
-        axialWidget->setSlicerData(volumeWidget->dicomReader,mySlicerWidget::ORIENTATION::XZ);
+        axialWidget->loadSlicerData(DicomLoader::GetData(),mySlicerWidget::ORIENTATION::XZ);
         axialWidget->setSlicerValue(axialWidget->getSlicerMax()/2);
         axialSlider->setRange(axialWidget->getSlicerMin(),axialWidget->getSlicerMax());
         axialSlider->setValue(axialWidget->getSlicerMax()/2);
         axialLabel->setText(QString::number(axialWidget->getSlicerMax()/2));
 
         //coronal为yz截面
-        coronalWidget->setSlicerData(volumeWidget->dicomReader,mySlicerWidget::ORIENTATION::YZ);
+        coronalWidget->loadSlicerData(DicomLoader::GetData(),mySlicerWidget::ORIENTATION::YZ);
         coronalWidget->setSlicerValue(coronalWidget->getSlicerMax()/2);
         coronalSlider->setRange(coronalWidget->getSlicerMin(),coronalWidget->getSlicerMax());
         coronalSlider->setValue(coronalWidget->getSlicerMax()/2);
@@ -792,4 +730,3 @@ void MainWindow::startSurgeryAnimator(double ps[], double pe[]){
     qDebug()<<"animator end";
 }
 
-/*end-edit with lvyunxiao-----------------------------------*/
