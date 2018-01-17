@@ -132,6 +132,7 @@ void MainWindow::setLayout2(){
 void MainWindow::update_background(){
     m_background=QPixmap(":/resources/background.jpg", "jpg");
     QBitmap bitmap = m_background.createHeuristicMask();
+        setWindowState(Qt::WindowMaximized);
     setFixedSize(m_background.size());
     setMask(bitmap);
     update();

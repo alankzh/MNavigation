@@ -18,9 +18,10 @@ public:
     void setHint(QString text);
 public slots:
     void disappear();
-    void threadBegin();//override
-    void threadDone();//override
-    void setProgressValue(int value);//override
+    void threadBegin();
+    void threadDone();
+    void setProgressValue(int value);
+    void threadInterrupt();
 signals:
     void complete();
 

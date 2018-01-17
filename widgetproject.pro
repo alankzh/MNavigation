@@ -43,10 +43,21 @@ SOURCES += main.cpp\
     customWidgets/emitbutton.cpp \
     customThread/progressbarwidget.cpp \
     customThread/progressobserver.cpp \
-    customWidgets/dirpathwidget.cpp \
     DicomLoader.cpp \
     Scene.cpp \
-    customThread/loadthreadhelper.cpp
+    customThread/loadthreadhelper.cpp \
+    customWidgets/dirlistwidget.cpp \
+    customWidgets/mylistview.cpp \
+    customModel/dirbean.cpp \
+    newui.cpp \
+    customWidgets/dicominfowidget.cpp \
+    customWidgets/drawwidget.cpp \
+    customWidgets/singlerenderwidget.cpp \
+    customWidgets/trapzoidtag.cpp \
+    customWidgets/operationplanwidget.cpp \
+    customWidgets/textureselectwidget.cpp \
+    customWidgets/dirlistitemwidget.cpp \
+    customWidgets/mylistwidget.cpp
 
 HEADERS  +=     mainwindow.h \
     vtks.h \
@@ -77,15 +88,28 @@ HEADERS  +=     mainwindow.h \
     customWidgets/emitbutton.h \
     customThread/progressbarwidget.h \
     customThread/progressobserver.h \
-    customWidgets/dirpathwidget.h \
     Creator.h \
     DicomLoader.h \
     Scene.h \
     customThread/progressreceive.h \
-    customThread/loadthreadhelper.h
+    customThread/loadthreadhelper.h \
+    customWidgets/dirlistwidget.h \
+    customWidgets/mylistview.h \
+    customModel/dirbean.h \
+    newui.h \
+    customWidgets/dicominfowidget.h \
+    customWidgets/drawwidget.h \
+    customWidgets/singlerenderwidget.h \
+    customWidgets/trapzoidtag.h \
+    customWidgets/operationplanwidget.h \
+    customWidgets/textureselectwidget.h \
+    customWidgets/dirlistitemwidget.h \
+    customWidgets/mylistwidget.h
 
 
 FORMS    += widget.ui
 
 RESOURCES += \
     resources.qrc
+
+RC_FILE+=exeicon.rc

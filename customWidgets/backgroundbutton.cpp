@@ -19,12 +19,10 @@ void BackgroundButton::setBackground(const char* fileName,const char* flag){
     backgroundPix=QPixmap(fileName,flag);
     width=backgroundPix.size().width();
     height=backgroundPix.size().height();
- //   qDebug()<<"width:"<<width<<"height:"<<height;
     resize(backgroundPix.size());
     setFixedSize( width, height);
     setGeometry(xPos,yPos,width,height);
     setMask(backgroundPix.createHeuristicMask());
- //   this->raise();
     update();
 }
 

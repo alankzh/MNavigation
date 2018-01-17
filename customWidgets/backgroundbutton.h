@@ -7,7 +7,7 @@ class BackgroundButton: public QWidget
 {
     Q_OBJECT
 public:
-    BackgroundButton(QWidget *parent);
+    BackgroundButton(QWidget *parent=0);
 
     bool setPos(int x,int y);
     int getXpos();
@@ -30,6 +30,7 @@ signals:
     void clicked();
 
 private:
+    //是否需要点击效果
     bool clickEffect=true;
     bool isClicked=false;
     bool hasBackground=false;

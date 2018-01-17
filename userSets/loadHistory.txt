@@ -1,0 +1,2 @@
+{"history":[{"name":"st1","realPath":"E:\\vtkDataSource\\ST1\\SE2"},{"name":"head","realPath":"E:\\vtkDataSource\\Demo Data Fusion\\CT-anon"}]
+}

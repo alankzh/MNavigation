@@ -11,7 +11,7 @@
 
 myVolumeWidget::myVolumeWidget(QWidget *parent):QVTKWidget(parent)
 {
-    setLocation(20,55,735,365);//默认的几何位置
+//    setLocation(20,55,735,365);//默认的几何位置
     //设置默认背景为黑色
     m_pRenderer=vtkSmartPointer<vtkRenderer>::New();
     m_pRenderer->SetRenderWindow(this->GetRenderWindow());
@@ -19,8 +19,8 @@ myVolumeWidget::myVolumeWidget(QWidget *parent):QVTKWidget(parent)
     m_pRenderer->SetBackground(0,0,0);
 
     vtkConnections = vtkSmartPointer<vtkEventQtSlotConnect>::New();
-    connect(this, SIGNAL(OnMarkClick(vtkVector3d)), parent, SIGNAL(Mark(vtkVector3d)));
-    connect(parent, SIGNAL(Mark(vtkVector3d)), this, SLOT(MarkReact(vtkVector3d)));
+//    connect(this, SIGNAL(OnMarkClick(vtkVector3d)), parent, SIGNAL(Mark(vtkVector3d)));
+//    connect(parent, SIGNAL(Mark(vtkVector3d)), this, SLOT(MarkReact(vtkVector3d)));
     ListenVTKInteractorEvent();
     hasVolume=false;
 
@@ -233,3 +233,10 @@ void myVolumeWidget::loadData(vtkImageData *data){
 }
 
 /*new load----------------------------------------------------------------------------------------------*/
+
+/*new ui  started----------------------------------------------------------------------------------------------------------------------------------------------------------*/
+void myVolumeWidget::onSliderValueChanged(int v){
+    double shiftValue= 2 * v / 240.0 - 1;
+    this->ShiftRenderFunction(shiftValue);
+}
+/*new ui   end----------------------------------------------------------------------------------------------------------------------------------------------------*/

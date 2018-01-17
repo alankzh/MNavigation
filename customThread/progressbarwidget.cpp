@@ -25,6 +25,11 @@ void ProgressBarWidget::threadDone(){
     this->disappear();
 }
 
+void ProgressBarWidget::threadInterrupt(){
+    qDebug()<<"ProgressBarWidget::threadInterrupt";
+    this->disappear();
+}
+
 void ProgressBarWidget::threadBegin(){
     qDebug()<<"ProgressBarWidget::threadBegin";
     this->display();
