@@ -29,5 +29,25 @@
         <file>resources/magnify.png</file>
         <file>resources/magnify2.png</file>
         <file>resources/shrink.png</file>
+        <file>resources/windowIcon.png</file>
+        <file>resources/depth.png</file>
+        <file>resources/enlarge.png</file>
+        <file>resources/folder-open.png</file>
+        <file>resources/page.png</file>
+        <file>resources/pageSmall.png</file>
+        <file>resources/play.png</file>
+        <file>resources/rotationSin.png</file>
+        <file>resources/scaleSin.png</file>
+        <file>resources/windowsStyle.png</file>
+        <file>resources/windowsStyle2.png</file>
+        <file>resources/blowSize.png</file>
+        <file>resources/blowSizeClicked.png</file>
+        <file>resources/normalSize.png</file>
+        <file>resources/normalSizeClicked.png</file>
+        <file>resources/trapezoidTag.png</file>
+        <file>resources/sliderHandle.png</file>
+        <file>resources/operativePlanMoment.png</file>
+        <file>resources/textureMoment.png</file>
+        <file>resources/delete.png</file>
     </qresource>
 </RCC>

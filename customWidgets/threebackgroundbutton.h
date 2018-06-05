@@ -7,7 +7,7 @@ class ThreeBackgroundButton:public QWidget
 {
     Q_OBJECT
 public:
-    ThreeBackgroundButton(QWidget *parent);
+    ThreeBackgroundButton(QWidget *parent=0);
 
     bool setPos(int x,int y);
     int getXpos();
@@ -16,6 +16,8 @@ public:
     void setBackgroundFront(const char* fileName,const char* flag);
     void setBackgroundReverse(const char* fileName,const char* flag);
     void setBackgroundHover(const char* fileName,const char* flag);
+
+    void setClickStatus(bool clicked);
 protected :
     virtual void paintEvent(QPaintEvent *event);
 

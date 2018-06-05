@@ -17,7 +17,7 @@ class mySlicerWidget : public QVTKWidget
 {	
 	Q_OBJECT
 public:
-    mySlicerWidget(QWidget *parent);
+    mySlicerWidget(QWidget *parent=0);
 
     enum ORIENTATION{
         defalut=0,
@@ -63,6 +63,8 @@ private:
 
 	void DrawMarker(vtkVector3d ModelPosition, vtkActor* marker);
 
+    bool hasSlicerSourceData=false;
+
 signals:
 	void OnMarkClick(vtkVector3d ModelPosition);
 
@@ -72,6 +74,8 @@ public slots:
 	
 	void Mark(vtkObject* obj, unsigned long, void*, void*);
 	
+    void onSliderValueChanged(int value);
+
 };
 
 #endif // MYSLICERWIDGET_H

@@ -27,6 +27,9 @@ void LoadThreadHelper::startThread(){
     connect(this,SIGNAL(endThread()),progressListener,SLOT(threadDone()));
     connect(this,SIGNAL(endThread()),renderWidget,SLOT(onDataLoadingDone()));
 
+    connect(this,SIGNAL(interrupt()),thread,SLOT(quit()));
+    connect(this,SIGNAL(interrupt()),progressListener,SLOT(threadDone()));
+
     connect(observer->getProgressReceiver(),SIGNAL(emitProgress(int)),progressListener,SLOT(setProgressValue(int)));
 
     thread->start();
@@ -46,5 +49,7 @@ void LoadThreadHelper::doWork(){
     DicomLoader::ErrorCode error=readerFuncPointer(dirPath.toLocal8Bit().toStdString(),observer);
     if(error==DicomLoader::kDicom){
         stopThread();
+    }else{
+        emit interrupt();
     }
 }

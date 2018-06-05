@@ -24,6 +24,7 @@ public slots:
 signals:
     void beginThread();
     void endThread();
+    void interrupt();
 private:
     bool needRun;
     QThread *thread;

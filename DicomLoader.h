@@ -27,12 +27,14 @@ public:
 		std::string study_ID;
 		std::string study_description;
 		std::string study_date;
+        std::string study_time;
 		std::string modality;  // MRI/CT/CR/DR
 		std::string manufacturer;
 		std::string institution_name;
 		std::string image_position; // the x,y,z coordinates of the upper left hand corner of the image,in mm
 		std::string slice_thickness; // nominal slice thickness, in mm
 		std::string spacing_between_slices; // in mm
+
 	};
 
 	struct Resource {

@@ -21,7 +21,7 @@ class myVolumeWidget : public QVTKWidget
 {	
 	Q_OBJECT
 public:
-    myVolumeWidget(QWidget *parent);
+    myVolumeWidget(QWidget *parent=0);
 
     void loadData(vtkImageData *data);
 
@@ -82,7 +82,7 @@ private:
 
     ProgressObserver *observer;
 signals:
-	void OnMarkClick(vtkVector3d ModelPosition);
+    void OnMarkClick(vtkVector3d ModelPosition);
     void propertyChanged();
 
     void payBackFocus();
@@ -94,6 +94,7 @@ public slots:
 
 	void vtkInteractorEventDispatch(vtkObject* obj, unsigned long, void*, void*);
 
+    void onSliderValueChanged(int value);
 };
 
 #endif // MYVOLUMEWIDGET_H

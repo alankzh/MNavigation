@@ -33,6 +33,13 @@ void ThreeBackgroundButton::paintEvent(QPaintEvent *event){
         painter.drawPixmap(event->rect(), backgroundReversePix, event->rect());
     }else if(isHover&&!backgroundHoverPix.isNull()){
         painter.drawPixmap(event->rect(), backgroundHoverPix, event->rect());
+    }else if(isHover&&backgroundReversePix.isNull()){
+        QBrush brush;
+        brush.setColor(QColor(195,195,195,150));
+        brush.setStyle(Qt::SolidPattern);
+        painter.setBrush(brush);
+        painter.setPen(Qt::NoPen);
+        painter.drawRect(QRect(0,0,width,height));
     }else{
          painter.drawPixmap(event->rect(), backgroundFrontPix, event->rect());
     }
@@ -93,3 +100,8 @@ int ThreeBackgroundButton::getYpos(){
     return this->yPos;
 }
 
+//ÉèÖÃµã»÷×´Ì¬
+void ThreeBackgroundButton::setClickStatus(bool clicked){
+    isClicked=clicked;
+    update();
+}

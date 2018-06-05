@@ -12,10 +12,10 @@ mySlicerWidget::mySlicerWidget(QWidget *parent): QVTKWidget(parent)
     imageViewer2->SetupInteractor(this->GetRenderWindow()->GetInteractor());
     imageViewer2->GetRenderer()->ResetCamera();
     imageViewer2->GetRenderer()->SetBackground(0,0,0);
-	vtkConnections = vtkSmartPointer<vtkEventQtSlotConnect>::New();
-	connect(this, SIGNAL(OnMarkClick(vtkVector3d)), parent, SIGNAL(Mark(vtkVector3d)));
-	connect(parent, SIGNAL(Mark(vtkVector3d)), this, SLOT(MarkReact(vtkVector3d)));
-    updateRender();
+    vtkConnections = vtkSmartPointer<vtkEventQtSlotConnect>::New();
+    //	connect(this, SIGNAL(OnMarkClick(vtkVector3d)), parent, SIGNAL(Mark(vtkVector3d)));
+    //	connect(parent, SIGNAL(Mark(vtkVector3d)), this, SLOT(MarkReact(vtkVector3d)));
+   // updateRender();
 }
 
 /**
@@ -30,15 +30,14 @@ void mySlicerWidget::setLocation(int x,int y,int width,int height){
 */
 void mySlicerWidget::setSlicerValue(int shiftValue){
     imageViewer2->SetSlice(shiftValue);
-	int min = imageViewer2->GetSliceMin();
-	int max = imageViewer2->GetSliceMax();
-	float ratio = (float)(shiftValue - min) / (max - min);
-	std::string value;
-	std::stringstream ss;
-	ss << ratio;
-	ss >> value;
-	std::cout << "value: " << value << std::endl;
-	depth_info->SetInput(((std::string)"Slice Depth: " + value).c_str());
+    int min = imageViewer2->GetSliceMin();
+    int max = imageViewer2->GetSliceMax();
+    float ratio = (float)(shiftValue - min) / (max - min);
+    std::string value;
+    std::stringstream ss;
+    ss << ratio;
+    ss >> value;
+    depth_info->SetInput(((std::string)"Slice Depth: " + value).c_str());
     updateRender();
 }
 
@@ -46,10 +45,10 @@ void mySlicerWidget::setSlicerValue(int shiftValue){
 *设置imageViewer2中截图截取位置,根据比例
 */
 void mySlicerWidget::setSlicerValueByRatio(double ratio) {
-	int min = imageViewer2->GetSliceMin();
-	int max = imageViewer2->GetSliceMax();
-	int target = (int)ratio * (max - min) + min;
-	setSlicerValue(target);
+    int min = imageViewer2->GetSliceMin();
+    int max = imageViewer2->GetSliceMax();
+    int target = (int)ratio * (max - min) + min;
+    setSlicerValue(target);
 }
 
 /**
@@ -59,36 +58,36 @@ void mySlicerWidget::setOrientation(mySlicerWidget::ORIENTATION o){
     switch(o){
     case XY:
         imageViewer2->SetSliceOrientationToXY();
-		direction_info->SetInput(((std::string)"Slice Direction: " + (std::string)"sagital").c_str());
+        direction_info->SetInput(((std::string)"Slice Direction: " + (std::string)"sagital").c_str());
         break;
     case YZ:
         imageViewer2->SetSliceOrientationToYZ();
-		direction_info->SetInput(((std::string)"Slice Direction: " + (std::string)"coronal").c_str());
+        direction_info->SetInput(((std::string)"Slice Direction: " + (std::string)"coronal").c_str());
         break;
     case XZ:
         imageViewer2->SetSliceOrientationToXZ();
-		direction_info->SetInput(((std::string)"Slice Direction: " + (std::string)"axial").c_str());
+        direction_info->SetInput(((std::string)"Slice Direction: " + (std::string)"axial").c_str());
         break;
     }
 }
 
 mySlicerWidget::ORIENTATION mySlicerWidget::GetOrientation() const {
-	if (imageViewer2 != NULL) {
-		int orientation = imageViewer2->GetSliceOrientation();
-		switch (orientation)
-		{
-		case 0:
-			return YZ;
-		case 1:
-			return XZ;
-		case 2:
-			return XY;
-		default:
-			return defalut;
-			break;
-		}
-	}
-	return defalut;
+    if (imageViewer2 != NULL) {
+        int orientation = imageViewer2->GetSliceOrientation();
+        switch (orientation)
+        {
+        case 0:
+            return YZ;
+        case 1:
+            return XZ;
+        case 2:
+            return XY;
+        default:
+            return defalut;
+            break;
+        }
+    }
+    return defalut;
 }
 
 /**
@@ -128,24 +127,24 @@ vtkSmartPointer<vtkImageViewer2> mySlicerWidget::getImageViewer2(){
 }
 
 void mySlicerWidget::ListenMarkClick() {
-	vtkConnections->Connect(imageViewer2->GetRenderWindow()->GetInteractor(), vtkCommand::RightButtonPressEvent, this, SLOT(Mark(vtkObject*, unsigned long, void*, void*)));
+    vtkConnections->Connect(imageViewer2->GetRenderWindow()->GetInteractor(), vtkCommand::RightButtonPressEvent, this, SLOT(Mark(vtkObject*, unsigned long, void*, void*)));
 }
 
 void mySlicerWidget::Mark(vtkObject* obj, unsigned long, void*, void*) {
-	vtkRenderWindowInteractor* iren = vtkRenderWindowInteractor::SafeDownCast(obj);
-	int EventPointX = iren->GetEventPosition()[0];
-	int EventPointY = iren->GetEventPosition()[1];
-	vtkVector3d modelPosition = CoordinateConverter::EventToModel(imageViewer2, EventPointX, EventPointY);
-	emit this->OnMarkClick(modelPosition);
+    vtkRenderWindowInteractor* iren = vtkRenderWindowInteractor::SafeDownCast(obj);
+    int EventPointX = iren->GetEventPosition()[0];
+    int EventPointY = iren->GetEventPosition()[1];
+    vtkVector3d modelPosition = CoordinateConverter::EventToModel(imageViewer2, EventPointX, EventPointY);
+    emit this->OnMarkClick(modelPosition);
 }
 
 void mySlicerWidget::MarkReact(vtkVector3d ModelPosition) {
-	setSlicerValue(CoordinateConverter::ModelToSlice(imageViewer2, ModelPosition));
-	vtkVector3d worldPostion = CoordinateConverter::ModelToWorld(imageViewer2->GetImageActor(), ModelPosition);
-	actorManager* manager = new actorManager;
-	auto sphere = manager->getSphereActor(worldPostion[0], worldPostion[1], worldPostion[2]);
-	imageViewer2->GetRenderer()->AddActor(sphere);
-	updateRender();
+    setSlicerValue(CoordinateConverter::ModelToSlice(imageViewer2, ModelPosition));
+    vtkVector3d worldPostion = CoordinateConverter::ModelToWorld(imageViewer2->GetImageActor(), ModelPosition);
+    actorManager* manager = new actorManager;
+    auto sphere = manager->getSphereActor(worldPostion[0], worldPostion[1], worldPostion[2]);
+    imageViewer2->GetRenderer()->AddActor(sphere);
+    updateRender();
 }
 
 /**
@@ -169,6 +168,21 @@ void mySlicerWidget::loadSlicerData(vtkImageData *data,mySlicerWidget::ORIENTATI
     if(o!=0){
         setOrientation(o);
     }
+    hasSlicerSourceData=true;
+
+    //默认移动到滑动条中间
+    setSlicerValue(getSlicerMax()/2);
 
     updateRender();
 }
+
+
+/*new ui start---------------------------------------------------------------------------------------------------------------------------------------*/
+void mySlicerWidget::onSliderValueChanged(int v){
+    if(hasSlicerSourceData){
+        this->setSlicerValue(v);
+        this->update();
+    }
+}
+
+/*new ui  end-----------------------------------------------------------------------------------------------------------------------------------*/

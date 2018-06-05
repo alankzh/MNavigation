@@ -19,6 +19,10 @@ void ProgressObserver::setProgressReceiver(ProgressReceive *e){
 ProgressReceive* ProgressObserver::getProgressReceiver(){
     if(receiver!=NULL){
         return receiver;
+    }else{
+        qDebug()<<"ProgressObserver::getProgessReceiver";
+        qDebug()<<"return a null";
+        return NULL;
     }
 }
 
@@ -28,13 +32,13 @@ void ProgressObserver::Execute(itk::Object *caller, const itk::EventObject &even
 
 void ProgressObserver::Execute(const itk::Object *object, const itk::EventObject &event){
     const itk::ProcessObject * filter = static_cast< const itk::ProcessObject * >( object );
-        if( ! itk::ProgressEvent().CheckEvent( &event ) )
-          {
-          return;
-          }
-        std::cout << filter->GetProgress() << std::endl;
+    if( ! itk::ProgressEvent().CheckEvent( &event ) )
+    {
+        return;
+    }
+    std::cout << filter->GetProgress() << std::endl;
 
     if(receiver!=NULL){
-       receiver->updateProgress(filter->GetProgress()*100);
+        receiver->updateProgress(filter->GetProgress()*100);
     }
 }
